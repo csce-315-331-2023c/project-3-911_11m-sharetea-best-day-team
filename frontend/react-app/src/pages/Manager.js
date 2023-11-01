@@ -1,5 +1,5 @@
-import ButtonComponent from "./components/ButtonComponent";
-import SideNav from "./components/Sidenav";
+import ButtonComponent from "../components/ButtonComponent";
+import SideNav from "../components/Sidenav";
 import logo from './logo.svg';
 
 function Manager() {
@@ -21,7 +21,7 @@ function Manager() {
                 {/* Cashier Button */}
                 <ButtonComponent text='Cashier Home' eventName='eventName'/>
                 {/* SideNav for Manager */}
-                <SideNav />
+                <SideMenu />
             </div>
 
         {/* // Main display */}

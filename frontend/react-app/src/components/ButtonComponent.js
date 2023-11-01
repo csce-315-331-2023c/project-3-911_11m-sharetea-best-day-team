@@ -1,13 +1,13 @@
 import React from 'react';
 
-const ButtonComponent = ({ text, eventName, handleEvent }) => {
-    const handleClick = () => {
-        handleEvent(eventName);
-    };
-
+const ButtonComponent = ({category,onSelectCategory}) => {
     return (
-        <button onClick={handleClick}>
-            {text}
+        <button
+          key={category}
+          className="category-button"
+          onClick={() => onSelectCategory(category)}
+        >
+          {category}
         </button>
     );
 }
