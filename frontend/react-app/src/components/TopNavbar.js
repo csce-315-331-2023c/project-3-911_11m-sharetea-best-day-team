@@ -10,14 +10,14 @@ const TopNavbar = () => {
    return (
     <div className='navbar'>
         <div className='navbar-left'>
-            <img className='accessibility-logo' src={accessibilitySymbol}></img>
+            {/* <img className='accessibility-logo' src={accessibilitySymbol}></img> */}
         </div>
 
         <div className='navbar-middle'>
             <img className="sharetea-logo" src={shareteaLogo}></img>
             <div className="nav-links">
             <Link to="/">Menu</Link>
-            <Link to="/about">Order here</Link>
+            <Link to="/order-page">Order here</Link>
             </div>
         </div>
 
