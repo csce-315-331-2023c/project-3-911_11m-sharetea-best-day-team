@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
+import TopNavbar from "../components/TopNavbar"
 import logo from '../logo.svg';
 
 function Manager() {
@@ -20,7 +21,8 @@ function Manager() {
                 {/* //Share Tea home button */}
                 {/* //Good morning text */}
                 {/* //Employee Display */}
-                <img src={logo} width={150} height={150} className="App-logo" alt="logo" />
+                <TopNavbar/>
+                {/* <img src={logo} width={150} height={150} className="App-logo" alt="logo" /> */}
             </div>
             {/* // Side bar */}
             <div className='Sidebar'>

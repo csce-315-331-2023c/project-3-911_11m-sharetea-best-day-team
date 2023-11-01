@@ -30,6 +30,7 @@ import { RecoilRoot } from "recoil";
 
 // PUT PAGES HERE
 import { Home } from "./pages/Home"
+import Manager from "./pages/Manager"
 
 function App() {
   // add new pages here
@@ -37,6 +38,11 @@ function App() {
     {
       path: "/",
       element: <Home />,
+    }
+    ,
+    {
+      path: "/Manager",
+      element: <Manager/>,
     }
   ])
     
