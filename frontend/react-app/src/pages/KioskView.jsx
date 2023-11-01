@@ -1,0 +1,37 @@
+import React, { useState } from 'react';
+import SideMenu from '../components/SideMenu';
+import DrinkList from '../components/DrinkList';
+import CustomizationModal from '../components/CustomizationModal'; // to be created
+import './KioskView.css';
+
+const KioskView = () => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedDrink, setSelectedDrink] = useState(null);
+
+  // Sample data (should come from your database/API)
+  const categories = ['Milk Tea', 'Fruit Tea', 'Ice Blended'];
+  const drinks = {
+    'Milk Tea': [{ name: 'Classic Pearl Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556470-353X8TY9JSOF2J9CVMEE/1.+MilkTea_ClassicPearl_Black.jpg?format=500w' }, { name: 'Mango Green Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556844-7DWVLZUS8RYY4TOG4EGF/2.+MilkTea_MangoGreen.jpg?format=500w' }, ],
+    'Fruit Tea': [{ name: 'Strawberry Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-85OVEK2VBBSEAGOMRLV3/1.+FruitTea_StrawberryTea.jpg?format=300w' }, { name: 'Peach Kiwi Tea With Aiyu Jelly', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-5PNBLIAW61OD69RWP305/2.+FruitTea_PeachKiwiTeaWithAiyuJelly.jpg?format=300w' }],
+    'Ice Blended': [{ name: 'Oreo Ice Blended With Pearl', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022156-IR5MT89TNA8X6BZ7VQ4J/1.+IceBlended_OreoIceBlendedWithPearl.jpg?format=300w' }, { name: 'Taro Ice Blended With Pudding', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022155-XE9O1AHODSX9ONPKJTVM/2.+IceBlended_TaroIceBlendedWithPudding.jpg?format=300w' }]
+  };
+
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+  };
+
+  const handleSelectDrink = (drink) => {
+    setSelectedDrink(drink);
+  };
+
+  return (
+    <div className="kiosk-view">
+      <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
+      <DrinkList drinks={drinks[selectedCategory] || []} onSelectDrink={handleSelectDrink} />
+      
+      {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
+    </div>
+  );
+};
+
+export default KioskView;

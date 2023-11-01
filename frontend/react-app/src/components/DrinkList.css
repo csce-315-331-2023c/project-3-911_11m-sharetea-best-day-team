@@ -1,0 +1,14 @@
+.drink-list {
+    flex: 2;
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 2rem;
+    padding: 1rem;
+  }
+  
+  .drink-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+  }
+  
