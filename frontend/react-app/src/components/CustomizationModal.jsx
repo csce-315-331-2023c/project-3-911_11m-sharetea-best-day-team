@@ -78,8 +78,9 @@ const CustomizationModal = ({ drink, onClose }) => {
           <br></br>
 
         </div>
-
-        <button onClick={onClose}>Done</button>
+        <div className="done-container">
+          <button onClick={onClose}>Done</button>
+        </div>
       </div>
     </div>
   );
