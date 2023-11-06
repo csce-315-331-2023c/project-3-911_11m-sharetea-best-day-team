@@ -45,6 +45,7 @@ function App() {
       path: "/Manager",
       element: <Manager/>,
     }
+    ,
     {
       path: "/Kiosk",
       element: <KioskView/>
