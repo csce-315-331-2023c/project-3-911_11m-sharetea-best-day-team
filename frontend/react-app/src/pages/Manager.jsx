@@ -7,17 +7,17 @@ import logo from '../logo.svg';
 import './Manger.css';
 
 function Manager() {
-    const [apiResponse, setApiResponse] = useState(null);
+    // const [apiResponse, setApiResponse] = useState(null);
 
-    const callAPI = () => {
-        fetch("http://localhost:9000/route")
-        .then(res => res.text())
-        .then(res => setApiResponse(res));
-    };
+    // const callAPI = () => {
+    //     fetch("http://localhost:9000/route")
+    //     .then(res => res.text())
+    //     .then(res => setApiResponse(res));
+    // };
 
-    useEffect(() => {
-        callAPI();
-    }, []);
+    // useEffect(() => {
+    //     callAPI();
+    // }, []);
 
     const [selectedCategory, setSelectedCategory] = useState(null);
 
