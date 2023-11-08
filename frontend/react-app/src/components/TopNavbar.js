@@ -14,15 +14,15 @@ const TopNavbar = () => {
         </div>
 
         <div className='navbar-middle'>
-            <img className="sharetea-logo" src={shareteaLogo}></img>
+            <Link to="/"><img className="sharetea-logo" src={shareteaLogo}></img></Link>
             <div className="nav-links">
             <Link to="/">Menu</Link>
-            <Link to="/order-page">Order here</Link>
+            <Link to="/kiosk">Order here</Link>
             </div>
         </div>
 
         <div className='navbar-right nav-links'>
-            <Link to="/login">Login</Link>
+            <Link to="/manager">Login</Link>
         </div>
     </div>
    ) 
