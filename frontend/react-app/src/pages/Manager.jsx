@@ -4,6 +4,7 @@ import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
 import DatabaseTable from '../components/DatabaseTable';
 import logo from '../logo.svg';
+import './Manger.css';
 
 function Manager() {
     const [apiResponse, setApiResponse] = useState(null);
@@ -38,6 +39,7 @@ function Manager() {
                 {/* <img src={logo} width={150} height={150} className="App-logo" alt="logo" /> */}
             </div>
             {/* // Side bar */}
+            <div className='Maindisplay'>
             <div className='Sidebar'>
                 {/* Cashier Button */}
                 
@@ -47,10 +49,9 @@ function Manager() {
             </div>
 
             {/* // Main display */}
-            <div className='Maindisplay'>
                 {/* <button onClick={callAPI}>Button</button> */}
                 {/* <p>{apiResponse}</p> */}
-                <DatabaseTable query="SELECT * FROM inventory;"/>
+                <DatabaseTable query="SELECT * FROM pricelist;"/>
             </div>
                 {/* //Menu, Inventory, Sales Report, Restock, Excess */}
 
