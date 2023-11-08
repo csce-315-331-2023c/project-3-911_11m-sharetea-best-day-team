@@ -1,5 +1,6 @@
 // import logo from './logo.svg';
 import './App.css';
+import KioskView from './pages/KioskView'
 
 // function App() {
 //   return (
