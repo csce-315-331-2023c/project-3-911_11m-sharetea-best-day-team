@@ -1,0 +1,12 @@
+.accessibility-container {
+    left:0;
+    bottom:0;
+    position: fixed;
+    margin: 2vh 1vw;
+
+}
+
+.accessibility-button {
+    /* position: inherit; */
+    width: 8vh;
+}

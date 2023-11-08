@@ -19,4 +19,12 @@
   .category-button:hover {
     background-color: #e0e0e0;
   }
+
+  .Sidebar {
+    display: "flex";
+    align-items: "center";
+    flex-direction: 'column';
+    width:20%
+  }
+  
   
