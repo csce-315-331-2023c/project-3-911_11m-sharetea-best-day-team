@@ -17,7 +17,7 @@ const TopNavbar = () => {
             <Link to="/"><img className="sharetea-logo" src={shareteaLogo}></img></Link>
             <div className="nav-links">
             <Link to="/">Menu</Link>
-            <Link to="/order-page">Order here</Link>
+            <Link to="/kiosk">Order here</Link>
             </div>
         </div>
 

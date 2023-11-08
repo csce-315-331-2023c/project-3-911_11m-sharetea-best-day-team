@@ -32,7 +32,7 @@ import { RecoilRoot } from "recoil";
 // PUT PAGES HERE
 import { Home } from "./pages/Home"
 import Manager from "./pages/Manager"
-import KioskView from './pages/KioskView';
+// import KioskView from './pages/KioskView';
 
 function App() {
   // add new pages here
