@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import './DatabaseTable.css';
 
 const fetchDataFromQuery = async (query) => {
     try {
-        const response = await fetch('http://localhost:9000/query', {
+        const response = await fetch('https://backend-heli.onrender.com/query', {
           method: 'POST',
           body: JSON.stringify({ query }),
           headers: {
@@ -53,7 +54,7 @@ const DatabaseTable = ({ query }) => {
   const columns = Object.keys(data[0]);
 
   return (
-    <table>
+    <table className='data-table'>
       <thead>
         <tr>
           {columns.map((column, index) => (
