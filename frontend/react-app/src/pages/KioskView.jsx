@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import SideMenu from '../components/SideMenu';
 import DrinkList from '../components/DrinkList';
 import CustomizationModal from '../components/CustomizationModal'; // to be created
+import CurrentTime from '../components/CurrentTime';
 import './KioskView.css';
 
 const KioskView = () => {
@@ -26,6 +27,7 @@ const KioskView = () => {
 
   return (
     <div className="kiosk-view">
+      <CurrentTime />
       <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
       <DrinkList drinks={drinks[selectedCategory] || []} onSelectDrink={handleSelectDrink} />
       
