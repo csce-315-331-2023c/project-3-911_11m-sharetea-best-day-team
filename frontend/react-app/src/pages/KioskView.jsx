@@ -5,8 +5,10 @@ import CustomizationModal from '../components/CustomizationModal';
 import CurrentTime from '../components/CurrentTime';
 import KioskHome from '../components/KioskHome'; // Make sure this component is created and styled as per your design
 import './KioskView.css';
+import TopNavbar from '../components/TopNavbar';
 
 const KioskView = () => {
+  
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDrink, setSelectedDrink] = useState(null);
 
@@ -28,6 +30,8 @@ const KioskView = () => {
   };
 
   return (
+    <>
+    <TopNavbar/>
     <div className="kiosk-view">
       <CurrentTime />
       <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
@@ -38,6 +42,7 @@ const KioskView = () => {
       )}
       {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
     </div>
+    </>
   );
 };
 
