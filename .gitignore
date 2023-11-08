@@ -20,6 +20,7 @@ coverage
 # Dependency directories
 frontend/node_modules/
 backend/node_modules/
+api/node_modules/
 
 # dotenv environment variables file
 backend/.env

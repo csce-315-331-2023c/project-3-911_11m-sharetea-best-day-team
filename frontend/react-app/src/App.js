@@ -35,6 +35,7 @@ import KioskView from './pages/KioskView';
 
 function App() {
   // add new pages here
+
   const router = createBrowserRouter([
     {
       path: "/",
