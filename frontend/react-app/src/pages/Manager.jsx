@@ -1,17 +1,30 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
+import DatabaseTable from '../components/DatabaseTable';
 import logo from '../logo.svg';
 
 function Manager() {
+    const [apiResponse, setApiResponse] = useState(null);
+
+    const callAPI = () => {
+        fetch("http://localhost:9000/route")
+        .then(res => res.text())
+        .then(res => setApiResponse(res));
+    };
+
+    useEffect(() => {
+        callAPI();
+    }, []);
+
     const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
     };
 
-    const categories = ['Inventory', 'Sales', 'Restock', 'Excess', 'Inventory'];
+    const categories = ['Inventory', 'Sales', 'Restock', 'Excess', 'Menu'];
 
     return (
         // Header
@@ -34,9 +47,11 @@ function Manager() {
             </div>
 
             {/* // Main display */}
-            {/* <div className='Maindisplay'>
-                
-            <div/> */}
+            <div className='Maindisplay'>
+                {/* <button onClick={callAPI}>Button</button> */}
+                {/* <p>{apiResponse}</p> */}
+                <DatabaseTable query="SELECT * FROM inventory;"/>
+            </div>
                 {/* //Menu, Inventory, Sales Report, Restock, Excess */}
 
         {/* // Footer */}
