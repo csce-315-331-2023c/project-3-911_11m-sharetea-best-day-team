@@ -1,8 +1,9 @@
 import React, { useState } from 'react';
 import SideMenu from '../components/SideMenu';
 import DrinkList from '../components/DrinkList';
-import CustomizationModal from '../components/CustomizationModal'; // to be created
+import CustomizationModal from '../components/CustomizationModal';
 import CurrentTime from '../components/CurrentTime';
+import KioskHome from '../components/KioskHome'; // Make sure this component is created and styled as per your design
 import './KioskView.css';
 
 const KioskView = () => {
@@ -19,6 +20,7 @@ const KioskView = () => {
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
+    setSelectedDrink(null); // Reset drink selection when changing categories
   };
 
   const handleSelectDrink = (drink) => {
@@ -29,8 +31,11 @@ const KioskView = () => {
     <div className="kiosk-view">
       <CurrentTime />
       <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
-      <DrinkList drinks={drinks[selectedCategory] || []} onSelectDrink={handleSelectDrink} />
-      
+      {selectedCategory === 'Home' || selectedCategory === null ? (
+        <KioskHome />
+      ) : (
+        <DrinkList drinks={drinks[selectedCategory]} onSelectDrink={handleSelectDrink} />
+      )}
       {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
     </div>
   );
