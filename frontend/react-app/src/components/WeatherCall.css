@@ -1,0 +1,26 @@
+/* WeatherCall.css */
+.weatherWidget {
+    max-width: 300px; /* or any specific size you want */
+    width: 100%;
+    margin: 20px auto; /* centers the card in the available space */
+    aspect-ratio: 1 / 1; /* makes the card square */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .icon {
+    width: 50%; /* scales the icon to fit within the card */
+    margin: 16px 0;
+  }
+  
+  .temperature {
+    font-size: 1.5rem; /* adjust as needed */
+  }
+  
+  .condition {
+    font-size: 1rem; /* adjust as needed */
+    color: #757575; /* a medium gray color, adjust as needed */
+  }
+  

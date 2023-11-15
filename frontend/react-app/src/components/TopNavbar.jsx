@@ -5,13 +5,13 @@ import '../styles/home.css'
 import shareteaLogo from '../images/sharetea_logo.png'
 import accessibilitySymbol from '../images/accessibility-symbol.png'
 
-import WeatherCall from './WeatherCall';
+import WeatherWidget from './WeatherCall';
 
 const TopNavbar = () => {
     return (
         <div className='navbar'>
             <div className='navbar-left'>
-                {/* <img className='accessibility-logo' src={accessibilitySymbol}></img> */}
+                {/* <img className='accessibility-logo' src={accessibilitySymbol}></img> */}<WeatherWidget />
             </div>
 
             <div className='navbar-middle'>
@@ -24,7 +24,7 @@ const TopNavbar = () => {
 
             <div className='navbar-right nav-links'>
                 <Link to="/manager">Login</Link>
-                <WeatherCall />
+                {/* <WeatherCall /> */}
             </div>
         </div>
     )
