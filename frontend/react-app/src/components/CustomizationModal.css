@@ -60,6 +60,18 @@
   width: 600px;
 }
 
+.ice-buttons-container button.selected {
+  background-color: #929394;
+}
+
+.sweetness-buttons-container button.selected {
+  background-color: #929394;
+}
+
+.toppings-buttons-container button.selected {
+  background-color: #929394;
+}
+
 .ice-buttons-container,
 .sweetness-buttons-container,
 .toppings-buttons-container {
@@ -90,13 +102,13 @@
 .ice-buttons-container button:hover,
 .sweetness-buttons-container button:hover,
 .toppings-buttons-container button:hover {
-  background-color: #929394; /* Change background color on hover */
+  background-color: #b5b6b7; /* Change background color on hover */
 }
 
 .done-container button{
   width: 150px; /* Set a fixed width (100% of their container) */
   height: 40px; /* Set a fixed height (adjust as needed) */
-  background-color: #808080; /* Button background color */
+  background-color: #c5c7c9; /* Button background color */
   color: #000000; /* Button text color */
   border: none; /* Remove button border */
   border-radius: 4px; /* Add rounded corners */
@@ -104,5 +116,5 @@
 }
 
 .done-container button:hover{
-  background-color: #e0e1e2;
+  background-color: #b5b6b7;
 }
