@@ -9,14 +9,35 @@ import './KioskView.css';
 const KioskView = () => {
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDrink, setSelectedDrink] = useState(null);
+  const [drinkCategories, setDrinkCategories] = useState([]);
+  const [drinks, setDrinks] = useState([]);
 
   // Sample data (should come from your database/API)
-  const categories = ['Milk Tea', 'Fruit Tea', 'Ice Blended'];
-  const drinks = {
-    'Milk Tea': [{ name: 'Classic Pearl Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556470-353X8TY9JSOF2J9CVMEE/1.+MilkTea_ClassicPearl_Black.jpg?format=500w' }, { name: 'Mango Green Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556844-7DWVLZUS8RYY4TOG4EGF/2.+MilkTea_MangoGreen.jpg?format=500w' }, ],
-    'Fruit Tea': [{ name: 'Strawberry Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-85OVEK2VBBSEAGOMRLV3/1.+FruitTea_StrawberryTea.jpg?format=300w' }, { name: 'Peach Kiwi Tea With Aiyu Jelly', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-5PNBLIAW61OD69RWP305/2.+FruitTea_PeachKiwiTeaWithAiyuJelly.jpg?format=300w' }],
-    'Ice Blended': [{ name: 'Oreo Ice Blended With Pearl', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022156-IR5MT89TNA8X6BZ7VQ4J/1.+IceBlended_OreoIceBlendedWithPearl.jpg?format=300w' }, { name: 'Taro Ice Blended With Pudding', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022155-XE9O1AHODSX9ONPKJTVM/2.+IceBlended_TaroIceBlendedWithPudding.jpg?format=300w' }]
-  };
+  // const categories = ['Milk Tea', 'Fruit Tea', 'Ice Blended'];
+  // const drinks = {
+  //   'Milk Tea': [{ name: 'Classic Pearl Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556470-353X8TY9JSOF2J9CVMEE/1.+MilkTea_ClassicPearl_Black.jpg?format=500w' }, { name: 'Mango Green Milk Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826556844-7DWVLZUS8RYY4TOG4EGF/2.+MilkTea_MangoGreen.jpg?format=500w' }, ],
+  //   'Fruit Tea': [{ name: 'Strawberry Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-85OVEK2VBBSEAGOMRLV3/1.+FruitTea_StrawberryTea.jpg?format=300w' }, { name: 'Peach Kiwi Tea With Aiyu Jelly', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-5PNBLIAW61OD69RWP305/2.+FruitTea_PeachKiwiTeaWithAiyuJelly.jpg?format=300w' }],
+  //   'Ice Blended': [{ name: 'Oreo Ice Blended With Pearl', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022156-IR5MT89TNA8X6BZ7VQ4J/1.+IceBlended_OreoIceBlendedWithPearl.jpg?format=300w' }, { name: 'Taro Ice Blended With Pudding', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022155-XE9O1AHODSX9ONPKJTVM/2.+IceBlended_TaroIceBlendedWithPudding.jpg?format=300w' }]
+  // };
+  useEffect(() => {
+    // Fetch categories and drinks data when the component mounts
+    const fetchData = async () => {
+      try {
+        const categoriesResponse = await fetch('http://localhost:3001/categories');
+        const categoriesData = await categoriesResponse.json();
+        setDrinkCategories(categoriesData);
+
+        const drinksResponse = await fetch('http://localhost:3001/drinks');
+        const drinksData = await drinksResponse.json();
+        setDrinks(drinksData);
+      } catch (error) {
+        console.error('Error fetching data:', error);
+      }
+    };
+
+    fetchData();
+  }, []);
+
 
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
@@ -27,16 +48,34 @@ const KioskView = () => {
     setSelectedDrink(drink);
   };
 
+  // return (
+  //   <div className="kiosk-view">
+  //     <CurrentTime />
+  //     <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
+  //     {selectedCategory === 'Home' || selectedCategory === null ? (
+  //       <KioskHome />
+  //     ) : (
+  //       <DrinkList drinks={drinks[selectedCategory]} onSelectDrink={handleSelectDrink} />
+  //     )}
+  //     {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
+  //   </div>
+  // );
+
   return (
     <div className="kiosk-view">
       <CurrentTime />
-      <SideMenu categories={categories} onSelectCategory={handleSelectCategory} />
+      <SideMenu categories={drinkCategories} onSelectCategory={handleSelectCategory} />
       {selectedCategory === 'Home' || selectedCategory === null ? (
         <KioskHome />
       ) : (
         <DrinkList drinks={drinks[selectedCategory]} onSelectDrink={handleSelectDrink} />
       )}
-      {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
+      {selectedDrink && (
+        <CustomizationModal
+          drink={selectedDrink}
+          onClose={() => setSelectedDrink(null)}
+        />
+      )}
     </div>
   );
 };
