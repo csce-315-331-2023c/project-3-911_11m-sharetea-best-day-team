@@ -11,6 +11,24 @@ const KioskView = () => {
   
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDrink, setSelectedDrink] = useState(null);
+  const [cart, setCart] = useState([]);
+
+  // Function to calculate the subtotal of a drink based on the base price, quantity, and toppings
+  const calculateSubtotal = (basePrice, quantity, toppings) => {
+    const toppingPrice = 0.75; // The price for each topping
+    return (basePrice + toppings.length * toppingPrice) * quantity;
+  };
+
+  // Function to add an item to the cart
+  const addToCart = (drink, quantity, toppings) => {
+    const newItem = {
+      drink,
+      quantity,
+      toppings,
+      subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
+    };
+    setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+  };
 
   // Sample data (should come from your database/API)
   const categories = ['Milk Tea', 'Fruit Tea', 'Ice Blended'];
@@ -40,7 +58,7 @@ const KioskView = () => {
       ) : (
         <DrinkList drinks={drinks[selectedCategory]} onSelectDrink={handleSelectDrink} />
       )}
-      {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} />}
+      {selectedDrink && <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} addToCart={addToCart} />}
     </div>
     </>
   );
