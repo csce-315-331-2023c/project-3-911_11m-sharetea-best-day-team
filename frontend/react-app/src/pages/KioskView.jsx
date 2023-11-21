@@ -1,16 +1,27 @@
-import React, { useState } from 'react';
-import SideMenu from '../components/SideMenu';
-import DrinkList from '../components/DrinkList';
-import CustomizationModal from '../components/CustomizationModal';
-import CurrentTime from '../components/CurrentTime';
-import KioskHome from '../components/KioskHome'; // Make sure this component is created and styled as per your design
+import React, { useState, useEffect } from 'react';
+// import SideMenu from '../components/SideMenu';
+// import DrinkList from '../components/DrinkList';
+// import CustomizationModal from '../components/CustomizationModal';
+// import CurrentTime from '../components/CurrentTime';
+// import KioskHome from '../components/KioskHome'; // Make sure this component is created and styled as per your design
 import './KioskView.css';
 
 const KioskView = () => {
-  const [selectedCategory, setSelectedCategory] = useState(null);
-  const [selectedDrink, setSelectedDrink] = useState(null);
-  const [drinkCategories, setDrinkCategories] = useState([]);
   const [drinks, setDrinks] = useState([]);
+
+  useEffect(() => {
+    // Fetch data from the backend when the component mounts
+    fetch('/kiosk')
+      .then(response => response.json())
+      .then(data => setDrinks(data))
+      .catch(error => console.error('Error fetching drinks:', error));
+  }, []); // The empty dependency array ensures that the effect runs only once when the component mounts
+  
+
+  // const [selectedCategory, setSelectedCategory] = useState(null);
+  // const [selectedDrink, setSelectedDrink] = useState(null);
+  // const [drinkCategories, setDrinkCategories] = useState([]);
+  // const [drinks, setDrinks] = useState([]);
 
   // Sample data (should come from your database/API)
   // const categories = ['Milk Tea', 'Fruit Tea', 'Ice Blended'];
@@ -19,34 +30,16 @@ const KioskView = () => {
   //   'Fruit Tea': [{ name: 'Strawberry Tea', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-85OVEK2VBBSEAGOMRLV3/1.+FruitTea_StrawberryTea.jpg?format=300w' }, { name: 'Peach Kiwi Tea With Aiyu Jelly', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646826797231-5PNBLIAW61OD69RWP305/2.+FruitTea_PeachKiwiTeaWithAiyuJelly.jpg?format=300w' }],
   //   'Ice Blended': [{ name: 'Oreo Ice Blended With Pearl', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022156-IR5MT89TNA8X6BZ7VQ4J/1.+IceBlended_OreoIceBlendedWithPearl.jpg?format=300w' }, { name: 'Taro Ice Blended With Pudding', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022155-XE9O1AHODSX9ONPKJTVM/2.+IceBlended_TaroIceBlendedWithPudding.jpg?format=300w' }]
   // };
-  useEffect(() => {
-    // Fetch categories and drinks data when the component mounts
-    const fetchData = async () => {
-      try {
-        const categoriesResponse = await fetch('http://localhost:3001/categories');
-        const categoriesData = await categoriesResponse.json();
-        setDrinkCategories(categoriesData);
-
-        const drinksResponse = await fetch('http://localhost:3001/drinks');
-        const drinksData = await drinksResponse.json();
-        setDrinks(drinksData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
-      }
-    };
-
-    fetchData();
-  }, []);
 
 
-  const handleSelectCategory = (category) => {
-    setSelectedCategory(category);
-    setSelectedDrink(null); // Reset drink selection when changing categories
-  };
+  // const handleSelectCategory = (category) => {
+  //   setSelectedCategory(category);
+  //   setSelectedDrink(null); // Reset drink selection when changing categories
+  // };
 
-  const handleSelectDrink = (drink) => {
-    setSelectedDrink(drink);
-  };
+  // const handleSelectDrink = (drink) => {
+  //   setSelectedDrink(drink);
+  // };
 
   // return (
   //   <div className="kiosk-view">
@@ -62,20 +55,14 @@ const KioskView = () => {
   // );
 
   return (
-    <div className="kiosk-view">
-      <CurrentTime />
-      <SideMenu categories={drinkCategories} onSelectCategory={handleSelectCategory} />
-      {selectedCategory === 'Home' || selectedCategory === null ? (
-        <KioskHome />
-      ) : (
-        <DrinkList drinks={drinks[selectedCategory]} onSelectDrink={handleSelectDrink} />
-      )}
-      {selectedDrink && (
-        <CustomizationModal
-          drink={selectedDrink}
-          onClose={() => setSelectedDrink(null)}
-        />
-      )}
+    <div>
+      HOWDY!
+      {drinks.map((drink, index) => (
+        <div key={index} className="menu-item">
+          <span className="item-name">{drink.itemname}</span>
+          <span className="item-price">${drink.itemprice}</span>
+        </div>
+      ))}
     </div>
   );
 };

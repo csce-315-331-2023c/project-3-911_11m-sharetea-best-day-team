@@ -56,6 +56,25 @@ app.get('/drinks', (req, res) => {
         });
 });
 
+app.get('/kiosk', (req, res) => {
+    drinks = [];
+
+    pool.query('SELECT itemid, itemname, itemprice, images FROM pricelist ORDER BY itemid ASC;')
+    .then(drinkQueryRes => {
+      for (let i = 0; i < drinkQueryRes.rowCount; i++) {
+        drinks.push(drinkQueryRes.rows[i]);
+      }
+
+      // Send the drinks data as JSON
+      res.json(drinks);
+    })
+    .catch(error => {
+      console.error('Error fetching drinks:', error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    });
+
+});
+
 app.listen(port, () => {
     console.log(`Example app listening at http://localhost:${port}`);
 });
