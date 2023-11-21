@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import KioskView from './pages/KioskView'
+import MenuView from './pages/MenuView';
 
 // function App() {
 //   return (
@@ -51,6 +52,11 @@ function App() {
     {
       path: "/Kiosk",
       element: <KioskView/>
+    }
+    ,
+    {
+      path: "/Menu",
+      element: <MenuView/>
     }
   ])
     
