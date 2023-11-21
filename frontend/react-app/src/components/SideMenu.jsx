@@ -14,7 +14,7 @@ const theme = createTheme({
           borderRadius: '20px',
           margin: '8px 0', // Adds some space between the buttons
           '&:hover': {
-            backgroundColor: '#ff0000', // Red color on hover
+            backgroundColor: '#980000', // Red color on hover
             color: '#fff', // White text on hover
           },
         },
@@ -23,7 +23,7 @@ const theme = createTheme({
   },
   palette: {
     primary: {
-      main: '#ff0000', // Red color
+      main: '#980000', // Red color
     },
     secondary: {
       main: '#000000', // Black color
