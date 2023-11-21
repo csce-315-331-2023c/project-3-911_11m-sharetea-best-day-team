@@ -6,6 +6,8 @@ import shareteaLogo from '../images/sharetea_logo.png'
 import accessibilitySymbol from '../images/accessibility-symbol.png'
 
 import WeatherWidget from './WeatherCall';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
 
 const TopNavbar = () => {
     return (
@@ -23,8 +25,9 @@ const TopNavbar = () => {
             </div>
 
             <div className='navbar-right nav-links'>
-                <Link to="/manager">Login</Link>
-                {/* <WeatherCall /> */}
+                <LoginButton />
+                <LogoutButton />
+                
             </div>
         </div>
     )
