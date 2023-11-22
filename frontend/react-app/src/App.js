@@ -1,6 +1,7 @@
 // import logo from './logo.svg';
 import './App.css';
 import KioskView from './pages/KioskView'
+import MenuView from './pages/MenuView';
 
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
@@ -27,6 +28,11 @@ function App() {
     {
       path: "/Kiosk",
       element: <KioskView/>
+    }
+    ,
+    {
+      path: "/Menu",
+      element: <MenuView/>
     }
   ])
     

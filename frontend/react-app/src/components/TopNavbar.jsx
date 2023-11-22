@@ -28,7 +28,7 @@ const TopNavbar = () => {
                     </IconButton>
                     <Grid item>
                         <Box sx={{ display: 'flex', gap: 2 }}>
-                        <Button component={RouterLink} to="/" sx={{ my: 1, mx: 1.5, color: 'black' }}>
+                        <Button component={RouterLink} to="/menu" sx={{ my: 1, mx: 1.5, color: 'black' }}>
                             MENU
                         </Button>
                         <Button component={RouterLink} to="/kiosk" sx={{ my: 1, mx: 1.5, color: 'black' }}>
