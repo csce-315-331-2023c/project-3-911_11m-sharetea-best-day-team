@@ -1,0 +1,27 @@
+.MuiDialog-root {
+    border-radius: 8px; 
+  }
+  
+  .MuiDialogTitle-root {
+    background-color: #980000; 
+    color: white; 
+  }
+  
+  .MuiDialogContent-root {
+    padding: 16px; /* padding to the content */
+  }
+  
+  ul {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0; /* Remove default padding */
+  }
+  
+  li {
+    margin-bottom: 8px; /* Add spacing between list items */
+  }
+  
+  .MuiDialogActions-root {
+    justify-content: center; /* Center the button */
+    padding: 16px; /* Add padding to the actions */
+  }
+  

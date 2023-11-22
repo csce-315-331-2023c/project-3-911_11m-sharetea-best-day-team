@@ -1,14 +1,74 @@
-import React from 'react';
-import './SideMenu.css';
-import ButtonComponent from './ButtonComponent';
+import React, { useState } from 'react';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+// Define the custom theme
+const theme = createTheme({
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          // Rounded border
+          borderRadius: '20px',
+          margin: '8px 0', // Adds some space between the buttons
+          '&:hover': {
+            backgroundColor: '#980000', // Red color on hover
+            color: '#fff', // White text on hover
+          },
+        },
+      },
+    },
+  },
+  palette: {
+    primary: {
+      main: '#980000', // Red color
+    },
+    secondary: {
+      main: '#000000', // Black color
+    },
+  },
+});
 
 const SideMenu = ({ categories, onSelectCategory }) => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleListItemClick = (category) => {
+    setSelectedCategory(category);
+    onSelectCategory(category);
+  };
+
   return (
-    <div className="side-menu">
-      {categories.map((category) => (
-        <ButtonComponent category={category} onSelectCategory={onSelectCategory}/>
-      ))}
-    </div>
+    <ThemeProvider theme={theme}>
+      <List sx={{
+          width: '100%',
+          maxWidth: 360,
+          bgcolor: 'background.paper',
+          // Responsive side menu size
+          width: { xs: '100%', sm: '20%' },
+        }}
+      >
+        {categories.map((category) => (
+          <ListItemButton
+            key={category}
+            onClick={() => handleListItemClick(category)}
+            selected={selectedCategory === category}
+            sx={{
+              '&.Mui-selected': {
+                backgroundColor: theme.palette.primary.main, // Red color for selected item
+                color: '#fff', // White text for selected item
+                '&:hover': {
+                  backgroundColor: theme.palette.primary.main,
+                },
+              },
+            }}
+          >
+            <ListItemText primary={category} />
+          </ListItemButton>
+        ))}
+      </List>
+    </ThemeProvider>
   );
 };
 
