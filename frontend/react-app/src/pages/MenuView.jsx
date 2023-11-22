@@ -119,7 +119,7 @@ const MenuView = () => {
     <>
       <TopNavbar />
       <div className="kiosk-view">
-        <CurrentTime />
+        {/* <CurrentTime /> */}
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />
