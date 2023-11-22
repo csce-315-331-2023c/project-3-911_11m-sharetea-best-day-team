@@ -24,6 +24,7 @@ Hic minima corporis sed perspiciatis expedita 33 eaque omnis et voluptatem volup
 
 Qui saepe voluptatibus et natus harum qui exercitationem ipsum ut recusandae minima ut debitis Quis? Ut mollitia nisi est quasi molestias ea dolor quia ut dignissimos quas id exercitationem magni et reiciendis consequatur qui voluptatem dolor. Hic perspiciatis iste vel facilis quia id optio quod. Sed laboriosam eius in cupiditate possimus quo pariatur doloribus et sunt repellendus sit repudiandae totam.
 </p>
+<iframe src="https://www.google.com/maps/d/embed?mid=1jiynMpBttP8OOKBarU-jbM1Uo5k&hl=en_US&ehbc=2E312F" width="640" height="480"></iframe>
 
         {/* <footer> */}
         <div className="footer-container">
