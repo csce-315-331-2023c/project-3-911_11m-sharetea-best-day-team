@@ -3,23 +3,31 @@ import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
 import DatabaseTable from '../components/DatabaseTable';
+import Inventory from '../components/Inventory';
+import Menu from '../components/Menu';
 import logo from '../logo.svg';
 import './Manger.css';
 
 function Manager() {
-    // const [apiResponse, setApiResponse] = useState(null);
 
-    // const callAPI = () => {
-    //     fetch("http://localhost:9000/route")
-    //     .then(res => res.text())
-    //     .then(res => setApiResponse(res));
-    // };
+    const [selectedCategory, setSelectedCategory] = useState('Inventory');
 
-    // useEffect(() => {
-    //     callAPI();
-    // }, []);
-
-    const [selectedCategory, setSelectedCategory] = useState(null);
+    const renderComponent = () => {
+        switch (selectedCategory) {
+        case 'Inventory':
+            return <Inventory />;
+        // case 'Excess':
+        //     return <Excess />;
+        // case 'Restock':
+        //     return <Restock />;
+        case 'Menu':
+            return <Menu />;
+        // case 'Sales':
+        //     return <Sales />;
+        default:
+            return <Inventory />;
+        }
+    };
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
@@ -51,7 +59,7 @@ function Manager() {
             {/* // Main display */}
                 {/* <button onClick={callAPI}>Button</button> */}
                 {/* <p>{apiResponse}</p> */}
-                <DatabaseTable query="SELECT * FROM pricelist;"/>
+                {renderComponent()}
             </div>
                 {/* //Menu, Inventory, Sales Report, Restock, Excess */}
 

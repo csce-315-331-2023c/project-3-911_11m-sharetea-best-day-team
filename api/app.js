@@ -37,10 +37,25 @@ app.use('/users', usersRouter);
 app.use("/route", testAPIRouter);
 
 app.post('/query', async (req, res) => {
-  const { query } = req.body;
-  const results = await pool.query(query);
-  res.json(results.rows);
-  res.send();
+  try {
+    const { query } = req.body;
+    const results = await pool.query(query);
+    res.json(results.rows);
+    res.send();
+  } catch(err) {
+    res.status(500).send('Server error');
+  }
+});
+
+app.put('/update-data', async (req, res) => {
+  try {
+    const { query } = req.body;
+    await pool.query(query);
+    //res.send(result.rowCount > 0 ? 'Update successful' : 'Update failed');
+  } catch (err) {
+    console.error(err);
+    res.status(500).send('Server error');
+  }
 });
 
 // catch 404 and forward to error handler
