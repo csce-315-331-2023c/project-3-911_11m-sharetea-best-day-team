@@ -4,10 +4,15 @@ import { AppBar, Toolbar, Button, IconButton, Box, useTheme, useMediaQuery, Grid
 import CurrentTime from './CurrentTime';
 import WeatherWidget from './WeatherCall';
 import shareteaLogo from '../images/sharetea_logo.png';
+import LoginButton from './LoginButton';
+import LogoutButton from './LogoutButton';
+import ManagerButton from './ManagerButton'
+import { useAuth0 } from "@auth0/auth0-react"
 
 const TopNavbar = () => {
     const theme = useTheme();
     const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+    const { isLoading, error } = useAuth0(); 
 
     return (
         <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
@@ -34,9 +39,19 @@ const TopNavbar = () => {
                 </Box>
 
                 <Box sx={{ display: 'flex', alignItems: 'center' }}>
-                    <Button component={RouterLink} to="/manager" sx={{ my: 1, mx: 1.5 }}>
+                    {/* <Button component={RouterLink} to="/manager" sx={{ my: 1, mx: 1.5 }}>
                         Login
-                    </Button>
+                    </Button> */}
+                    {/* {error && <p>Authentication Error</p>} */}
+                    {error && <><ManagerButton /> <LogoutButton /> </>}
+                    {!error && isLoading && <p>Loading...</p>}
+                    {!error && !isLoading && (
+                        <>
+                            <LoginButton />
+                            {/* <LogoutButton /> */}
+                            {/* <ManagerButton /> */}
+                        </>
+                    )}
                 </Box>
             </Toolbar>
         </AppBar>
