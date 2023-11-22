@@ -8,12 +8,15 @@ import accessibilitySymbol from '../images/accessibility-symbol.png'
 import WeatherWidget from './WeatherCall';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
+import ManagerButton from './ManagerButton'
+import { useAuth0 } from "@auth0/auth0-react"
 
 const TopNavbar = () => {
+    const { isLoading, error } = useAuth0();
     return (
         <div className='navbar'>
             <div className='navbar-left'>
-                {/* <img className='accessibility-logo' src={accessibilitySymbol}></img> */}<WeatherWidget />
+                <WeatherWidget />
             </div>
 
             <div className='navbar-middle'>
@@ -25,8 +28,17 @@ const TopNavbar = () => {
             </div>
 
             <div className='navbar-right nav-links'>
-                <LoginButton />
-                <LogoutButton />
+                {/* {error && <p>Authentication Error</p>} */}
+                {error && <><ManagerButton /> <LogoutButton /> </>}
+                {!error && isLoading && <p>Loading...</p>}
+                {!error && !isLoading && (
+                    <>
+                        <LoginButton />
+                        {/* <LogoutButton /> */}
+                        {/* <ManagerButton /> */}
+                    </>
+                )}
+                
                 
             </div>
         </div>
