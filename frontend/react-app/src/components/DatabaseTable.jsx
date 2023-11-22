@@ -26,7 +26,7 @@ import {
 const fetchDataFromQuery = async (query) => {
   try {
     //Make API call
-    const response = await fetch('http://localhost:9000/query', {
+    const response = await fetch('https://backend-heli.onrender.com/query', {
       method: 'POST',
       body: JSON.stringify({ query }), //Put the query in the body
       headers: {
@@ -47,7 +47,7 @@ const fetchDataFromQuery = async (query) => {
 const insertDataFromQuery = async (query) => {
   try {
     //Make API call, no output
-    fetch('http://localhost:9000/update-data', {
+    fetch('https://backend-heli.onrender.com/update-data', {
       method: 'PUT',
       body: JSON.stringify({ query }), //Using PUT call
       headers: {
