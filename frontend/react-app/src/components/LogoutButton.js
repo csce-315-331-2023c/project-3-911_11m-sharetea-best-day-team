@@ -4,10 +4,10 @@ import React from "react";
 const LogoutButton = () => {
     const { logout, isAuthenticated } = useAuth0();
     return (  
-        // isAuthenticated && (
-        //     <p onClick={() => logout()}>Sign out</p>
-        // )
+        isAuthenticated && (
             <p onClick={() => logout()}>Sign out</p>
+        )
+            // <p onClick={() => logout()}>Sign out</p>
     );
 }
  
