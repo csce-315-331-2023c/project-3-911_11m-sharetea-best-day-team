@@ -3,22 +3,31 @@ import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
 import DatabaseTable from '../components/DatabaseTable';
+import Inventory from '../components/Inventory';
+import Menu from '../components/Menu';
 import logo from '../logo.svg';
+import './Manger.css';
 
 function Manager() {
-    const [apiResponse, setApiResponse] = useState(null);
 
-    const callAPI = () => {
-        fetch("http://localhost:9000/route")
-        .then(res => res.text())
-        .then(res => setApiResponse(res));
+    const [selectedCategory, setSelectedCategory] = useState('Inventory');
+
+    const renderComponent = () => {
+        switch (selectedCategory) {
+        case 'Inventory':
+            return <Inventory />;
+        // case 'Excess':
+        //     return <Excess />;
+        // case 'Restock':
+        //     return <Restock />;
+        case 'Menu':
+            return <Menu />;
+        // case 'Sales':
+        //     return <Sales />;
+        default:
+            return <Inventory />;
+        }
     };
-
-    useEffect(() => {
-        callAPI();
-    }, []);
-
-    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
@@ -38,6 +47,7 @@ function Manager() {
                 {/* <img src={logo} width={150} height={150} className="App-logo" alt="logo" /> */}
             </div>
             {/* // Side bar */}
+            <div className='Maindisplay'>
             <div className='Sidebar'>
                 {/* Cashier Button */}
                 
@@ -47,10 +57,9 @@ function Manager() {
             </div>
 
             {/* // Main display */}
-            <div className='Maindisplay'>
                 {/* <button onClick={callAPI}>Button</button> */}
                 {/* <p>{apiResponse}</p> */}
-                <DatabaseTable query="SELECT * FROM inventory;"/>
+                {renderComponent()}
             </div>
                 {/* //Menu, Inventory, Sales Report, Restock, Excess */}
 
