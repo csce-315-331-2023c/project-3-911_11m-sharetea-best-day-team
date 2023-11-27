@@ -1,6 +1,6 @@
 /* WeatherCall.css */
 .weatherWidget {
-    max-width: 300px; /* or any specific size you want */
+    max-width: 129px; /* or any specific size you want */
     width: 100%;
     margin: 20px auto; /* centers the card in the available space */
     aspect-ratio: 1 / 1; /* makes the card square */
