@@ -7,7 +7,6 @@ import shareteaLogo from '../images/sharetea_logo.png';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import ManagerButton from './ManagerButton'
-import ProfileComponent from './ProfileComponent';
 import { useAuth0 } from "@auth0/auth0-react"
 
 const TopNavbar = () => {
@@ -43,19 +42,14 @@ const TopNavbar = () => {
                     {/* <Button component={RouterLink} to="/manager" sx={{ my: 1, mx: 1.5 }}>
                         Login
                     </Button> */}
-                    {error && <p>Authentication Error</p>}
-                    {/* {error &&  */}
-                    {/* // <> */}
-                        {/* <ManagerButton /> <LogoutButton /> <ProfileComponent /> */}
-                    {/* </>} */}
+                    {/* {error && <p>Authentication Error</p>} */}
+                    {error && <><ManagerButton /> <LogoutButton /> </>}
                     {!error && isLoading && <p>Loading...</p>}
                     {!error && !isLoading && (
                         <>
-                            <ProfileComponent />
-                            <ManagerButton />
                             <LoginButton />
-                            <LogoutButton />
-                            
+                            {/* <LogoutButton /> */}
+                            {/* <ManagerButton /> */}
                         </>
                     )}
                 </Box>

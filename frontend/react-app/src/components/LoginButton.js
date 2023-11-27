@@ -4,10 +4,10 @@ import React from "react";
 const LoginButton = () => {
     const { loginWithRedirect, isAuthenticated } = useAuth0();
     return (  
-        !isAuthenticated && (
+        // !isAuthenticated && (
+        //     <p onClick={() => loginWithRedirect()}>Login</p>
+        // )
             <p onClick={() => loginWithRedirect()}>Login</p>
-        )
-            // <p onClick={() => loginWithRedirect()}>Login</p>
         
 
     );
