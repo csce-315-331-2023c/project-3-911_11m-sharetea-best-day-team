@@ -6,6 +6,7 @@ import CurrentTime from '../components/CurrentTime';
 import KioskHome from '../components/KioskHome';
 import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
+import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
 
 const KioskView = () => {
@@ -15,6 +16,8 @@ const KioskView = () => {
   const [drinksData, setDrinksData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,6 +94,7 @@ const KioskView = () => {
       subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
     };
     setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+    console.log(drink.name, quantity, toppings);
   };
 
   // // Sample data (should come from your database/API)
@@ -121,8 +125,9 @@ const KioskView = () => {
   return (
     <>
       <TopNavbar />
+      
       <div className="kiosk-view">
-        <CurrentTime />
+        <CartComponent drinks={cart} />
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />

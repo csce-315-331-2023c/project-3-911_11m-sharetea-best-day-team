@@ -1,6 +1,7 @@
 import AccessibilityButton from "../components/AccessibilityButton"
 import TopNavbar from "../components/TopNavbar"
 import Banner from "../images/sharetea_banner.jpg"
+import '../styles/home.css'
 
 
 export function Home() {
