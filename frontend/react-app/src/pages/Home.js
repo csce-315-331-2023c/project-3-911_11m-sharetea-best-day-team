@@ -1,6 +1,7 @@
 import AccessibilityButton from "../components/AccessibilityButton"
 import TopNavbar from "../components/TopNavbar"
 import Banner from "../images/sharetea_banner.jpg"
+import Footer from '../components/Footer';
 import '../styles/home.css'
 
 
@@ -27,15 +28,8 @@ export function Home() {
         Qui saepe voluptatibus et natus harum qui exercitationem ipsum ut recusandae minima ut debitis Quis? Ut mollitia nisi est quasi molestias ea dolor quia ut dignissimos quas id exercitationem magni et reiciendis consequatur qui voluptatem dolor. Hic perspiciatis iste vel facilis quia id optio quod. Sed laboriosam eius in cupiditate possimus quo pariatur doloribus et sunt repellendus sit repudiandae totam.
         </p>
 
-        {/* <footer> */}
-        <div className="footer-container">
-            <div className="footer-text-container">
-                <p className="footer-text">
-                Team 11M
-                </p>
-            </div>
-        </div>
-        {/* </footer> */}
+        
+        <Footer/>
         
         <AccessibilityButton/>
         </div>
