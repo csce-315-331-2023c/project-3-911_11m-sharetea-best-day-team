@@ -17,6 +17,10 @@ const KioskView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
 
 
   useEffect(() => {
@@ -86,15 +90,18 @@ const KioskView = () => {
   };
 
   // Function to add an item to the cart
-  const addToCart = (drink, quantity, toppings) => {
+  const addToCart = (drink, quantity, toppings, ice, sweetness) => {
     const newItem = {
       drink,
       quantity,
       toppings,
+      ice,
+      sweetness,
       subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
     };
     setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
-    console.log(drink.name, quantity, toppings);
+    console.log(drink.name, quantity, toppings, ice, sweetness);
+    console.log('Cart updated: ',cart);
   };
 
   // // Sample data (should come from your database/API)
@@ -127,7 +134,7 @@ const KioskView = () => {
       <TopNavbar />
       
       <div className="kiosk-view">
-        <CartComponent drinks={cart} />
+        
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />
@@ -137,7 +144,9 @@ const KioskView = () => {
         {selectedDrink && (
           <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} addToCart={addToCart} />
         )}
+        
       </div>
+      <CartComponent drinks={cart} clearCart={clearCart} />
     </>
   );
 };
