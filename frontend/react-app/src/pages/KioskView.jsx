@@ -86,15 +86,18 @@ const KioskView = () => {
   };
 
   // Function to add an item to the cart
-  const addToCart = (drink, quantity, toppings) => {
+  const addToCart = (drink, quantity, toppings, ice, sweetness) => {
     const newItem = {
       drink,
       quantity,
       toppings,
+      ice,
+      sweetness,
       subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
     };
     setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
-    console.log(drink.name, quantity, toppings);
+    console.log(drink.name, quantity, toppings, ice, sweetness);
+    console.log('Cart updated: ',cart);
   };
 
   // // Sample data (should come from your database/API)

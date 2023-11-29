@@ -202,7 +202,7 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
         </Box>
         <Button
           onClick={() => {
-            addToCart(drink, quantity, toppings); // Call the addToCart function with the current selections
+            addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
             onClose(); // Close the modal after adding to cart
           }}
           variant="contained"
