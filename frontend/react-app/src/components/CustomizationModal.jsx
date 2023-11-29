@@ -43,8 +43,8 @@ const fetchToppings = async () => {
 };
 
 const CustomizationModal = ({ drink, onClose, addToCart }) => {
-  const [iceLevel, setIceLevel] = useState('');
-  const [sweetnessLevel, setSweetnessLevel] = useState('');
+  const [iceLevel, setIceLevel] = useState('Normal Ice');
+  const [sweetnessLevel, setSweetnessLevel] = useState('100%');
   const [toppings, setToppings] = useState([]);
   const [toppingOptions, setToppingOptions] = useState([]);
   const [loading, setLoading] = useState(false);

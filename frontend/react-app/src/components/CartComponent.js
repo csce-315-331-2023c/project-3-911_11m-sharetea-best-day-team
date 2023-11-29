@@ -8,6 +8,7 @@ import DialogActions from '@mui/material/DialogActions';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 import Typography from '@mui/material/Typography';
+import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -17,6 +18,14 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
     padding: theme.spacing(1),
   },
 }));
+
+const CartButton = styled(IconButton)({
+  position: 'fixed',
+  bottom: '20px', // Adjust the bottom value as needed
+  right: '20px', // Adjust the right value as needed
+  height: '100px',
+  zIndex: 1000,
+});
 
 export default function CartComponent(props) {
   const [open, setOpen] = React.useState(false);
@@ -50,9 +59,12 @@ export default function CartComponent(props) {
 
   return (
     <React.Fragment>
+      <CartButton color="primary" aria-label="add to shopping cart" onClick={handleClickOpen}>
       <Button variant="outlined" onClick={handleClickOpen}>
-        Cart
+        Cart <AddShoppingCartIcon />
       </Button>
+      
+      </CartButton>
       <BootstrapDialog
         onClose={handleClose}
         aria-labelledby="customized-dialog-title"
@@ -74,12 +86,23 @@ export default function CartComponent(props) {
           <CloseIcon />
         </IconButton>
         <DialogContent dividers>
-          {cart && cart.map((drink) => (
-            <Typography gutterBottom>
-            {drink.drink.name}
-
+        {cart.length > 0 ? (
+          cart.map((drink) => (
+            <Typography gutterBottom key={drink.drink.name}>
+              <h3>{drink.drink.name}</h3> (Quantity: {drink.quantity})
+              <ul>
+                <li>Ice: {drink.ice}</li>
+                <li>Sweetness: {drink.sweetness}</li>
+                <li>Toppings: {drink.toppings}</li>
+                <li>Price: ${drink.subtotal}</li>
+              </ul>
             </Typography>
-          ))}
+          ))
+        ) : (
+          <Typography variant="subtitle1" color="textSecondary">
+            Your cart is empty.
+          </Typography>
+        )}
         </DialogContent>
         <DialogActions>
           <Button autoFocus onClick={handleCheckout}>

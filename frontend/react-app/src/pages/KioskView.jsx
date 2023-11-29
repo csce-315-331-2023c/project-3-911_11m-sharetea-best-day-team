@@ -134,7 +134,7 @@ const KioskView = () => {
       <TopNavbar />
       
       <div className="kiosk-view">
-        <CartComponent drinks={cart} clearCart={clearCart} />
+        
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />
@@ -144,7 +144,9 @@ const KioskView = () => {
         {selectedDrink && (
           <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} addToCart={addToCart} />
         )}
+        
       </div>
+      <CartComponent drinks={cart} clearCart={clearCart} />
     </>
   );
 };
