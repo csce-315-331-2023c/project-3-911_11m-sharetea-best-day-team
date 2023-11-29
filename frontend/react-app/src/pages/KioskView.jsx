@@ -17,6 +17,10 @@ const KioskView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  const clearCart = () => {
+    setCart([]);
+  };
+
 
 
   useEffect(() => {
@@ -130,7 +134,7 @@ const KioskView = () => {
       <TopNavbar />
       
       <div className="kiosk-view">
-        <CartComponent drinks={cart} />
+        <CartComponent drinks={cart} clearCart={clearCart} />
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />
