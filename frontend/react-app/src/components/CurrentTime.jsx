@@ -1,26 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
 
 function CurrentTime() {
- const [currentTime, setCurrentTime] = useState(new Date());
+  const [currentTime, setCurrentTime] = useState(new Date());
 
- useEffect(() => {
-   const timer = setInterval(() => {
-     setCurrentTime(new Date());
-   }, 1000);
-   return () => clearInterval(timer);
- }, []);
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
 
- return (
-   <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 24, color: '#980000', marginTop: 2 }}>
-     <AccessTimeIcon sx={{ marginRight: 1 }} />
-     <Typography variant="h4">
-       {currentTime.toLocaleTimeString()}
-     </Typography>
-   </Box>
- );
+  return (
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'small', color: 'black', marginTop: 2 }}>
+      <Typography variant="h6">
+        {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+      </Typography>
+    </Box>
+  );
 }
 
 export default CurrentTime;

@@ -6,25 +6,40 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    height: 10vh;
+    height: auto;
     padding: 2vh 2vw 0 2vw;
-
     margin-bottom: 5vh;
-  }
-  
-.navbar-left {
+}
+
+.navbar-container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .navbar-middle {
-  max-height: 100%;
-  /* max-width: 10vw; */
-  /* width: 33vw; */
-  margin:0;
+  /* max-height: 100%;
+  margin:0; */
   text-align: center;
 }
 
-.navbar-middle img {
+.navbar-middle {
+  text-align: center;
+}
 
+.navbar-logo img {
+  height: 50px;
+}
+
+.navbar-links {
+  display: flex;
+  gap: 2;
+}
+
+.navbar-auth {
+  display: flex;
+  align-items: center;
 }
   
 .sharetea-logo {
@@ -49,21 +64,22 @@
   justify-content: space-around;
 }
 
-.nav-links a {
+/* .nav-links a {
   text-decoration: none;
   font-size: 16px;
-}
+  color: black;
+} */
   
-.nav-links a:hover {
+/* .nav-links a:hover {
   text-decoration: underline;
-}
+} */
 
 .navbar-right {
   /* width: 33vw; */
   float: right;
 }
 
-button {
+/* button {
   background-color: #007BFF;
   border: none;
   padding: 10px 20px;
@@ -74,7 +90,7 @@ button {
 
 button:hover {
   background-color: #0056b3;
-}
+} */
   
 
 .banner-container {
