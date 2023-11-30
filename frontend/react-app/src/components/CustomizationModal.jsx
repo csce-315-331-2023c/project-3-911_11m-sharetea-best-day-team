@@ -42,7 +42,7 @@ const fetchToppings = async () => {
   }
 };
 
-const CustomizationModal = ({ drink, onClose, addToCart }) => {
+const CustomizationModal = ({ drink, onClose, addToCart, isEdited }) => {
   const [iceLevel, setIceLevel] = useState('Normal Ice');
   const [sweetnessLevel, setSweetnessLevel] = useState('100%');
   const [toppings, setToppings] = useState([]);
@@ -57,7 +57,8 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
   const calculateToppingsPrice = () => toppings.length * toppingPrice;
 
   // Calculate the subtotal price
-  const calculateSubtotal = () => (basePrice + calculateToppingsPrice()) * quantity;
+  // const calculateSubtotal = () => (basePrice + calculateToppingsPrice()) * quantity;
+  const calculateSubtotal = (price, quantity, toppings) => (price + calculateToppingsPrice()) * quantity;
 
   // Handle quantity changes
   const handleQuantityChange = (action) => {
@@ -204,6 +205,9 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
           onClick={() => {
             addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
             onClose(); // Close the modal after adding to cart
+            {if (isEdited) {
+              {} // CALL HANDLE DELETE
+            }} 
           }}
           variant="contained"
           sx={{ mt: 2, bgcolor: 'red' }}
