@@ -142,11 +142,11 @@ const KioskView = () => {
           <DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
         )}
         {selectedDrink && (
-          <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} addToCart={addToCart} />
+          <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} isEdited={false} addToCart={addToCart} />
         )}
         
       </div>
-      <CartComponent drinks={cart} clearCart={clearCart} />
+      <CartComponent drinks={cart} clearCart={clearCart} setCart={setCart} addToCart={addToCart} setSelectedDrink={setSelectedDrink}/>
     </>
   );
 };
