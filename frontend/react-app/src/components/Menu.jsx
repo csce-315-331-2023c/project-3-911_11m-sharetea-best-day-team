@@ -1,9 +1,9 @@
-import DatabaseTable from '../components/DatabaseTable';
+import MenuTable from '../components/MenuTable';
 
 function Menu() {
     return (
         <>
-            <DatabaseTable query="SELECT * FROM pricelist;"/>
+            <MenuTable query="SELECT * FROM pricelist ORDER BY itemid;"/>
         </>
     );
 }
