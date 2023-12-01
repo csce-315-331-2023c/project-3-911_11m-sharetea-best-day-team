@@ -1,0 +1,19 @@
+{
+  "files": {
+    "main.css": "/static/css/main.13f543d8.css",
+    "main.js": "/static/js/main.29cd74a0.js",
+    "static/js/787.a4b45000.chunk.js": "/static/js/787.a4b45000.chunk.js",
+    "static/media/sharetea_banner.jpg": "/static/media/sharetea_banner.e43a0a8c008f89b1d24d.jpg",
+    "static/media/sharetea_logo.png": "/static/media/sharetea_logo.19fd8b5ed92f97bcbd06.png",
+    "static/media/accessibility-icon.png": "/static/media/accessibility-icon.1986b5208a3954ff068c.png",
+    "static/media/logo.svg": "/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/index.html",
+    "main.13f543d8.css.map": "/static/css/main.13f543d8.css.map",
+    "main.29cd74a0.js.map": "/static/js/main.29cd74a0.js.map",
+    "787.a4b45000.chunk.js.map": "/static/js/787.a4b45000.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.13f543d8.css",
+    "static/js/main.29cd74a0.js"
+  ]
+}

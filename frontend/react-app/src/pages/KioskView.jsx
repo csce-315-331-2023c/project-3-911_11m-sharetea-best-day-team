@@ -6,6 +6,7 @@ import CurrentTime from '../components/CurrentTime';
 import KioskHome from '../components/KioskHome';
 import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
+import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
 
 const KioskView = () => {
@@ -15,6 +16,12 @@ const KioskView = () => {
   const [drinksData, setDrinksData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  const clearCart = () => {
+    setCart([]);
+  };
+
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -83,14 +90,18 @@ const KioskView = () => {
   };
 
   // Function to add an item to the cart
-  const addToCart = (drink, quantity, toppings) => {
+  const addToCart = (drink, quantity, toppings, ice, sweetness) => {
     const newItem = {
       drink,
       quantity,
       toppings,
+      ice,
+      sweetness,
       subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
     };
     setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+    console.log(drink.name, quantity, toppings, ice, sweetness);
+    console.log('Cart updated: ',cart);
   };
 
   // // Sample data (should come from your database/API)
@@ -121,8 +132,9 @@ const KioskView = () => {
   return (
     <>
       <TopNavbar />
+      
       <div className="kiosk-view">
-        <CurrentTime />
+        
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
           <KioskHome />
@@ -130,9 +142,11 @@ const KioskView = () => {
           <DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
         )}
         {selectedDrink && (
-          <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} addToCart={addToCart} />
+          <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} isEdited={false} addToCart={addToCart} />
         )}
+        
       </div>
+      <CartComponent drinks={cart} clearCart={clearCart} setCart={setCart} addToCart={addToCart} setSelectedDrink={setSelectedDrink}/>
     </>
   );
 };

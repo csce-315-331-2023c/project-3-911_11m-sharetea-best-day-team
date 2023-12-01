@@ -1,12 +1,46 @@
 .accessibility-container {
-    left:0;
-    bottom:0;
-    position: fixed;
-    margin: 2vh 1vw;
-
+  left: 0;
+  bottom: 0;
+  position: fixed;
+  margin: 2vh 1vw;
+  z-index: 2; /* Ensure the accessibility icon is above other elements */
 }
 
 .accessibility-button {
-    /* position: inherit; */
-    width: 8vh;
+  width: 8vh;
+}
+
+.translation-popup {
+  position: fixed; 
+  bottom: 60px; 
+  left: 10px; 
+  display: flex;
+  /* display: none; */
+  flex-direction: column;
+  background-color: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  border: 1px solid #ccc;
+  padding: 10px;
+  z-index: 1;
+}
+
+
+
+.translation-popup button {
+  margin-bottom: 5px;
+  padding: 8px 12px;
+  background-color: #007bff; /* Button background color */
+  color: #fff; /* Button text color */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.translation-popup button:hover {
+  background-color: #0056b3; /* Hovered state background color */
+}
+
+.cart-component {
+
 }

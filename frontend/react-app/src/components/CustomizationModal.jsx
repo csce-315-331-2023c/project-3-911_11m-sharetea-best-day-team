@@ -42,9 +42,9 @@ const fetchToppings = async () => {
   }
 };
 
-const CustomizationModal = ({ drink, onClose, addToCart }) => {
-  const [iceLevel, setIceLevel] = useState('');
-  const [sweetnessLevel, setSweetnessLevel] = useState('');
+const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete, index }) => {
+  const [iceLevel, setIceLevel] = useState('Normal Ice');
+  const [sweetnessLevel, setSweetnessLevel] = useState('100%');
   const [toppings, setToppings] = useState([]);
   const [toppingOptions, setToppingOptions] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -57,7 +57,8 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
   const calculateToppingsPrice = () => toppings.length * toppingPrice;
 
   // Calculate the subtotal price
-  const calculateSubtotal = () => (basePrice + calculateToppingsPrice()) * quantity;
+  // const calculateSubtotal = () => (basePrice + calculateToppingsPrice()) * quantity;
+  const calculateSubtotal = (price, quantity, toppings) => (price + calculateToppingsPrice()) * quantity;
 
   // Handle quantity changes
   const handleQuantityChange = (action) => {
@@ -69,6 +70,12 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
       }
     });
   };
+
+  React.useEffect(() => {
+    console.log("useEffect is running. Updated isEdited:", isEdited);
+    // Rest of the code...
+  }, [isEdited]);
+  
 
   useEffect(() => {
     const loadToppings = async () => {
@@ -202,7 +209,14 @@ const CustomizationModal = ({ drink, onClose, addToCart }) => {
         </Box>
         <Button
           onClick={() => {
-            addToCart(drink, quantity, toppings); // Call the addToCart function with the current selections
+            // addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
+            
+            console.log("isEdited:", isEdited);
+            if (isEdited) {
+              handleDelete(index) // CALL HANDLE DELETE
+              console.log("edited drink at ", index)
+            }
+            addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
             onClose(); // Close the modal after adding to cart
           }}
           variant="contained"

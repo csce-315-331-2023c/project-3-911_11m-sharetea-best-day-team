@@ -5,10 +5,10 @@ import { Link } from 'react-router-dom';
 const ManagerButton = () => {
     const { isAuthenticated } = useAuth0();
     return (  
-        // isAuthenticated && (
-        //     <Link to="/manager">Manager</Link>
-        // )
-            <p><Link to="/manager">Manager</Link></p>
+        isAuthenticated && (
+            <Link to="/manager">Manager</Link>
+        )
+            // <p><Link to="/manager">Manager</Link></p>
         
 
     );

@@ -36,9 +36,9 @@ const AccessibilityButton = () => {
             <img src={Picture} className='accessibility-button' onClick={handleButtonClick}></img>
             {showPopup && 
                 <div className='translation-popup'>
-                    <button onClick={() => console.log('Translate to Spanish')}>Translate to Spanish</button>
+                    {/* <button onClick={() => console.log('Translate to Spanish')}>Translate to Spanish</button>
                     <button onClick={() => console.log('Translate to French')}>Translate to French</button>
-                    <button onClick={() => console.log('Translate to German')}>Translate to German</button>
+                    <button onClick={() => console.log('Translate to German')}>Translate to German</button> */}
                     <button onClick={handleReadPageClick}>Read Page</button>
                     <button onClick={handleStopReadingClick}>Stop Reading</button>
                     <button onClick={handlePauseContinueClick}>{isPaused ? 'Continue Reading' : 'Pause Reading'}</button>
@@ -46,15 +46,7 @@ const AccessibilityButton = () => {
                 </div>
             }
         </div>
-        {/* <script src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
-        <script>
-            function googleTranslateElementInit(){
-                new google.translate.TranslateElement(
-                    {pageLanguage: 'en'},
-                    'google_translate_element'
-                )
-            };
-        </script> */}
+        
         </>
     )
 }
