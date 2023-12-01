@@ -18,8 +18,8 @@ function Manager() {
             return <Inventory />;
         // case 'Excess':
         //     return <Excess />;
-        // case 'Restock':
-        //     return <Restock />;
+         case 'Restock':
+             return <Menu />;
         case 'Menu':
             return <Menu />;
         // case 'Sales':
