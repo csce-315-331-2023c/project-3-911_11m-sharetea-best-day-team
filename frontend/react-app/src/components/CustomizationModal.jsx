@@ -42,7 +42,7 @@ const fetchToppings = async () => {
   }
 };
 
-const CustomizationModal = ({ drink, onClose, addToCart, isEdited }) => {
+const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete, index }) => {
   const [iceLevel, setIceLevel] = useState('Normal Ice');
   const [sweetnessLevel, setSweetnessLevel] = useState('100%');
   const [toppings, setToppings] = useState([]);
@@ -70,6 +70,12 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited }) => {
       }
     });
   };
+
+  React.useEffect(() => {
+    console.log("useEffect is running. Updated isEdited:", isEdited);
+    // Rest of the code...
+  }, [isEdited]);
+  
 
   useEffect(() => {
     const loadToppings = async () => {
@@ -203,11 +209,15 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited }) => {
         </Box>
         <Button
           onClick={() => {
+            // addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
+            
+            console.log("isEdited:", isEdited);
+            if (isEdited) {
+              handleDelete(index) // CALL HANDLE DELETE
+              console.log("edited drink at ", index)
+            }
             addToCart(drink, quantity, toppings, iceLevel, sweetnessLevel); // Call the addToCart function with the current selections
             onClose(); // Close the modal after adding to cart
-            {if (isEdited) {
-              {} // CALL HANDLE DELETE
-            }} 
           }}
           variant="contained"
           sx={{ mt: 2, bgcolor: 'red' }}

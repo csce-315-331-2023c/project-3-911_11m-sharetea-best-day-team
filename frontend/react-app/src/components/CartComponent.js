@@ -34,6 +34,8 @@ export default function CartComponent(props) {
   const [cart, setCart] = React.useState(props.drinks);
   const [selectedDrinkIndex, setSelectedDrinkIndex] = React.useState(null);
   const [isCustomizationModalOpen, setCustomizationModalOpen] = React.useState(false);
+  const [isEdited, setEdited] = React.useState(false);
+
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -60,13 +62,25 @@ export default function CartComponent(props) {
     console.log("handleEdit called");
     event.stopPropagation();
     setSelectedDrinkIndex(drinkIndex);
+    console.log("Selected drink: ", drinkIndex);
     setCustomizationModalOpen(true);
+    // console.log("Trying to set customization modal open to true2");
     
   };
 
   React.useEffect(() => {
     setCart(props.drinks);
   }, [props.drinks]);
+
+  React.useEffect(() => {
+    console.log("useEffect is running. Updated isEdited:", isCustomizationModalOpen);
+    setEdited(isCustomizationModalOpen);
+  }, [isCustomizationModalOpen]);
+
+  React.useEffect(() => {
+    console.log("Selected drink index: ", selectedDrinkIndex);
+  }, [selectedDrinkIndex]);
+  
 
   return (
     <React.Fragment>
@@ -131,15 +145,17 @@ export default function CartComponent(props) {
           </Button>
         </DialogActions>
       </BootstrapDialog>
-
+      {console.log("dex before custselected drink inomization: ", selectedDrinkIndex)}
       {isCustomizationModalOpen && selectedDrinkIndex !== null && (
         <CustomizationModal
           drink={cart[selectedDrinkIndex].drink}
           onClose={() => {
             setCustomizationModalOpen(false);
           }}
-          isEdited={true}
+          isEdited={isEdited}
           addToCart={props.addToCart}
+          handleDelete={handleDelete}
+          index={selectedDrinkIndex}
         />
       )}
     </React.Fragment>
