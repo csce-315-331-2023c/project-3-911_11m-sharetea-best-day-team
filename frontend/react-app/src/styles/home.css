@@ -192,3 +192,12 @@ button:hover {
 .section-break{
   height: 100px;
 }
+
+.font-size-container {
+  display: flex;
+  gap: 7px; 
+}
+
+.font-size-container button {
+  width: 50%;
+}

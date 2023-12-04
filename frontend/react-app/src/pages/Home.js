@@ -58,11 +58,8 @@ export function Home() {
       </div>
 
       <div className="section-break"></div>
-
-        
         <Footer/>
-        
         <AccessibilityButton/>
-        </div>
+      </div>
     )
 }
