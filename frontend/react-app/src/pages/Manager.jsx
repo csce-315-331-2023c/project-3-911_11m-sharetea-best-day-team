@@ -3,6 +3,7 @@ import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
 import Restock from "../components/Restock";
+import Sales from "../components/Sales";
 import Inventory from '../components/Inventory';
 import Menu from '../components/Menu';
 import logo from '../logo.svg';
@@ -22,8 +23,8 @@ function Manager() {
              return <Restock />;
         case 'Menu':
             return <Menu />;
-        // case 'Sales':
-        //     return <Sales />;
+        case 'Sales':
+            return <Sales />;
         default:
             return <Inventory />;
         }
