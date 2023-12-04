@@ -12,7 +12,7 @@ export function Home() {
         <TopNavbar/>
 
         <div className="banner-container"> 
-            <img src={Banner} className="banner"></img>
+            <img src={Banner} className="banner" alt="Sharetea Banner"/>
         </div>
         
         <div className="welcoming-text-container">
