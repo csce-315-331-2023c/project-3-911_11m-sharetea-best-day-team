@@ -13,6 +13,7 @@ import {createGlobalStyle} from 'styled-components';
 import { Home } from "./pages/Home"
 import Manager from "./pages/Manager"
 // import KioskView from './pages/KioskView';
+import Cashier from "./pages/Cashier"
 
 function App() {
   // add new pages here
@@ -48,6 +49,11 @@ function App() {
     {
       path: "/Menu",
       element: <MenuView/>
+    }
+    ,
+    {
+      path: "/Cashier",
+      element: <Cashier/>
     }
   ])
     
