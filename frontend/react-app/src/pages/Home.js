@@ -1,6 +1,7 @@
 import AccessibilityButton from "../components/AccessibilityButton"
 import TopNavbar from "../components/TopNavbar"
 import Banner from "../images/sharetea_banner.jpg"
+import StoryPicture from "../images/ourstory.png"
 import Footer from '../components/Footer';
 import '../styles/home.css'
 
@@ -15,8 +16,8 @@ export function Home() {
         </div>
         
         <div className="welcoming-text-container">
-            <p className="welcoming-text">Welcome to Sharetea’s website<br></br>
-            View our menu or order online here!</p>
+            <p className="welcoming-text-black">Welcome to Sharetea’s website</p>
+
         </div>
 
         <hr className="red-horizontal-rule"></hr>
@@ -36,7 +37,9 @@ export function Home() {
         After all the hard work he put in, Sharetea was adored by the crowd, and that was how the first Sharetea store got started.
         </p>
 
-
+        <div className="pic-container"> 
+            <img src={StoryPicture}></img>
+        </div>
 
         
         <Footer/>

@@ -107,13 +107,13 @@ button:hover {
     line-height: 5vh;
 }
 
-.welcoming-text {
-
+.welcoming-text-black {
+  font-size: 60px;
 }
 
 .section-header {
   text-align: center;
-  font-size: 24px; /* Adjust the font size as needed */
+  font-size: 32px; /* Adjust the font size as needed */
   color: #cb0000; /* Adjust the color as needed */
   margin-bottom: 16px; /* Add margin for spacing */
 }
