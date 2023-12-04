@@ -60,13 +60,102 @@ export default function CartComponent(props) {
   const handleClose = () => {
     setOpen(false);
   };
-
-  const handleCheckout = () => {
-    if (props.clearCart) {
-      props.clearCart();
+  /**
+   * Thomas Zheng
+   * @param {*} query the query to reload the page
+   * @returns Inventory as rows
+   */
+  const fetchDataFromQuery = async (query) => {
+    try {
+      const response = await fetch('https://backend-heli.onrender.com/query', {
+        method: 'POST',
+        body: JSON.stringify({ query }),
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      if (!response.ok) {
+        throw new Error('Network response was not ok');
+      }
+      const data = await response.json();
+      return data; // Make sure this matches the structure the server sends
+    } catch (error) {
+      console.error('Error fetching data', error);
+      throw error; // Rethrow the error so you can catch it where the function is called
     }
+  };
+  
+  const handleCheckout = async () => {
+    try {
+      // Calculate the total revenue from the cart
+      const revenue = cart.reduce((acc, drink) => acc + drink.subtotal, 0);
+      // Fetch the highest order number from the database
+      const orderNumQuery = "SELECT MAX(order_num) AS highest_order_num FROM orders;";
+      const orderResponse = await fetchDataFromQuery(orderNumQuery);
+      
+      // Extract the highest order number from the response
+      const highestOrderNumArray = Object.values(orderResponse); // Assuming the response is an object with the number as the value
+      const highestOrderNum = highestOrderNumArray.length > 0 ? parseInt(highestOrderNumArray[0], 10) + 1 : 1;
+      
+  
+      // Prepare and execute the insert operations for each drink in the cart
+      for (const drink of cart) {
+        const toppingsArrayString = `{${drink.toppings.join(',')}}`; // Convert toppings array to a string format accepted by PostgreSQL
+        
+        const insertOrderQuery = `
+          INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
+          VALUES (
+            ${highestOrderNum}, 
+            '${drink.drink.id}', 
+            '${toppingsArrayString}', 
+            '1', 
+            ${drink.subtotal}, 
+            ${revenue}, 
+            ${drink.sweetness}, 
+            ${drink.ice}, 
+            CURRENT_DATE, 
+            CURRENT_TIME, 
+            EXTRACT(WEEK FROM CURRENT_DATE)
+          );`;
+  
+          console.log(insertOrderQuery);
+        // Make an API call to insert the order
+        await insertDataFromQuery(insertOrderQuery);
+      }
+      
+      // Clear the cart after successful insertion
+      if (props.clearCart) {
+        props.clearCart();
+      }
+    } catch (error) {
+      console.error('Checkout failed', error);
+    }
+  
     handleClose();
   };
+  
+  const insertDataFromQuery = async (query) => {
+    try {
+      // Make API call with the INSERT query
+      const response = await fetch('https://backend-heli.onrender.com/update-data', {
+        method: 'PUT',
+        body: JSON.stringify({ query }), // Send the raw SQL query in the body
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      });
+      // Check for non-2xx status codes and throw an error if found
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      // Optionally, handle the response data if necessary
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error sending data', error);
+    }
+  };
+  
 
   const handleDelete = (drinkIndex) => {
     const updatedCart = [...cart.slice(0, drinkIndex), ...cart.slice(drinkIndex + 1)];
