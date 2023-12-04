@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
-import DatabaseTable from '../components/DatabaseTable';
+import Restock from "../components/Restock";
 import Inventory from '../components/Inventory';
 import Menu from '../components/Menu';
 import logo from '../logo.svg';
@@ -19,7 +19,7 @@ function Manager() {
         // case 'Excess':
         //     return <Excess />;
          case 'Restock':
-             return <Menu />;
+             return <Restock />;
         case 'Menu':
             return <Menu />;
         // case 'Sales':
