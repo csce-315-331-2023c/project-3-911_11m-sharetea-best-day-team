@@ -35,7 +35,7 @@ const DrinkList = ({ drinks, onSelectDrink }) => {
                 sx={{ objectFit: 'contain', p: 1 }}
               />
               <CardContent sx={{ textAlign: 'center' }}>
-                <Typography gutterBottom variant="h5" component="div" sx={{ color: theme.palette.secondary.main }}>
+                <Typography gutterBottom variant="p" component="div" sx={{ color: theme.palette.secondary.main }}>
                   {drink.name}
                 </Typography>
                 <Typography variant="body2" sx={{ color: theme.palette.primary.main }}>

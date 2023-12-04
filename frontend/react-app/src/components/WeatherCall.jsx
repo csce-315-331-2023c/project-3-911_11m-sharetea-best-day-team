@@ -100,7 +100,7 @@ const WeatherCall = () => {
                 src={getIconUrl(weatherData.weatherCode)} 
                 alt="weather icon" 
             />
-            <Typography variant="h5" component="h2" className="temperature">
+            <Typography variant="h5" component="p" className="temperature">
                 {Math.round(weatherData.temperature)}°F
             </Typography>
             <Typography color="textSecondary" className="condition">
