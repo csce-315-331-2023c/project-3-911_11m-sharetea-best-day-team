@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
@@ -8,7 +8,7 @@ import {
   Box,
   useTheme,
   useMediaQuery,
-  Grid,
+  styled,
 } from '@mui/material';
 import CurrentTime from './CurrentTime';
 import WeatherWidget from './WeatherCall';
@@ -20,81 +20,76 @@ import ProfileComponent from './ProfileComponent';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/home.css';
 
+const TranslateButton = styled(Button)(({ theme }) => ({
+  backgroundColor: '#980000',
+  color: theme.palette.getContrastText('#980000'),
+  '&:hover': {
+    backgroundColor: '#870000',
+  },
+}));
+
 const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isLoading, error } = useAuth0();
+  const [fontSize, setFontSize] = useState(100);
+  const [highContrast, setHighContrast] = useState(false);
+
+  const increaseFontSize = () => setFontSize((size) => size + 10);
+  const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
+  const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
 
   useEffect(() => {
+    // Apply the font size to the root element
+    document.documentElement.style.fontSize = `${fontSize}%`;
+
+    // Apply or remove high contrast mode
+    if (highContrast) {
+      document.body.classList.add('high-contrast');
+    } else {
+      document.body.classList.remove('high-contrast');
+    }
+  }, [fontSize, highContrast]);
+
+  useEffect(() => {
+    const googleTranslateScriptId = 'google-translate-script';
     // Check if the script has already been added to the document
-    if (!document.getElementById('google-translate-script')) {
+    if (!document.getElementById(googleTranslateScriptId)) {
       const script = document.createElement('script');
       script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
       script.async = true;
-      script.id = 'google-translate-script'; // Set a unique ID for the script
+      script.id = googleTranslateScriptId; // Set a unique ID for the script
       document.head.appendChild(script);
 
+      script.addEventListener('load', () => {
+        // This function is called by the Google Translate API when the script is loaded
+        window.googleTranslateElementInit = function () {
+          if (!window.google || !window.google.translate || !window.google.translate.TranslateElement) {
+            console.error('Google Translate script loaded but library not available.');
+            return;
+          }
+          new window.google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        };
+      });
+
       return () => {
+        // Remove the event listener on cleanup
+        script.removeEventListener('load', window.googleTranslateElementInit);
+        // Remove the script from the document
         document.head.removeChild(script);
       };
     }
   }, []);
 
-  useEffect(() => {
-    // This function is called by the Google Translate API when the script is loaded
-    window.googleTranslateElementInit = function () {
-      new window.google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
-    };
-  }, []);
-
-  // return (
-  //   <AppBar position="static" color="default" elevation={0} sx={{ borderBottom: (theme) => `1px solid ${theme.palette.divider}` }}>
-  //       <div id="google_translate_element"></div>
-  //     <Toolbar sx={{ justifyContent: 'space-between', flexDirection: isMobile ? 'column' : 'row' }}>
-  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-  //         <WeatherWidget />
-  //         <CurrentTime />
-  //       </Box>
-
-  //       <Box sx={{ textAlign: 'center', my: isMobile ? 1 : 0 }}>
-  //         <IconButton component={RouterLink} to="/" sx={{ p: 0 }}>
-  //           <img src={shareteaLogo} alt="Sharetea Logo" style={{ height: '50px' }} />
-  //         </IconButton>
-  //         <Grid item>
-  //           <Box sx={{ display: 'flex', gap: 2 }}>
-  //             <Button component={RouterLink} to="/menu" sx={{ my: 1, mx: 1.5, color: 'black' }}>
-  //               MENU
-  //             </Button>
-  //             <Button component={RouterLink} to="/kiosk" sx={{ my: 1, mx: 1.5, color: 'black' }}>
-  //               ORDER HERE
-  //             </Button>
-  //           </Box>
-  //         </Grid>
-  //         {/* <div id="google_translate_element"></div> */}
-  //       </Box>
-
-  //       <Box sx={{ display: 'flex', alignItems: 'center' }}>
-  //         {error && <p>Authentication Error</p>}
-  //         {!error && isLoading && <p>Loading...</p>}
-  //         {!error && !isLoading && (
-  //           <>
-  //             <ProfileComponent />
-  //             <ManagerButton />
-  //             <LoginButton />
-  //             <LogoutButton />
-  //           </>
-  //         )}
-  //       </Box>
-  //     </Toolbar>
-  //   </AppBar>
-  // );
   return (
     <AppBar position="static" color="default" elevation={0} className="navbar">
-      <div id="google_translate_element"></div>
       <Toolbar className="navbar-container">
         <Box className="navbar-left">
           <CurrentTime />
           <WeatherWidget />
+          <Button onClick={increaseFontSize}>A+</Button>
+        <Button onClick={decreaseFontSize}>A-</Button>
+        <Button onClick={toggleHighContrast}>High Contrast</Button>
         </Box>
 
         <Box className="navbar-middle">
@@ -102,33 +97,29 @@ const TopNavbar = () => {
             <img src={shareteaLogo} alt="Sharetea Logo" />
           </IconButton>
           <Box className="navbar-links">
-            <Button component={RouterLink} to="/menu">
+            <TranslateButton component={RouterLink} to="/menu">
               MENU
-            </Button>
-            <Button component={RouterLink} to="/kiosk">
+            </TranslateButton>
+            <TranslateButton component={RouterLink} to="/kiosk">
               ORDER HERE
-            </Button>
+            </TranslateButton>
           </Box>
         </Box>
 
         <Box className="navbar-right">
-          <Grid item>
-          </Grid>
-
-          <Box className="navbar-auth">
-            {error && <p>Authentication Error</p>}
-            {!error && isLoading && <p>Loading...</p>}
-            {!error && !isLoading && (
-              <>
-                <ProfileComponent />
-                <ManagerButton />
-                <LoginButton />
-                <LogoutButton />
-              </>
-            )}
-          </Box>
+          {error && <p>Authentication Error</p>}
+          {!error && isLoading && <p>Loading...</p>}
+          {!error && !isLoading && (
+            <>
+              <ProfileComponent />
+              <ManagerButton />
+              <LoginButton />
+              <LogoutButton />
+            </>
+          )}
         </Box>
       </Toolbar>
+      <div id="google_translate_element" style={{ display: isMobile ? 'none' : 'block' }}></div>
     </AppBar>
   );
 };

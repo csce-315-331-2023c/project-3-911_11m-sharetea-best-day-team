@@ -11,10 +11,11 @@ const theme = createTheme({
       styleOverrides: {
         root: {
           // Rounded border
+          width:'100%',
           borderRadius: '20px',
           margin: '8px 0', // Adds some space between the buttons
           '&:hover': {
-            backgroundColor: '#980000', // Red color on hover
+            backgroundColor: '#8A0000', // Red color on hover
             color: '#fff', // White text on hover
           },
         },
@@ -42,11 +43,10 @@ const SideMenu = ({ categories, onSelectCategory }) => {
   return (
     <ThemeProvider theme={theme}>
       <List sx={{
-          width: '100%',
           maxWidth: 360,
           bgcolor: 'background.paper',
           // Responsive side menu size
-          width: { xs: '100%', sm: '20%' },
+          width: { xs: '100%', sm: '100%' },
         }}
       >
         {categories.map((category) => (
@@ -56,6 +56,7 @@ const SideMenu = ({ categories, onSelectCategory }) => {
             selected={selectedCategory === category}
             sx={{
               '&.Mui-selected': {
+                width:'100%',
                 backgroundColor: theme.palette.primary.main, // Red color for selected item
                 color: '#fff', // White text for selected item
                 '&:hover': {
