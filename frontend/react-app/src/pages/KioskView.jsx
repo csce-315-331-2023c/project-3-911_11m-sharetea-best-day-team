@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import SideMenu from '../components/SideMenu';
 import DrinkList from '../components/DrinkList';
 import CustomizationModal from '../components/CustomizationModal';
-import CurrentTime from '../components/CurrentTime';
 import KioskHome from '../components/KioskHome';
 import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
@@ -49,6 +48,7 @@ const KioskView = () => {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const categorizeDrinks = (drinks) => {

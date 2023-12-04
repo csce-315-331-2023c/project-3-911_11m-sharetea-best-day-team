@@ -44,3 +44,13 @@
 .cart-component {
 
 }
+.high-contrast {
+  background: #000;
+  color: #fff;
+  /* Define other high contrast styles as needed */
+}
+
+.high-contrast button {
+  border-color: #fff;
+  /* Adjust button styles for high contrast */
+}

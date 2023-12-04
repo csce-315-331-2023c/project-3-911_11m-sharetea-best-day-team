@@ -28,6 +28,21 @@ const CartButton = styled(IconButton)({
   height: '100px',
   zIndex: 1000,
 });
+const StyledButton = styled(Button)(({ theme }) => ({
+  // Increase the size of the button
+  padding: theme.spacing(1.5),
+  // Set the background color to the hex color provided
+  backgroundColor: '#980000',
+  '&:hover': {
+    backgroundColor: '#870000', // Darken the button slightly when hovered
+  },
+  // Change the color of the text/icon to white for better contrast
+  color: theme.palette.getContrastText('#980000'),
+  // Increase the size of the icons inside the button
+  '& .MuiSvgIcon-root': {
+    fontSize: '1.5rem',
+  },
+}));
 
 export default function CartComponent(props) {
   const [open, setOpen] = React.useState(false);
@@ -85,9 +100,9 @@ export default function CartComponent(props) {
   return (
     <React.Fragment>
       <CartButton color="primary" aria-label="add to shopping cart" onClick={handleClickOpen}>
-        <Button variant="outlined" onClick={handleClickOpen}>
+        <StyledButton variant="contained" onClick={handleClickOpen}>
           Cart <AddShoppingCartIcon />
-        </Button>
+        </StyledButton>
       </CartButton>
       <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
         <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
