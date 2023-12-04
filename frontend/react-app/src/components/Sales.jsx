@@ -71,7 +71,7 @@ const Sales = () => {
       );
     `;
 
-    console.log(query);
+    //console.log(query);
     const data = await fetchDataFromQuery(query);
     const newRows = data.map(row => { //Each row that is created needs an ID, ingredient, count, min, and isNew to false as they were already in the database
         return {
