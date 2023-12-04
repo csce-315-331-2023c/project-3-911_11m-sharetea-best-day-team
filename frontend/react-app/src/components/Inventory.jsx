@@ -4,7 +4,7 @@ import Typography from '@mui/material/Typography';
 function Inventory() {
     return (
         <>
-        <div>
+        <div style={{ width: '100%' }}>
             <div style={{ display: 'flex', alignItems: 'center' }}>
               <Typography variant="h3" gutterBottom>
                 Inventory:
