@@ -230,12 +230,12 @@ const InventoryTable = ({ query }) => {
 
   //Columns for the table
   const columns = [
-    { field: 'ingredient', headerName: 'ingredient', width: 300, editable: true },
+    { field: 'ingredient', headerName: 'ingredient', width: 600, editable: true },
     {
       field: 'count',
       headerName: 'count',
       type: 'number',
-      width: 250,
+      width: 400,
       align: 'left',
       headerAlign: 'left',
       editable: true,
@@ -244,7 +244,7 @@ const InventoryTable = ({ query }) => {
       field: 'min',
       headerName: 'min',
       type: 'number',
-      width: 200,
+      width: 400,
       align: 'left',
       headerAlign: 'left',
       editable: true,
