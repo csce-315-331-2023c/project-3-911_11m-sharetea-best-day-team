@@ -22,6 +22,8 @@ export function Home() {
 
         <hr className="red-horizontal-rule"></hr>
 
+        <div className="section-break"></div>
+
         <h2 className="section-header">SHARETEA BUBBLE TEA</h2>
 
         <p className="section-content">Sharetea is a premium bubble tea brand company with over 30 years of experience in the tea and beverage industry.  We have locations across the globe and continue to grow sharing our high quality and tasty bubble tea with the world. <br></br><br></br>
@@ -30,16 +32,32 @@ export function Home() {
 
         Sharetea offers great franchise opportunity for owning and operating a successful bubble tea business. We provide necessary assistance to help guide you along the process including training and operation guidance. </p> 
 
+        <div className="section-break"></div>
+        
         <h2 className="section-header">OUR STORY</h2>
 
-        <p className="section-content">Mr. Cheng Kai-Lung, the founder of Sharetea, was working in the film and TV industry as a director in 1992. Although being a director seems like one of the most glamorous jobs in the world, he was not satisfied yet. He quit his job and started his own tea street vendor business. At first, he encountered many hardships, but instead of giving up, he deeply believed “when you have strong faith, big thing happens”. <br></br><br></br>
-
-        After all the hard work he put in, Sharetea was adored by the crowd, and that was how the first Sharetea store got started.
-        </p>
-
-        <div className="pic-container"> 
-            <img src={StoryPicture}></img>
+        <div className="our-story-container">
+        <div className="our-story-text">
+          <p>
+            Mr. Cheng Kai-Lung, the founder of Sharetea, was working in the film
+            and TV industry as a director in 1992. Although being a director
+            seems like one of the most glamorous jobs in the world, he was not
+            satisfied yet. He quit his job and started his own tea street vendor
+            business. At first, he encountered many hardships, but instead of
+            giving up, he deeply believed “when you have strong faith, big
+            thing happens”. <br></br>
+            <br></br>
+            After all the hard work he put in, Sharetea was adored by the
+            crowd, and that was how the first Sharetea store got started.
+          </p>
         </div>
+
+        <div className="pic-container">
+          <img src={StoryPicture} alt="Sharetea Story" />
+        </div>
+      </div>
+
+      <div className="section-break"></div>
 
         
         <Footer/>
