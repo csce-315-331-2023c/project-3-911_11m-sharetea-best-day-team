@@ -25,7 +25,7 @@ export function Home() {
 
         <div className="section-break"></div>
 
-        <h1 className="section-header">SHARETEA BUBBLE TEA</h1>
+        <h2 className="section-header">SHARETEA BUBBLE TEA</h2>
 
         <p className="section-content">Sharetea is a premium bubble tea brand company with over 30 years of experience in the tea and beverage industry.  We have locations across the globe and continue to grow sharing our high quality and tasty bubble tea with the world. <br></br><br></br>
 
@@ -35,7 +35,7 @@ export function Home() {
 
         <div className="section-break"></div>
         
-        <h1 className="section-header">OUR STORY</h1>
+        <h2 className="section-header">OUR STORY</h2>
 
         <div className="our-story-container">
         <div className="our-story-text">

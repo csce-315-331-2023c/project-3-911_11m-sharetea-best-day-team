@@ -14,7 +14,7 @@ function CurrentTime() {
 
   return (
     <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'small', color: 'black', marginTop: 2 }}>
-      <Typography variant="h6" component="p" >
+      <Typography variant="h6" component="h6" >
         {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
       </Typography>
     </Box>
