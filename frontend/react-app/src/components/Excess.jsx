@@ -20,7 +20,7 @@ const Excess = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    const query = "WITH SoldIngredients AS (SELECT unnest(pl.ingredients) AS ingredient, COUNT(*) as total_sold FROM orders o JOIN pricelist pl ON o.drink_id = pl.itemid WHERE o.date >= '" + toDate + "' GROUP BY ingredient), ExcessIngredients AS (SELECT i.ingredient, i.count, COALESCE(si.total_sold, 0) AS total_sold FROM inventory i LEFT JOIN SoldIngredients si ON i.ingredient = si.ingredient) SELECT ingredient, count FROM ExcessIngredients WHERE total_sold >= 0.1 * count ORDER BY ingredient;";
+    const query = "WITH SoldIngredients AS (SELECT unnest(pl.ingredients) AS ingredient, COUNT(*) as total_sold FROM orders o JOIN pricelist pl ON o.drink_id = pl.itemid WHERE o.date >= '" + toDate + "' GROUP BY ingredient), ExcessIngredients AS (SELECT i.ingredient, i.count, COALESCE(si.total_sold, 0) AS total_sold FROM inventory i LEFT JOIN SoldIngredients si ON i.ingredient = si.ingredient) SELECT ingredient, count FROM ExcessIngredients WHERE total_sold < 0.1 * count ORDER BY ingredient;";
     // Make an API call to fetch excess inventory items
     console.log(query);
     const response = await fetch('https://backend-heli.onrender.com/query', {
