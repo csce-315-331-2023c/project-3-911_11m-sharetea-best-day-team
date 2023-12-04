@@ -14,7 +14,7 @@ const theme = createTheme({
           borderRadius: '20px',
           margin: '8px 0', // Adds some space between the buttons
           '&:hover': {
-            backgroundColor: '#980000', // Red color on hover
+            backgroundColor: '#8A0000', // Red color on hover
             color: '#fff', // White text on hover
           },
         },
@@ -42,7 +42,6 @@ const SideMenu = ({ categories, onSelectCategory }) => {
   return (
     <ThemeProvider theme={theme}>
       <List sx={{
-          width: '100%',
           maxWidth: 360,
           bgcolor: 'background.paper',
           // Responsive side menu size
