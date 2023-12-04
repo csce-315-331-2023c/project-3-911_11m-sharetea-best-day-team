@@ -94,7 +94,7 @@ const Sales = () => {
 
   return (
     <div style={{ width: '100%'}}>
-      <Typography variant="h5" gutterBottom>
+      <Typography variant="h3" gutterBottom>
         Sales
       </Typography>
 
