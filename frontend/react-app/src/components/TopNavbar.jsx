@@ -32,54 +32,36 @@ const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isLoading, error } = useAuth0();
-  const [fontSize, setFontSize] = useState(100);
-  const [highContrast, setHighContrast] = useState(false);
-
-  const increaseFontSize = () => setFontSize((size) => size + 10);
-  const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
-  const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+  const [magnifier, setMagnifier] = useState(null);
 
   useEffect(() => {
-    // Apply the font size to the root element
-    document.documentElement.style.fontSize = `${fontSize}%`;
+    const script = document.createElement('script');
+    script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
+    script.async = true;
+    script.onload = () => {
+      if (typeof window.HTMLMagnifier === 'function') {
+        setMagnifier(new window.HTMLMagnifier({
+          zoom: 2,
+          shape: 'circle',
+          width: 200,
+          height: 200
+        }));
+      } else {
+        console.error('HTMLMagnifier is not defined on the window object.');
+      }
+    };
+    document.body.appendChild(script);
 
-    // Apply or remove high contrast mode
-    if (highContrast) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
-  }, [fontSize, highContrast]);
-
-  useEffect(() => {
-    const googleTranslateScriptId = 'google-translate-script';
-    // Check if the script has already been added to the document
-    if (!document.getElementById(googleTranslateScriptId)) {
-      const script = document.createElement('script');
-      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
-      script.async = true;
-      script.id = googleTranslateScriptId; // Set a unique ID for the script
-      document.head.appendChild(script);
-
-      script.addEventListener('load', () => {
-        // This function is called by the Google Translate API when the script is loaded
-        window.googleTranslateElementInit = function () {
-          if (!window.google || !window.google.translate || !window.google.translate.TranslateElement) {
-            console.error('Google Translate script loaded but library not available.');
-            return;
-          }
-          new window.google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
-        };
-      });
-
-      return () => {
-        // Remove the event listener on cleanup
-        script.removeEventListener('load', window.googleTranslateElementInit);
-        // Remove the script from the document
-        document.head.removeChild(script);
-      };
-    }
+    return () => {
+      document.body.removeChild(script);
+    };
   }, []);
+
+  const handleMagnifierToggle = () => {
+    if (magnifier) {
+      magnifier.isVisible() ? magnifier.hide() : magnifier.show();
+    }
+  };
 
   return (
     <AppBar position="static" color="default" elevation={0} className="navbar">
@@ -87,11 +69,8 @@ const TopNavbar = () => {
         <Box className="navbar-left">
           <CurrentTime />
           <WeatherWidget />
-          <Button onClick={increaseFontSize}>A+</Button>
-        <Button onClick={decreaseFontSize}>A-</Button>
-        <Button onClick={toggleHighContrast}>High Contrast</Button>
+          {/* Your buttons for font size and high contrast */}
         </Box>
-
         <Box className="navbar-middle">
           <IconButton component={RouterLink} to="/" className="navbar-logo">
             <img src={shareteaLogo} alt="Sharetea Logo" />
@@ -105,7 +84,6 @@ const TopNavbar = () => {
             </TranslateButton>
           </Box>
         </Box>
-
         <Box className="navbar-right">
           {error && <p>Authentication Error</p>}
           {!error && isLoading && <p>Loading...</p>}
@@ -117,6 +95,8 @@ const TopNavbar = () => {
               <LogoutButton />
             </>
           )}
+          {/* The magnifier button */}
+          <Button onClick={handleMagnifierToggle}>Magnifier</Button>
         </Box>
       </Toolbar>
       <div id="google_translate_element" style={{ display: isMobile ? 'none' : 'block' }}></div>
