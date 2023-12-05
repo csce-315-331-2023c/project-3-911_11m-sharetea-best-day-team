@@ -12,6 +12,7 @@ import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
 
 function Cashier() {
+    document.title = "Cashier —— Sharetea - Best Bubble Tea Brand"
 
     const [selectedCategory, setSelectedCategory] = useState(null);
     const [selectedDrink, setSelectedDrink] = useState(null);

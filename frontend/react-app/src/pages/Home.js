@@ -7,6 +7,8 @@ import '../styles/home.css'
 
 
 export function Home() {
+  document.title = "Sharetea - Best Bubble Tea Brand"
+  
     return (
         <div className="home">
         <TopNavbar/>

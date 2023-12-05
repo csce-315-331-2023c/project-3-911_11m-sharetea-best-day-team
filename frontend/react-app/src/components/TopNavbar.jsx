@@ -32,11 +32,12 @@ const TranslateButton = styled(Button)(({ theme }) => ({
     '&::after': {
       content: '""',
       position: 'absolute',
-      left: 0,
-      right: 0,
+      left: '10%',
+      right: '10%',
       bottom: 0,
       height: '2px',
       backgroundColor: '#980000', // Red color
+      width: '80%',
     },
   },
 }));
@@ -117,7 +118,7 @@ const TopNavbar = () => {
         <Box className="navbar-middle">
           <Box>
             <IconButton component={RouterLink} to="/" className="navbar-logo">
-              <img src={shareteaLogo} alt="Sharetea Logo" style={{ width: '300px', height: 'auto' }}/>
+              <img src={shareteaLogo} alt="Sharetea Logo" style={{ width: '300px', height: 'auto'}}/>
             </IconButton>
           </Box>
           
