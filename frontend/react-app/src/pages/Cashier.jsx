@@ -1,15 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import AccessibilityButton from "../components/AccessibilityButton"
 import Footer from '../components/Footer';
-import DrinkList from '../components/DrinkList';
 import CustomizationModal from '../components/CustomizationModal';
 import KioskHome from '../components/KioskHome';
 import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
 import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
+import DrinkListNoPic from '../components/DrinkListNoPic';
 
 function Cashier() {
     document.title = "Cashier —— Sharetea - Best Bubble Tea Brand"
@@ -136,7 +135,7 @@ function Cashier() {
             {selectedCategory === 'Home' || selectedCategory === null ? (
             <KioskHome />
             ) : (
-            <DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
+            <DrinkListNoPic drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
             )}
             {selectedDrink && (
             <CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} isEdited={false} addToCart={addToCart} />

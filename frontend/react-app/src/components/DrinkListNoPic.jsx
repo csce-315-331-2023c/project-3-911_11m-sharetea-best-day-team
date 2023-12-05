@@ -1,8 +1,8 @@
 import React from 'react';
-import { Card, CardActionArea, CardMedia, CardContent, Typography, Box, ThemeProvider } from '@mui/material';
+import { Card, CardActionArea, CardContent, Typography, Box, ThemeProvider } from '@mui/material';
 import theme from './theme'; // Make sure the path to the theme file is correct
 
-const DrinkList = ({ drinks, onSelectDrink }) => {
+const DrinkListNoPic = ({ drinks, onSelectDrink }) => {
   return (
     <ThemeProvider theme={theme}>
       <Box
@@ -11,11 +11,11 @@ const DrinkList = ({ drinks, onSelectDrink }) => {
           gridTemplateColumns: { xs: '1fr', sm: 'repeat(3, 1fr)' },
           gap: 2,
           p: 2,
-          width: '100%'
+          width: '100%',
         }}
       >
         {drinks.map((drink) => (
-          <Card key={drink.name} sx={{ maxWidth: 345, bgcolor: 'background.paper' }}>
+          <Card key={drink.name} sx={{ width: '100%', bgcolor: 'background.paper' }}>
             <CardActionArea
               onClick={() => onSelectDrink(drink)}
               sx={{
@@ -26,20 +26,18 @@ const DrinkList = ({ drinks, onSelectDrink }) => {
                     backgroundColor: 'transparent',
                   },
                 },
+                height: '100%', // Adjust the height to fill the entire card
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
               }}
             >
-              <CardMedia
-                component="img"
-                height="140"
-                image={drink.imageUrl}
-                alt={drink.name}
-                sx={{ objectFit: 'contain', p: 1 }}
-              />
+              {/* Removed CardMedia component */}
               <CardContent sx={{ textAlign: 'center' }}>
-                <Typography gutterBottom variant="p" component="div" sx={{ color: theme.palette.secondary.main }}>
+                <Typography gutterBottom variant="h4" component="div" sx={{ color: theme.palette.secondary.main }}>
                   {drink.name}
                 </Typography>
-                <Typography variant="body2" sx={{ color: theme.palette.primary.main }}>
+                <Typography variant="h6" sx={{ color: theme.palette.primary.main }}>
                   ${drink.price.toFixed(2)}
                 </Typography>
               </CardContent>
@@ -51,4 +49,4 @@ const DrinkList = ({ drinks, onSelectDrink }) => {
   );
 };
 
-export default DrinkList;
+export default DrinkListNoPic;
