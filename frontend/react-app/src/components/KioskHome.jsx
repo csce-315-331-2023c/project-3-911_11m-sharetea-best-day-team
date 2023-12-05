@@ -9,7 +9,6 @@ const KioskHome = ({ onSelectCategory }) => {
         <p>Good morning.</p>
         <p>Tap a category to begin your order.</p>
       </div>
-      
     </div>
   );
 };

@@ -8,6 +8,8 @@ import Excess from "../components/Excess";
 import Inventory from '../components/Inventory';
 import Menu from '../components/Menu';
 import logo from '../logo.svg';
+import AccessibilityButton from '../components/AccessibilityButton';
+import Footer from '../components/Footer';
 import './Manger.css';
 import { useAuth0 } from '@auth0/auth0-react';
 
@@ -76,8 +78,8 @@ function Manager() {
             </div>
                 {/* //Menu, Inventory, Sales Report, Restock, Excess */}
 
-        {/* // Footer */}
-            {/* //Accessibility */}
+        <AccessibilityButton/>
+        <Footer/>
         </>
     );
 }

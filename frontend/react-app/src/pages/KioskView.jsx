@@ -7,6 +7,8 @@ import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
 import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
+import AccessibilityButton from '../components/AccessibilityButton';
+import Footer from '../components/Footer';
 
 const KioskView = () => {
   document.title = "Kiosk —— Sharetea - Best Bubble Tea Brand"
@@ -139,7 +141,7 @@ const KioskView = () => {
         
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
-          <KioskHome />
+          <KioskHome/>
         ) : (
           <DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
         )}
@@ -149,6 +151,9 @@ const KioskView = () => {
         
       </div>
       <CartComponent drinks={cart} clearCart={clearCart} setCart={setCart} addToCart={addToCart} setSelectedDrink={setSelectedDrink}/>
+
+      <AccessibilityButton/>
+      <Footer/>
     </>
   );
 };
