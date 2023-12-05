@@ -24,10 +24,6 @@
   text-align: center;
 }
 
-.navbar-middle {
-  text-align: center;
-}
-
 .navbar-logo img {
   height: 50px;
 }
@@ -35,6 +31,10 @@
 .navbar-links {
   display: flex;
   gap: 2;
+  /* background-color: white; */
+  /* width: 300px; */
+  margin: auto;
+  text-align: right;
 }
 
 .navbar-auth {
@@ -107,22 +107,50 @@ button:hover {
     line-height: 5vh;
 }
 
-.welcoming-text {
-
+.welcoming-text-black {
+  font-size: 60px;
 }
 
 .section-header {
   text-align: center;
-  font-size: 24px; /* Adjust the font size as needed */
+  font-size: 40px; /* Adjust the font size as needed */
   color: #cb0000; /* Adjust the color as needed */
   margin-bottom: 16px; /* Add margin for spacing */
 }
 
 .section-content {
-  font-size: 16px;
+  font-size: 22px;
   line-height: 1.5;
   margin-left: 5%;
   margin-right: 5%;
+}
+
+.our-story-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  /* margin: 20px;  */
+  margin-left: 5%;
+  margin-right: 5%;
+}
+
+.our-story-text {
+  flex: 1;
+  /* margin-left: 5%; */
+  font-size: 22px;
+  line-height: 1.5;
+  /* margin-left: 5%;
+  margin-right: 5%; */
+}
+
+.pic-container {
+  flex: 1;
+  margin-right: 5%;
+}
+
+.pic-container img {
+  width: 100%; /* Ensure the image takes up 100% of its container */
+  height: auto;
 }
 
 .red-horizontal-rule {
@@ -159,4 +187,17 @@ button:hover {
 
 .social-icon:hover {
   transform: scale(1.1); /* Scale the icon to 120% on hover */
+}
+
+.section-break{
+  height: 100px;
+}
+
+.font-size-container {
+  display: flex;
+  gap: 7px; 
+}
+
+.font-size-container button {
+  width: 50%;
 }

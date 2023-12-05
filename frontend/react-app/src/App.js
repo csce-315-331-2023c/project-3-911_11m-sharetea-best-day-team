@@ -6,13 +6,29 @@ import MenuView from './pages/MenuView';
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
+import React from 'react';
+import {createGlobalStyle} from 'styled-components';
+
 // PUT PAGES HERE
 import { Home } from "./pages/Home"
 import Manager from "./pages/Manager"
 // import KioskView from './pages/KioskView';
+import Cashier from "./pages/Cashier"
 
 function App() {
   // add new pages here
+  const GlobalStyle = createGlobalStyle`
+  /* Your global styles here */
+
+  /* Import Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&family=Jost&family=Nova+Square&display=swap');
+
+  /* Apply the font to the body or root element */
+  body {
+    font-family: 'Jost', sans-serif;
+  }
+`;
+
 
   const router = createBrowserRouter([
     {
@@ -34,10 +50,16 @@ function App() {
       path: "/Menu",
       element: <MenuView/>
     }
+    ,
+    {
+      path: "/Cashier",
+      element: <Cashier/>
+    }
   ])
     
   return (
     <RecoilRoot>
+      <GlobalStyle/>
       <RouterProvider router={router} />
     </RecoilRoot>
   );

@@ -6,7 +6,7 @@ function Menu() {
         <>
         <div style={{ width: '100%' }}>
         <div style={{ display: 'flex', alignItems: 'center' }}>
-          <Typography variant="h3" gutterBottom>
+          <Typography variant="h3" component="p" gutterBottom>
             Menu:
           </Typography>
           <Typography variant="subtitle4" color="textSecondary" gutterBottom>
