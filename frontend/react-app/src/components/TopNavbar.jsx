@@ -123,6 +123,9 @@ const TopNavbar = () => {
           </Box>
           
           <Box className="navbar-buttons">
+            <TranslateButton component={RouterLink} to="/home">
+              HOME
+            </TranslateButton>
             <TranslateButton component={RouterLink} to="/menu">
               MENU
             </TranslateButton>

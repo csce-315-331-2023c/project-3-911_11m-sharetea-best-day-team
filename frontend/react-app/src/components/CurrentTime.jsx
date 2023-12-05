@@ -20,10 +20,10 @@ function CurrentTime() {
   }, []);
 
   return (
-    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontSize: 'small', color: 'black', marginTop: 2 }}>
-      <Typography variant="h6" component="h6" >
+    <Box sx={{ display: 'flex', justifyContent: 'center', alignItems: 'center', fontWeight: 'bold', fontSize: '15px', color: 'black', marginTop: 2 }}>
+      <p variant="h6" component="h6" >
         {currentTime.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-      </Typography>
+      </p>
     </Box>
   );
 }
