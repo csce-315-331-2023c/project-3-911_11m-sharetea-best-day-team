@@ -9,12 +9,15 @@ import Inventory from '../components/Inventory';
 import Menu from '../components/Menu';
 import logo from '../logo.svg';
 import './Manger.css';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 function Manager() {
 
     document.title = "Manager —— Sharetea - Best Bubble Tea Brand"
 
     const [selectedCategory, setSelectedCategory] = useState('Inventory');
+    const { isAuthenticated } = useAuth0();
 
     const renderComponent = () => {
         switch (selectedCategory) {
@@ -39,8 +42,14 @@ function Manager() {
 
     const categories = ['Inventory', 'Sales', 'Restock', 'Excess', 'Menu'];
 
+    if (!isAuthenticated) {
+        // Redirect or show an error message
+        window.location.href = "http://localhost:3000";
+      }
+
     return (
         // Header
+        
         <>
             {/* // Header */}
             <div className='Header'>

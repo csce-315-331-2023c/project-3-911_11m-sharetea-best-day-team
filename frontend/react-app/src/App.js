@@ -3,17 +3,20 @@ import './App.css';
 import KioskView from './pages/KioskView'
 import MenuView from './pages/MenuView';
 
-import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, redirect } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
 import React from 'react';
 import {createGlobalStyle} from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
+
 
 // PUT PAGES HERE
 import { Home } from "./pages/Home"
 import Manager from "./pages/Manager"
 // import KioskView from './pages/KioskView';
 import Cashier from "./pages/Cashier"
+
 
 function App() {
   // add new pages here
@@ -29,6 +32,12 @@ function App() {
   }
 `;
 
+  const { isAuthenticated, isLoading } = useAuth0();
+
+  if (isLoading) {
+    // You might want to show a loading spinner while Auth0 is checking authentication status
+    return <div>Loading...</div>;
+  }
 
   const router = createBrowserRouter([
     {
@@ -38,7 +47,7 @@ function App() {
     ,
     {
       path: "/Manager",
-      element: <Manager/>,
+      element: isAuthenticated ? <Manager /> : <redirect to="/" />,
     }
     ,
     {
