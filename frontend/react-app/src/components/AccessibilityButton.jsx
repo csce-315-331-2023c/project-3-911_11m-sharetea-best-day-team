@@ -20,11 +20,21 @@ const AccessibilityButton = () => {
     const [fontSize, setFontSize] = useState(100);
     const [highContrast, setHighContrast] = useState(false);
     const [magnifier, setMagnifier] = useState(null);
+    const [isInverted, setIsInverted] = useState(false);
 
 
     const increaseFontSize = () => setFontSize((size) => size + 10);
     const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
     const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+    const toggleInvertColors = () => setIsInverted((invert) => !invert);
+
+    useEffect(() => {
+      if (isInverted) {
+        document.body.classList.add('invert-colors');
+      } else {
+        document.body.classList.remove('invert-colors');
+      }
+    }, [isInverted]);
 
     useEffect(() => {
         const script = document.createElement('script');
@@ -126,6 +136,7 @@ const AccessibilityButton = () => {
                     </div>
                     <button onClick={toggleHighContrast}>High Contrast</button>
                     <button onClick={handleMagnifierToggle}>Magnifier</button>
+                    <button onClick={toggleInvertColors}>Invert Colors</button>
                 </div>
             }
         </div>

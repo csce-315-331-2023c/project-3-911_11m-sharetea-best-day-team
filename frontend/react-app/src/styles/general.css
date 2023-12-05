@@ -63,3 +63,6 @@ body {
   border-color: #fff;
   /* Adjust button styles for high contrast */
 }
+.invert-colors {
+  filter: invert(1);
+}
