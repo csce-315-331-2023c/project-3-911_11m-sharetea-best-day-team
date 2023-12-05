@@ -46,6 +46,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 /**
  * Renders a cart component with the provided drinks.
+ * @author David Roh
  * @param {Object} props - The component props.
  * @param {Array} props.drinks - The array of drinks in the cart.
  * @param {Function} props.clearCart - The function to clear the cart.
