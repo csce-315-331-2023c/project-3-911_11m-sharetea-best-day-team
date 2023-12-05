@@ -12,7 +12,7 @@ import {
 } from '@mui/material';
 import CurrentTime from './CurrentTime';
 import WeatherWidget from './WeatherCall';
-import shareteaLogo from '../images/sharetea_logo.png';
+import shareteaLogo from '../images/sharetea_logo_2.png';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import ManagerButton from './ManagerButton';
@@ -21,10 +21,28 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/home.css';
 
 const TranslateButton = styled(Button)(({ theme }) => ({
-  backgroundColor: '#980000',
-  color: theme.palette.getContrastText('#980000'),
+  // backgroundColor: '#F5F5F5',
+  // color: 'black',
+  // '&:hover': {
+  //   backgroundColor: '#EEEEEE',
+  // },
+  position: 'relative',
+  backgroundColor: '#F5F5F5',
+  color: 'black',
+  fontWeight: 'bold',
+  fontSize: '18px',
+  padding: '5px 20px',
   '&:hover': {
-    backgroundColor: '#870000',
+    backgroundColor: '#F5F5F5',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: 0,
+      right: 0,
+      bottom: 0,
+      height: '2px',
+      backgroundColor: '#980000', // Red color
+    },
   },
 }));
 
@@ -32,24 +50,24 @@ const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isLoading, error } = useAuth0();
-  const [fontSize, setFontSize] = useState(100);
-  const [highContrast, setHighContrast] = useState(false);
+  // const [fontSize, setFontSize] = useState(100);
+  // const [highContrast, setHighContrast] = useState(false);
 
-  const increaseFontSize = () => setFontSize((size) => size + 10);
-  const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
-  const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+  // const increaseFontSize = () => setFontSize((size) => size + 10);
+  // const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
+  // const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
 
-  useEffect(() => {
-    // Apply the font size to the root element
-    document.documentElement.style.fontSize = `${fontSize}%`;
+  // useEffect(() => {
+  //   // Apply the font size to the root element
+  //   document.documentElement.style.fontSize = `${fontSize}%`;
 
-    // Apply or remove high contrast mode
-    if (highContrast) {
-      document.body.classList.add('high-contrast');
-    } else {
-      document.body.classList.remove('high-contrast');
-    }
-  }, [fontSize, highContrast]);
+  //   // Apply or remove high contrast mode
+  //   if (highContrast) {
+  //     document.body.classList.add('high-contrast');
+  //   } else {
+  //     document.body.classList.remove('high-contrast');
+  //   }
+  // }, [fontSize, highContrast]);
 
   useEffect(() => {
     const googleTranslateScriptId = 'google-translate-script';
@@ -87,16 +105,35 @@ const TopNavbar = () => {
         <Box className="navbar-left">
           <CurrentTime />
           <WeatherWidget />
-          <Button onClick={increaseFontSize}>A+</Button>
+          {/* <Button onClick={increaseFontSize}>A+</Button>
         <Button onClick={decreaseFontSize}>A-</Button>
-        <Button onClick={toggleHighContrast}>High Contrast</Button>
+        <Button onClick={toggleHighContrast}>High Contrast</Button> */}
         </Box>
 
-        <Box className="navbar-middle">
-          <IconButton component={RouterLink} to="/" className="navbar-logo">
-            <img src={shareteaLogo} alt="Sharetea Logo" />
-          </IconButton>
+        {/* <Box className="navbar-middle">
+          <Box>
+            <IconButton component={RouterLink} to="/" className="navbar-logo">
+              <img src={shareteaLogo} alt="Sharetea Logo" style={{ width: '300px', height: 'auto' }}/>
+            </IconButton>
+          </Box>
           <Box className="navbar-links">
+            <TranslateButton component={RouterLink} to="/menu">
+              MENU
+            </TranslateButton>
+            <TranslateButton component={RouterLink} to="/kiosk">
+              ORDER HERE
+            </TranslateButton>
+          </Box>
+        </Box> */}
+        <Box className="navbar-middle">
+          <Box>
+            <IconButton component={RouterLink} to="/" className="navbar-logo">
+              <img src={shareteaLogo} alt="Sharetea Logo" style={{ width: '300px', height: 'auto' }}/>
+            </IconButton>
+          </Box>
+          
+          {/* Separate div for MENU and ORDER HERE buttons */}
+          <Box className="navbar-buttons">
             <TranslateButton component={RouterLink} to="/menu">
               MENU
             </TranslateButton>

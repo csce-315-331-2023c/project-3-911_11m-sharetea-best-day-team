@@ -24,10 +24,6 @@
   text-align: center;
 }
 
-.navbar-middle {
-  text-align: center;
-}
-
 .navbar-logo img {
   height: 50px;
 }
@@ -35,6 +31,10 @@
 .navbar-links {
   display: flex;
   gap: 2;
+  /* background-color: white; */
+  /* width: 300px; */
+  margin: auto;
+  text-align: right;
 }
 
 .navbar-auth {

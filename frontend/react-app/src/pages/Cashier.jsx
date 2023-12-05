@@ -66,7 +66,7 @@ function Cashier() {
             name: drink.itemname,
             imageUrl: drink.images,
             price: drink.itemprice,
-            id: drink.itemid // Assuming you may need the ID for something later
+            id: drink.itemid
         });
         return acc;
         }, {});
