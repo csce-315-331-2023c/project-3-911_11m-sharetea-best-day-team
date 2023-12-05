@@ -1,5 +1,20 @@
+/**
+ * HTMLMagnifier.js
+ * Provides a magnification functionality for HTML elements on a webpage.
+ * Author: David Roh
+ * 
+ * The HTMLMagnifier is an object that allows users to magnify parts of a webpage. 
+ * It can be customized with different zoom levels, shapes, and sizes.
+ */
 (function(window) {
-
+  /**
+   * Creates an instance of HTMLMagnifier.
+   * @param {Object} options Configuration options for the magnifier.
+   * @param {number} [options.zoom=2] - Zoom level of the magnifier.
+   * @param {string} [options.shape='square'] - Shape of the magnifier ('square' or 'circle').
+   * @param {number} [options.width=200] - Width of the magnifier in pixels.
+   * @param {number} [options.height=200] - Height of the magnifier in pixels.
+   */
   function HTMLMagnifier(options) {
     const _this = this;
 
@@ -19,25 +34,43 @@
     let magnifierBody;
     let events = {};
 
+    /**
+     * Sets the position of an element.
+     * @param {HTMLElement} element - The element to set the position of.
+     * @param {number} left - The left position in pixels.
+     * @param {number} top - The top position in pixels.
+     */
     function setPosition(element, left, top) {
       element.style.left = `${left}px`;
       element.style.top = `${top}px`;
     }
 
+    /**
+     * Sets the dimensions of an element.
+     * @param {HTMLElement} element - The element to set the dimensions for.
+     * @param {number} width - The width of the element in pixels.
+     * @param {number} height - The height of the element in pixels.
+     */
     function setDimensions(element, width, height) {
       element.style.width = `${width}px`;
       element.style.height = `${height}px`;
     }
 
+    /**
+     * Sets up the magnifier based on the specified options.
+     */
     function setupMagnifier() {
       switch(_this.options.shape) {
-      case 'square':
-        setDimensions(magnifier, _this.options.width, _this.options.height);
-        break;
-      case 'circle':
-        setDimensions(magnifier, _this.options.width, _this.options.height);
-        magnifier.style.borderRadius = '50%';
-        break;
+        case 'square':
+          setDimensions(magnifier, _this.options.width, _this.options.height);
+          break;
+        case 'circle':
+          setDimensions(magnifier, _this.options.width, _this.options.height);
+          magnifier.style.borderRadius = '50%';
+          break;
+        default:
+          // Do nothing
+          break;
       }
       magnifierContent.style.WebkitTransform =
       magnifierContent.style.MozTransform =
@@ -46,10 +79,17 @@
             magnifierContent.style.transform = `scale(${_this.options.zoom})`;
     }
 
+    /**
+     * Checks if a given element is a descendant of another element.
+     *
+     * @param {Node} parent - The parent element to check against.
+     * @param {Node} child - The child element to check.
+     * @returns {boolean} - True if the child is a descendant of the parent, false otherwise.
+     */
     function isDescendant(parent, child) {
       let node = child;
-      while (node != null) {
-        if (node == parent) {
+      while (node !== null) {
+        if (node === parent) {
           return true;
         }
         node = node.parentNode;
@@ -57,6 +97,10 @@
       return false;
     }
 
+    /**
+     * Synchronizes the content of the magnifier.
+     * Prepares the content, syncs the viewport, and syncs the scroll bars if the magnifier is visible.
+     */
     function syncContent() {
       if (isVisible) {
         prepareContent();
@@ -65,6 +109,10 @@
       }
     }
 
+    /**
+     * Queues the synchronization of content if the element is visible.
+     * @function syncContentQueued
+     */
     function syncContentQueued() {
       if (isVisible) {
         window.clearTimeout(syncTimeout);
@@ -72,12 +120,19 @@
       }
     }
 
+    /**
+     * Handles the DOM change event.
+     * If the magnifier is visible, it queues the synchronization of content.
+     */
     function domChanged() {
       if (isVisible) {
         syncContentQueued();
       }
     }
 
+    /**
+     * Unbinds the DOM observer and removes event listeners for DOM changes.
+     */
     function unBindDOMObserver() {
       if (observerObj) {
         observerObj.disconnect();
@@ -89,6 +144,9 @@
       }
     }
 
+    /**
+     * Binds a DOM observer to track changes in the document.
+     */
     function bindDOMObserver() {
       if (MutationObserver) {
         observerObj = new MutationObserver(function(mutations) {
@@ -123,6 +181,12 @@
       }
     }
 
+    /**
+     * Triggers the specified event and calls all registered event handlers with the provided data.
+     * 
+     * @param {string} event - The name of the event to trigger.
+     * @param {any} data - The data to pass to the event handlers.
+     */
     function triggerEvent(event, data) {
       const handlers = events[event];
       if (handlers) {
@@ -132,6 +196,9 @@
       }
     }
 
+    /**
+     * Synchronizes the viewport of the magnifier.
+     */
     function syncViewport() {
       const x1 = magnifier.offsetLeft;
       const y1 = magnifier.offsetTop;
@@ -143,6 +210,11 @@
       triggerEvent('viewPortChanged', magnifierBody);
     }
 
+    /**
+     * Removes elements matching the given selector from the container.
+     * @param {HTMLElement} container - The container element.
+     * @param {string} selector - The CSS selector to match elements.
+     */
     function removeSelectors(container, selector) {
       const elements = container.querySelectorAll(selector);
       if (elements.length > 0) {
@@ -152,6 +224,9 @@
       }
     }
 
+    /**
+     * Prepares the content for the magnifier.
+     */
     function prepareContent() {
       magnifierContent.innerHTML = '';
       const bodyOriginal = document.body;
@@ -190,10 +265,21 @@
       triggerEvent('contentUpdated', magnifierBody);
     }
 
+    /**
+     * Initializes the scroll bars for the magnifier.
+     */
     function initScrollBars() {
       triggerEvent('initScrollBars', magnifierBody);
     }
 
+    /**
+     * Synchronizes the scroll position of the specified control with the corresponding element in the magnifier body.
+     * If the control has an ID or a class name, it will try to find the corresponding element in the magnifier body using the ID or class name.
+     * If found, it will update the scroll position of the element to match the scroll position of the control.
+     * If the control is the document itself, it will synchronize the viewport of the magnifier.
+     * @param {HTMLElement|Document} ctrl - The control element or the document.
+     * @returns {boolean} - Returns true if the scroll position was synchronized successfully, false otherwise.
+     */
     function syncScroll(ctrl) {
       const selectors = [];
       if (ctrl.getAttribute) {
@@ -205,19 +291,23 @@
         }
         for(let i = 0; i < selectors.length; i++) {
           let t = magnifierBody.querySelectorAll(selectors[i]);
-          if (t.length == 1) {
+          if (t.length === 1) {
             t[0].scrollTop  = ctrl.scrollTop;
             t[0].scrollLeft = ctrl.scrollLeft;
             return true;
           }
         }
       } else
-      if (ctrl == document) {
+      if (ctrl === document) {
         syncViewport();
       }
       return false;
     }
 
+    /**
+     * Synchronizes the scroll bars of the magnifier with the target element or all visible div elements.
+     * @param {Event} e - The scroll event. If provided, syncs the scroll with the target element.
+     */
     function syncScrollBars(e) {
       if (isVisible) {
         if (e && e.target) {
@@ -240,6 +330,16 @@
       }
     }
 
+    /**
+     * Makes an element draggable.
+     *
+     * @param {HTMLElement} ctrl - The element to make draggable.
+     * @param {Object} options - The options for the draggable behavior.
+     * @param {string} [options.handler] - The selector for the drag handler element.
+     * @param {string[]} [options.exclude] - The list of tag names to exclude from dragging.
+     * @param {Function} [options.ondrag] - The callback function to be called during dragging.
+     * @returns {Object} - The reference to the draggable object.
+     */
     function makeDraggable(ctrl, options) {
 
       const _this = this;
@@ -256,6 +356,12 @@
         dragHandler = ctrl;
       }
 
+      /**
+       * Sets the position of an element.
+       * @param {HTMLElement} element - The element to set the position for.
+       * @param {number} left - The left position in pixels.
+       * @param {number} top - The top position in pixels.
+       */
       function setPosition(element, left, top) {
         element.style.left = `${left}px`;
         element.style.top = `${top}px`;
@@ -265,12 +371,17 @@
 
       ctrl.style.cursor = 'move';
 
+      /**
+       * Handles the down event for the magnifier.
+       * 
+       * @param {Event} e - The event object.
+       */
       function downHandler(e) {
         const target = e.target || e.srcElement;
         const parent = target.parentNode;
 
-        if (target && (options.exclude.indexOf(target.tagName.toUpperCase()) == -1)) {
-          if (!parent || (options.exclude.indexOf(parent.tagName.toUpperCase()) == -1)) {  // img in a
+        if (target && (options.exclude.indexOf(target.tagName.toUpperCase()) === -1)) {
+          if (!parent || (options.exclude.indexOf(parent.tagName.toUpperCase()) === -1)) {  // img in a
             dragObject = ctrl;
 
             const pageX = e.pageX || e.touches[0].pageX;
@@ -287,6 +398,10 @@
         }
       }
 
+      /**
+       * Handles the move event for dragging an object.
+       * @param {Event} e - The move event object.
+       */
       function moveHandler(e) {
         if (dragObject !== null) {
           const pageX = e.pageX || e.touches[0].pageX;
@@ -301,6 +416,9 @@
         }
       }
 
+      /**
+       * Handles the up event for the drag operation.
+       */
       function upHandler() {
         if (dragObject !== null) {
           dragObject = null;
@@ -335,6 +453,9 @@
 
     }
 
+    /**
+     * Initializes the magnifier functionality.
+     */
     function init() {
       const div = document.createElement('div');
       div.innerHTML = magnifierTemplate;
