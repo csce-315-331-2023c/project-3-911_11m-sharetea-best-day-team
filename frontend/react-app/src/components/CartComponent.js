@@ -44,6 +44,14 @@ const StyledButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+/**
+ * Renders a cart component with the provided drinks.
+ * @param {Object} props - The component props.
+ * @param {Array} props.drinks - The array of drinks in the cart.
+ * @param {Function} props.clearCart - The function to clear the cart.
+ * @param {Function} props.addToCart - The function to add a drink to the cart.
+ * @returns {JSX.Element} The rendered cart component.
+ */
 export default function CartComponent(props) {
   const [open, setOpen] = React.useState(false);
   const [cart, setCart] = React.useState(props.drinks);
@@ -52,11 +60,17 @@ export default function CartComponent(props) {
   const [isEdited, setEdited] = React.useState(false);
 
 
+  /**
+   * Opens the cart and sets the cart items.
+   */
   const handleClickOpen = () => {
     setOpen(true);
     setCart(props.drinks);
   };
 
+  /**
+   * Closes the cart.
+   */
   const handleClose = () => {
     setOpen(false);
   };
@@ -85,6 +99,12 @@ export default function CartComponent(props) {
     }
   };
   
+  /**
+   * Handles the checkout process by calculating the total revenue from the cart,
+   * fetching the highest order number from the database, preparing and executing
+   * the insert operations for each drink in the cart, and clearing the cart
+   * after successful insertion.
+   */
   const handleCheckout = async () => {
     try {
       // Calculate the total revenue from the cart
@@ -101,7 +121,7 @@ export default function CartComponent(props) {
       }); // Assuming the response is an object with the number as the value
       const highestOrderNum = orderResponse[0].highest_order_num > 0 ? parseInt(orderResponse[0].highest_order_num, 10) + 1 : 1;
       console.log(orderResponse[0].highest_order_num);
-      console.log("hi amber :3");
+      console.log("hi amber :3"); // ?????????
 
       
   
@@ -131,6 +151,9 @@ export default function CartComponent(props) {
             case '120%':
               sweetness = 1.2;
               break;
+            default:
+              sweetness = 1.0;
+              break;
           }
 
           let ice_level = 1.00;
@@ -146,6 +169,9 @@ export default function CartComponent(props) {
               break;
             case "Extra Ice":
               ice_level = 1.5;
+              break;
+            default:
+              ice_level = 1.00;
               break;
           }
 
@@ -200,6 +226,11 @@ export default function CartComponent(props) {
     console.log("bye2")
   };
   
+  /**
+   * Inserts data into the backend using the provided SQL query.
+   * @param {string} query - The SQL query to be executed.
+   * @returns {Promise<any>} - A promise that resolves to the response data from the backend.
+   */
   const insertDataFromQuery = async (query) => {
     try {
       // Make API call with the INSERT query
@@ -223,11 +254,22 @@ export default function CartComponent(props) {
   };
   
 
+  /**
+   * Deletes a drink from the cart.
+   * @param {number} drinkIndex - The index of the drink to be deleted.
+   */
   const handleDelete = (drinkIndex) => {
     const updatedCart = [...cart.slice(0, drinkIndex), ...cart.slice(drinkIndex + 1)];
     props.setCart(updatedCart);
   };
 
+  /**
+   * Handles the edit action for a drink in the cart.
+   * 
+   * @param {Event} event - The event object.
+   * @param {number} drinkIndex - The index of the drink in the cart.
+   * @returns {void}
+   */
   const handleEdit = (event, drinkIndex) => {
     console.log("handleEdit called");
     event.stopPropagation();

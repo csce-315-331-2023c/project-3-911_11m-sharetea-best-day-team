@@ -2,6 +2,16 @@ import React, { useEffect, useState } from 'react';
 import Picture from '../images/accessibility-icon.png'
 import '../styles/general.css'
 
+/**
+ * AccessibilityButton component.
+ * This component provides accessibility features such as font size adjustment, high contrast mode, and magnifier.
+ *
+ * @component
+ * @example
+ * return (
+ *   <AccessibilityButton />
+ * )
+ */
 const AccessibilityButton = () => {
     const [showPopup, setShowPopup] = useState(false);
     const [isPaused, setIsPaused] = useState(false);
@@ -37,6 +47,9 @@ const AccessibilityButton = () => {
         };
       }, []);
     
+      /**
+       * Toggles the visibility of the magnifier.
+       */
       const handleMagnifierToggle = () => {
         if (magnifier) {
           magnifier.isVisible() ? magnifier.hide() : magnifier.show();
@@ -56,28 +69,41 @@ const AccessibilityButton = () => {
         }
     }, [fontSize, highContrast]);
 
+    /**
+     * Handles the button click event.
+     */
     const handleButtonClick = () => {
-        setShowPopup(!showPopup);
+      setShowPopup(!showPopup);
     }
 
+    /**
+     * Handles the click event for the "Read Page" button.
+     * Reads the entire text content of the page using the SpeechSynthesis API.
+     */
     const handleReadPageClick = () => {
-        const textToRead = document.body.innerText;
-        const speech = new SpeechSynthesisUtterance(textToRead);
-        window.speechSynthesis.speak(speech);
+      const textToRead = document.body.innerText;
+      const speech = new SpeechSynthesisUtterance(textToRead);
+      window.speechSynthesis.speak(speech);
     }
 
+    /**
+     * Handles the click event for stopping the speech synthesis.
+     */
     const handleStopReadingClick = () => {
-        window.speechSynthesis.cancel();
+      window.speechSynthesis.cancel();
     }
 
+    /**
+     * Handles the click event for pausing or continuing speech synthesis.
+     */
     const handlePauseContinueClick = () => {
-        if (isPaused) {
-            window.speechSynthesis.resume();
-            setIsPaused(false);
-        } else {
-            window.speechSynthesis.pause();
-            setIsPaused(true);
-        }
+      if (isPaused) {
+        window.speechSynthesis.resume();
+        setIsPaused(false);
+      } else {
+        window.speechSynthesis.pause();
+        setIsPaused(true);
+      }
     }
 
     return (
