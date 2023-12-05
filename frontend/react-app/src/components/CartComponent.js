@@ -121,17 +121,17 @@ export default function CartComponent(props) {
         };
       }); // Assuming the response is an object with the number as the value
       const highestOrderNum = orderResponse[0].highest_order_num > 0 ? parseInt(orderResponse[0].highest_order_num, 10) + 1 : 1;
-      console.log(orderResponse[0].highest_order_num);
-      console.log("hi amber :3"); // ?????????
+      //console.log(orderResponse[0].highest_order_num);
+      //console.log("hi amber :3"); // ?????????
 
-      
+      var failed = false;
   
       // Prepare and execute the insert operations for each drink in the cart
-      cart.forEach((drink) => {
-        console.log("quantity: ",drink.quantity);
+      for (const drink of cart) {
+        //console.log("quantity: ",drink.quantity);
         for (let i = 0; i < parseInt(drink.quantity); ++i) {
 
-          console.log("i:",i);
+          //console.log("i:",i);
           let sweetness = -1.0;
           switch(drink.sweetness) {
             case '0%':
@@ -175,23 +175,58 @@ export default function CartComponent(props) {
               ice_level = 1.00;
               break;
           }
+          
+          console.log('SELECT ingredients FROM pricelist WHERE itemid=\'' + drink.drink.id + '\';');
+          const ingredients = (await fetchDataFromQuery('SELECT ingredients FROM pricelist WHERE itemid=\'' + drink.drink.id + '\';'))[0].ingredients;
+          console.log(ingredients);
+          for (const ingredient of ingredients) {
+            try {
+              // Create a query to check the inventory count for the current topping
+              const checkInventoryQuery = `SELECT count FROM inventory WHERE ingredient='${ingredient.toLowerCase()}';`;
+              console.log(checkInventoryQuery);
+              // Make an API call to fetch the inventory count
+
+              const inventoryCount = await fetchDataFromQuery(checkInventoryQuery);
+              
+              //console.log(inventoryCount);
+              // Check if the inventory count is zero
+              if (inventoryCount[0].count === 0) {
+                // Display a pop-up alert message for the out-of-stock ingredient
+                window.alert(`Ingredient '${ingredient}' is out of stock.`);
+                failed = true;
+                break; // Exit the loop for this drink
+              }
+            } catch (error) {
+              console.error('Error fetching inventory count for ingredients', error);
+              break;
+            }
+          }
 
           const toppingsArrayString = `{${drink.toppings.join(',')}}`; // Convert toppings array to a string format accepted by PostgreSQL
-          // console.log(`
-          // INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
-          // VALUES (
-          //   ${highestOrderNum}, 
-          //   '${drink.drink.id}', 
-          //   '${toppingsArrayString}', 
-          //   '1', 
-          //   ${drink.subtotal}, 
-          //   ${revenue}, 
-          //   ${sweetness}, 
-          //   ${ice_level}, 
-          //   CURRENT_DATE, 
-          //   CURRENT_TIME, 
-          //   EXTRACT(WEEK FROM CURRENT_DATE)
-          // );`);
+          
+          for (const topping of drink.toppings) {
+            try {
+              // Create a query to check the inventory count for the current topping
+              const checkInventoryQuery = `SELECT count FROM inventory WHERE ingredient='${topping.toLowerCase()}';`;
+              console.log(checkInventoryQuery);
+              // Make an API call to fetch the inventory count
+              const inventoryCount = await fetchDataFromQuery(checkInventoryQuery);
+              //console.log(inventoryCount);
+              // Check if the inventory count is zero
+              if (inventoryCount[0].count === 0) {
+                // Display a pop-up alert message for the out-of-stock ingredient
+                window.alert(`Topping '${topping}' is out of stock.`);
+                failed = true;
+                break; // Exit the loop for this drink
+              }
+            } catch (error) {
+              // Handle any errors that may occur during the API call
+              console.error('Error fetching inventory count for toppings', error);
+              break;
+            }
+          }
+
+
           const insertOrderQuery = `
             INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
             VALUES (
@@ -212,17 +247,19 @@ export default function CartComponent(props) {
           // Make an API call to insert the order
           insertDataFromQuery(insertOrderQuery);
         }
-      });
+      }
       console.log("hi")
       // Clear the cart after successful insertion
-      // if (props.clearCart) {
+      console.log(failed)
+      if (!failed) {
         props.clearCart();
         console.log("bye")
-      // }
+      }
+
     } catch (error) {
       console.error('Checkout failed', error);
     }
-    console.log("hi2")
+    
     handleClose();
     console.log("bye2")
   };
