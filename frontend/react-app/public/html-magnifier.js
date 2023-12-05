@@ -1,7 +1,7 @@
 /**
  * HTMLMagnifier.js
  * Provides a magnification functionality for HTML elements on a webpage.
- * Author: David Roh
+ * @author David Roh
  * 
  * The HTMLMagnifier is an object that allows users to magnify parts of a webpage. 
  * It can be customized with different zoom levels, shapes, and sizes.
