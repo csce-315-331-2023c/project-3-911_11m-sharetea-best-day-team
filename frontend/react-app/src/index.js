@@ -18,9 +18,6 @@ root.render(
       // redirect_uri: window.location.origin
       // redirect_uri: "http://localhost:3000"
       redirect_uri: "https://sharetea-bds8.onrender.com/"
-      // redirect_uri: "https://express-sharetea.onrender.com/"
-      // redirect_uri: "https://127.0.0.1:3000"
-      // redirect_uri: "https://127.0.0.1/"
     }}
   >
     <App />

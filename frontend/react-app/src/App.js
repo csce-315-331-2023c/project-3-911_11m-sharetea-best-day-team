@@ -3,7 +3,7 @@ import './App.css';
 import KioskView from './pages/KioskView'
 import MenuView from './pages/MenuView';
 
-import { createBrowserRouter, RouterProvider, redirect } from "react-router-dom";
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
 import { RecoilRoot } from "recoil";
 
 import React from 'react';
@@ -32,11 +32,23 @@ function App() {
   }
 `;
 
-  const { isAuthenticated, isLoading } = useAuth0();
+  const { isAuthenticated, isLoading, user, getIdTokenClaims } = useAuth0();
+
+  
+
+  
 
   if (isLoading) {
     // You might want to show a loading spinner while Auth0 is checking authentication status
     return <div>Loading...</div>;
+  }
+
+
+  let hasManagerRole = false;
+  if (isAuthenticated) {
+
+  const roles = user['https://myroles.com/roles'];
+  hasManagerRole = roles.includes('manager');
   }
 
   const router = createBrowserRouter([
@@ -46,8 +58,10 @@ function App() {
     }
     ,
     {
+      // path: "/Manager",
+      // element: hasManagerRole ? <Manager /> : <Navigate to="/" />,
       path: "/Manager",
-      element: isAuthenticated ? <Manager /> : <redirect to="/" />,
+      element: hasManagerRole ? <Manager /> : <Navigate to="/login" />,      
     }
     ,
     {

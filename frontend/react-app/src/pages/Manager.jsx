@@ -44,7 +44,7 @@ function Manager() {
 
     if (!isAuthenticated) {
         // Redirect or show an error message
-        window.location.href = "http://localhost:3000";
+        window.location.href = "https://sharetea-bds8.onrender.com/";
       }
 
     return (
