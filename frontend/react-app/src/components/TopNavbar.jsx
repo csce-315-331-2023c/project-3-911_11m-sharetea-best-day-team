@@ -145,6 +145,7 @@ const TopNavbar = () => {
               <ManagerButton />
               <br></br>
               <CashierButton />
+              <br></br>
               <LoginButton />
               <LogoutButton />
             </>
