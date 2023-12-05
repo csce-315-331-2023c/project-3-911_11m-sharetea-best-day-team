@@ -48,7 +48,7 @@ const Restock = () => {
   return (
     <Box sx={{ height: 400, width: '100%' }}>
     <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h3" component="p" gutterBottom>
           Restock:
         </Typography>
         <Typography variant="subtitle4" color="textSecondary" gutterBottom>

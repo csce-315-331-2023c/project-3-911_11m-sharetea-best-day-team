@@ -12,6 +12,8 @@ import './Manger.css';
 
 function Manager() {
 
+    document.title = "Manager —— Sharetea - Best Bubble Tea Brand"
+
     const [selectedCategory, setSelectedCategory] = useState('Inventory');
 
     const renderComponent = () => {

@@ -7,16 +7,19 @@ import '../styles/home.css'
 
 
 export function Home() {
+  document.title = "Sharetea - Best Bubble Tea Brand"
+  
     return (
         <div className="home">
         <TopNavbar/>
 
         <div className="banner-container"> 
-            <img src={Banner} className="banner"></img>
+            <img src={Banner} className="banner" alt="Sharetea Banner"/>
         </div>
         
         <div className="welcoming-text-container">
-            <p className="welcoming-text-black">Welcome to Sharetea’s website</p>
+          <h1 class="welcoming-text-black">Welcome to Sharetea’s website</h1>
+
 
         </div>
 
@@ -58,11 +61,8 @@ export function Home() {
       </div>
 
       <div className="section-break"></div>
-
-        
         <Footer/>
-        
         <AccessibilityButton/>
-        </div>
+      </div>
     )
 }

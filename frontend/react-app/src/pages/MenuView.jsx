@@ -11,6 +11,8 @@ import { CircularProgress, Typography } from '@mui/material';
 import AccessibilityButton from '../components/AccessibilityButton';
 
 const MenuView = () => {
+  document.title = "Menu —— Sharetea - Best Bubble Tea Brand"
+
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDrink, setSelectedDrink] = useState(null);
   const [cart, setCart] = useState([]);
