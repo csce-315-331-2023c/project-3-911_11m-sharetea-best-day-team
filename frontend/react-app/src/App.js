@@ -61,7 +61,7 @@ function App() {
       // path: "/Manager",
       // element: hasManagerRole ? <Manager /> : <Navigate to="/" />,
       path: "/Manager",
-      element: hasManagerRole ? <Manager /> : <Navigate to="/login" />,      
+      element: hasManagerRole ? <Manager /> : <Navigate to="/" />,      
     }
     ,
     {
