@@ -3,11 +3,20 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100vh;
+    /* height: 100vh; */
+    width: 100%;
   }
   
   .welcome-message {
     text-align: center;
+  }
+
+  .welcome-message h1{
+    font-size: 40px;
+  }
+
+  .welcome-message p{
+    font-size: 30px;
   }
   
   .categories {

@@ -141,7 +141,7 @@ const KioskView = () => {
         
         <SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
         {selectedCategory === 'Home' || selectedCategory === null ? (
-          <KioskHome />
+          <KioskHome/>
         ) : (
           <DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
         )}
