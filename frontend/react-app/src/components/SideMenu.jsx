@@ -4,7 +4,6 @@ import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 
-// Define the custom theme
 const theme = createTheme({
   components: {
     MuiListItemButton: {
@@ -43,10 +42,11 @@ const SideMenu = ({ categories, onSelectCategory }) => {
   return (
     <ThemeProvider theme={theme}>
       <List sx={{
-          maxWidth: 360,
+          maxWidth: 200,
           bgcolor: 'background.paper',
           // Responsive side menu size
           width: { xs: '100%', sm: '100%' },
+          marginLeft: '16px',
         }}
       >
         {categories.map((category) => (
@@ -65,7 +65,7 @@ const SideMenu = ({ categories, onSelectCategory }) => {
               },
             }}
           >
-            <ListItemText primary={category} />
+            <ListItemText primary={category} style={{display: 'flex', alignItems: 'center', justifyContent: 'center',}}/>
           </ListItemButton>
         ))}
       </List>
