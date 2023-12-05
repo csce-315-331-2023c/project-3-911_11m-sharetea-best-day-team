@@ -32,7 +32,7 @@ function App() {
   }
 `;
 
-  const { isAuthenticated, isLoading, user, getIdTokenClaims } = useAuth0();
+  const { isAuthenticated, isLoading, user } = useAuth0();
 
   
 
@@ -40,7 +40,7 @@ function App() {
 
   if (isLoading) {
     // You might want to show a loading spinner while Auth0 is checking authentication status
-    return <div>Loading...</div>;
+    // return <div>Loading...</div>;
   }
 
 

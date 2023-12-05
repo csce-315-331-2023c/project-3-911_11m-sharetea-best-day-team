@@ -19,6 +19,7 @@ import ManagerButton from './ManagerButton';
 import ProfileComponent from './ProfileComponent';
 import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/home.css';
+import CashierButton from './CashierButton';
 
 const TranslateButton = styled(Button)(({ theme }) => ({
   position: 'relative',
@@ -139,6 +140,7 @@ const TopNavbar = () => {
             <>
               <ProfileComponent />
               <ManagerButton />
+              <CashierButton />
               <LoginButton />
               <LogoutButton />
             </>

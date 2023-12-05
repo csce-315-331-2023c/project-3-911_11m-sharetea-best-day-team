@@ -2,17 +2,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 import React from "react";
 import { Link } from 'react-router-dom';
 
-const ManagerButton = () => {
+const CashierButton = () => {
     const { isAuthenticated, user } = useAuth0();
-    let hasManagerRole = false;
+    let hasCashierRole = false;
     if (isAuthenticated) {
 
     const roles = user['https://myroles.com/roles'];
-        hasManagerRole = roles.includes('manager');
+        hasCashierRole = roles.includes('cashier');
     }
     return (  
-        hasManagerRole && (
-            <Link to="/manager">Manager</Link>
+        hasCashierRole && (
+            <Link to="/cashier">Cashier</Link>
         )
             // <p><Link to="/manager">Manager</Link></p>
         
@@ -20,4 +20,4 @@ const ManagerButton = () => {
     );
 }
  
-export default ManagerButton;
+export default CashierButton;
