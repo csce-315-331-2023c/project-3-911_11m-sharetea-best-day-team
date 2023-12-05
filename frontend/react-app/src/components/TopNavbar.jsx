@@ -45,36 +45,36 @@ const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isLoading, error } = useAuth0();
-  const [magnifier, setMagnifier] = useState(null);
+  // const [magnifier, setMagnifier] = useState(null);
 
-  useEffect(() => {
-    const script = document.createElement('script');
-    script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
-    script.async = true;
-    script.onload = () => {
-      if (typeof window.HTMLMagnifier === 'function') {
-        setMagnifier(new window.HTMLMagnifier({
-          zoom: 2,
-          shape: 'circle',
-          width: 200,
-          height: 200
-        }));
-      } else {
-        console.error('HTMLMagnifier is not defined on the window object.');
-      }
-    };
-    document.body.appendChild(script);
+  // useEffect(() => {
+  //   const script = document.createElement('script');
+  //   script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
+  //   script.async = true;
+  //   script.onload = () => {
+  //     if (typeof window.HTMLMagnifier === 'function') {
+  //       setMagnifier(new window.HTMLMagnifier({
+  //         zoom: 2,
+  //         shape: 'circle',
+  //         width: 200,
+  //         height: 200
+  //       }));
+  //     } else {
+  //       console.error('HTMLMagnifier is not defined on the window object.');
+  //     }
+  //   };
+  //   document.body.appendChild(script);
 
-    return () => {
-      document.body.removeChild(script);
-    };
-  }, []);
+  //   return () => {
+  //     document.body.removeChild(script);
+  //   };
+  // }, []);
 
-  const handleMagnifierToggle = () => {
-    if (magnifier) {
-      magnifier.isVisible() ? magnifier.hide() : magnifier.show();
-    }
-  };
+  // const handleMagnifierToggle = () => {
+  //   if (magnifier) {
+  //     magnifier.isVisible() ? magnifier.hide() : magnifier.show();
+  //   }
+  // };
 
   useEffect(() => {
     const googleTranslateScriptId = 'google-translate-script';
@@ -142,7 +142,7 @@ const TopNavbar = () => {
               <LogoutButton />
             </>
           )}
-          <Button onClick={handleMagnifierToggle}>Magnifier</Button>
+          {/* <Button onClick={handleMagnifierToggle}>Magnifier</Button> */}
         </Box>
       </Toolbar>
       <div id="google_translate_element" style={{ display: isMobile ? 'none' : 'block' }}></div>

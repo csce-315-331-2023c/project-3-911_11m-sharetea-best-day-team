@@ -7,10 +7,41 @@ const AccessibilityButton = () => {
     const [isPaused, setIsPaused] = useState(false);
     const [fontSize, setFontSize] = useState(100);
     const [highContrast, setHighContrast] = useState(false);
+    const [magnifier, setMagnifier] = useState(null);
+
 
     const increaseFontSize = () => setFontSize((size) => size + 10);
     const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
     const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
+        script.async = true;
+        script.onload = () => {
+          if (typeof window.HTMLMagnifier === 'function') {
+            setMagnifier(new window.HTMLMagnifier({
+              zoom: 2,
+              shape: 'circle',
+              width: 200,
+              height: 200
+            }));
+          } else {
+            console.error('HTMLMagnifier is not defined on the window object.');
+          }
+        };
+        document.body.appendChild(script);
+    
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, []);
+    
+      const handleMagnifierToggle = () => {
+        if (magnifier) {
+          magnifier.isVisible() ? magnifier.hide() : magnifier.show();
+        }
+      };
 
     useEffect(() => {
         // Apply the font size to the root element
@@ -66,6 +97,7 @@ const AccessibilityButton = () => {
                         <button onClick={decreaseFontSize}>A-</button>
                     </div>
                     <button onClick={toggleHighContrast}>High Contrast</button>
+                    <button onClick={handleMagnifierToggle}>Magnifier</button>
                 </div>
             }
         </div>
