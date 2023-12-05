@@ -134,10 +134,10 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete,
         <IconButton aria-label="close" onClick={onClose} sx={{ position: 'absolute', right: 8, top: 8 }}>
           <CloseIcon />
         </IconButton>
-        <Typography id="customization-modal-title" variant="h6" component="h2" sx={{ mb: 2 }}>
+        <Typography id="customization-modal-title" variant="h6" component="p" sx={{ mb: 2 }}>
           Customize your drink
         </Typography>
-        <Typography variant="h5" sx={{ mb: 2 }}>
+        <Typography variant="p" sx={{ mb: 2 }}>
           {drink.name}
         </Typography>
         {/* Ice Level Selection */}

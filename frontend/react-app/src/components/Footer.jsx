@@ -13,10 +13,10 @@ const Footer = () => {
       </div>
       <div className="social-icons">
         <a href="https://www.instagram.com/sharetea/?hl=en" target="_blank" rel="noopener noreferrer">
-          <img src={InstagramIcon} alt="Instagram" className="social-icon" />
+          <img src={InstagramIcon} alt="Instagram" className="social-icon" aria-label="Instagram (opens in new tab)" />
         </a>
         <a href="https://www.facebook.com/shareteacs/" target="_blank" rel="noopener noreferrer">
-          <img src={FacebookIcon} alt="Facebook" className="social-icon" />
+          <img src={FacebookIcon} alt="Facebook" className="social-icon" aria-label="Facebook (opens in new tab)" />
         </a>
       </div>
       <div className="footer-text-container">

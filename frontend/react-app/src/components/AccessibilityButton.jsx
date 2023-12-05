@@ -52,7 +52,7 @@ const AccessibilityButton = () => {
     return (
         <>
         <div className='accessibility-container'>
-            <img src={Picture} className='accessibility-button' onClick={handleButtonClick}></img>
+            <img src={Picture} className='accessibility-button' onClick={handleButtonClick} alt='accessibility button'/>
             {showPopup && 
                 <div className='translation-popup'>
                     {/* <button onClick={() => console.log('Translate to Spanish')}>Translate to Spanish</button>

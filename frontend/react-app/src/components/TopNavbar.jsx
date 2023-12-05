@@ -21,11 +21,6 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/home.css';
 
 const TranslateButton = styled(Button)(({ theme }) => ({
-  // backgroundColor: '#F5F5F5',
-  // color: 'black',
-  // '&:hover': {
-  //   backgroundColor: '#EEEEEE',
-  // },
   position: 'relative',
   backgroundColor: '#F5F5F5',
   color: 'black',
@@ -50,24 +45,36 @@ const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const { isLoading, error } = useAuth0();
-  // const [fontSize, setFontSize] = useState(100);
-  // const [highContrast, setHighContrast] = useState(false);
+  const [magnifier, setMagnifier] = useState(null);
 
-  // const increaseFontSize = () => setFontSize((size) => size + 10);
-  // const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
-  // const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+  useEffect(() => {
+    const script = document.createElement('script');
+    script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
+    script.async = true;
+    script.onload = () => {
+      if (typeof window.HTMLMagnifier === 'function') {
+        setMagnifier(new window.HTMLMagnifier({
+          zoom: 2,
+          shape: 'circle',
+          width: 200,
+          height: 200
+        }));
+      } else {
+        console.error('HTMLMagnifier is not defined on the window object.');
+      }
+    };
+    document.body.appendChild(script);
 
-  // useEffect(() => {
-  //   // Apply the font size to the root element
-  //   document.documentElement.style.fontSize = `${fontSize}%`;
+    return () => {
+      document.body.removeChild(script);
+    };
+  }, []);
 
-  //   // Apply or remove high contrast mode
-  //   if (highContrast) {
-  //     document.body.classList.add('high-contrast');
-  //   } else {
-  //     document.body.classList.remove('high-contrast');
-  //   }
-  // }, [fontSize, highContrast]);
+  const handleMagnifierToggle = () => {
+    if (magnifier) {
+      magnifier.isVisible() ? magnifier.hide() : magnifier.show();
+    }
+  };
 
   useEffect(() => {
     const googleTranslateScriptId = 'google-translate-script';
@@ -105,26 +112,8 @@ const TopNavbar = () => {
         <Box className="navbar-left">
           <CurrentTime />
           <WeatherWidget />
-          {/* <Button onClick={increaseFontSize}>A+</Button>
-        <Button onClick={decreaseFontSize}>A-</Button>
-        <Button onClick={toggleHighContrast}>High Contrast</Button> */}
         </Box>
-
-        {/* <Box className="navbar-middle">
-          <Box>
-            <IconButton component={RouterLink} to="/" className="navbar-logo">
-              <img src={shareteaLogo} alt="Sharetea Logo" style={{ width: '300px', height: 'auto' }}/>
-            </IconButton>
-          </Box>
-          <Box className="navbar-links">
-            <TranslateButton component={RouterLink} to="/menu">
-              MENU
-            </TranslateButton>
-            <TranslateButton component={RouterLink} to="/kiosk">
-              ORDER HERE
-            </TranslateButton>
-          </Box>
-        </Box> */}
+        
         <Box className="navbar-middle">
           <Box>
             <IconButton component={RouterLink} to="/" className="navbar-logo">
@@ -132,7 +121,6 @@ const TopNavbar = () => {
             </IconButton>
           </Box>
           
-          {/* Separate div for MENU and ORDER HERE buttons */}
           <Box className="navbar-buttons">
             <TranslateButton component={RouterLink} to="/menu">
               MENU
@@ -154,6 +142,7 @@ const TopNavbar = () => {
               <LogoutButton />
             </>
           )}
+          <Button onClick={handleMagnifierToggle}>Magnifier</Button>
         </Box>
       </Toolbar>
       <div id="google_translate_element" style={{ display: isMobile ? 'none' : 'block' }}></div>

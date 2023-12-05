@@ -92,46 +92,112 @@ export default function CartComponent(props) {
       // Fetch the highest order number from the database
       const orderNumQuery = "SELECT MAX(order_num) AS highest_order_num FROM orders;";
       const orderResponse = await fetchDataFromQuery(orderNumQuery);
-      
+      console.log(orderResponse[0].highest_order_num);
       // Extract the highest order number from the response
-      const highestOrderNumArray = Object.values(orderResponse); // Assuming the response is an object with the number as the value
-      const highestOrderNum = highestOrderNumArray.length > 0 ? parseInt(highestOrderNumArray[0], 10) + 1 : 1;
+      const highestOrderNumArray = orderResponse.map(row => {
+        return {
+          high_num:row.highest_order_num,
+        };
+      }); // Assuming the response is an object with the number as the value
+      const highestOrderNum = orderResponse[0].highest_order_num > 0 ? parseInt(orderResponse[0].highest_order_num, 10) + 1 : 1;
+      console.log(orderResponse[0].highest_order_num);
+      console.log("hi amber :3");
+
       
   
       // Prepare and execute the insert operations for each drink in the cart
-      for (const drink of cart) {
-        const toppingsArrayString = `{${drink.toppings.join(',')}}`; // Convert toppings array to a string format accepted by PostgreSQL
-        
-        const insertOrderQuery = `
-          INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
-          VALUES (
-            ${highestOrderNum}, 
-            '${drink.drink.id}', 
-            '${toppingsArrayString}', 
-            '1', 
-            ${drink.subtotal}, 
-            ${revenue}, 
-            ${drink.sweetness}, 
-            ${drink.ice}, 
-            CURRENT_DATE, 
-            CURRENT_TIME, 
-            EXTRACT(WEEK FROM CURRENT_DATE)
-          );`;
-  
-          console.log(insertOrderQuery);
-        // Make an API call to insert the order
-        await insertDataFromQuery(insertOrderQuery);
-      }
-      
+      cart.forEach((drink) => {
+        console.log("quantity: ",drink.quantity);
+        for (let i = 0; i < parseInt(drink.quantity); ++i) {
+
+          console.log("i:",i);
+          let sweetness = -1.0;
+          switch(drink.sweetness) {
+            case '0%':
+              sweetness = 0.0;
+              break;
+            case '30%':
+              sweetness = 0.3;
+              break;
+            case '80%':
+              sweetness = 0.8;
+              break;
+            case '50%':
+              sweetness = 0.5;
+              break;
+            case '100%':
+              sweetness = 1.0;
+              break;
+            case '120%':
+              sweetness = 1.2;
+              break;
+          }
+
+          let ice_level = 1.00;
+          switch(drink.ice) {
+            case "No Ice":
+              ice_level = 0.0;
+              break;
+            case "Less Ice":
+              ice_level = 0.5;
+              break;
+            case "Normal Ice":
+              ice_level = 1.00;
+              break;
+            case "Extra Ice":
+              ice_level = 1.5;
+              break;
+          }
+
+          const toppingsArrayString = `{${drink.toppings.join(',')}}`; // Convert toppings array to a string format accepted by PostgreSQL
+          // console.log(`
+          // INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
+          // VALUES (
+          //   ${highestOrderNum}, 
+          //   '${drink.drink.id}', 
+          //   '${toppingsArrayString}', 
+          //   '1', 
+          //   ${drink.subtotal}, 
+          //   ${revenue}, 
+          //   ${sweetness}, 
+          //   ${ice_level}, 
+          //   CURRENT_DATE, 
+          //   CURRENT_TIME, 
+          //   EXTRACT(WEEK FROM CURRENT_DATE)
+          // );`);
+          const insertOrderQuery = `
+            INSERT INTO orders (order_num, drink_id, toppings, employee_id, price, revenue, sweetness, ice, date, time, week) 
+            VALUES (
+              '${highestOrderNum}', 
+              '${drink.drink.id}', 
+              '${toppingsArrayString}', 
+              '1', 
+              ${drink.subtotal}, 
+              ${revenue}, 
+              ${sweetness}, 
+              ${ice_level}, 
+              CURRENT_DATE, 
+              CURRENT_TIME, 
+              EXTRACT(WEEK FROM CURRENT_DATE)
+            );`;
+    
+            console.log(insertOrderQuery);
+          // Make an API call to insert the order
+          insertDataFromQuery(insertOrderQuery);
+        }
+      });
+      console.log("hi")
       // Clear the cart after successful insertion
-      if (props.clearCart) {
+      // if (props.clearCart) {
         props.clearCart();
-      }
+        console.log("bye")
+      // }
     } catch (error) {
       console.error('Checkout failed', error);
     }
-  
+    console.log("hi2")
     handleClose();
+    console.log("bye2")
   };
   
   const insertDataFromQuery = async (query) => {

@@ -430,7 +430,7 @@ const MenuTable = ({ query }) => {
       align: 'left',
       headerAlign: 'left',
       editable: true,
-      renderCell: (params) => <img height={20} width={20} src={params.value} onClick={() => handleOpen(params.value)}/>,
+      renderCell: (params) => <img height={20} width={20} src={params.value} onClick={() => handleOpen(params.value)} alt="images of drinks" />,
     },
     {
       field: 'actions',

@@ -47,7 +47,7 @@ const Excess = () => {
 
   return (
     <div style={{width:'100%'}}>
-      <Typography variant="h3" gutterBottom>
+      <Typography variant="h3" component="p" gutterBottom>
         Excess 
       </Typography>
       <form onSubmit={handleSubmit}>
