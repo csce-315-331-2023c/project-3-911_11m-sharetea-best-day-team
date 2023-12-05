@@ -9,6 +9,7 @@ import TopNavbar from '../components/TopNavbar';
 import DrinkInfoModal from '../components/DrinkInfoModal'; 
 import { CircularProgress, Typography } from '@mui/material';
 import AccessibilityButton from '../components/AccessibilityButton';
+import Footer from '../components/Footer';
 
 const MenuView = () => {
   document.title = "Menu —— Sharetea - Best Bubble Tea Brand"
@@ -138,6 +139,7 @@ const MenuView = () => {
         />
       </div>
       <AccessibilityButton/>
+      <Footer/>
     </>
   );
 };
