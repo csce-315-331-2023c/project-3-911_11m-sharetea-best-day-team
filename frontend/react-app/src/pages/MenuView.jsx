@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import SideMenu from '../components/SideMenu';
 import DrinkList from '../components/DrinkList';
-import CustomizationModal from '../components/CustomizationModal';
-import CurrentTime from '../components/CurrentTime';
 import KioskHome from '../components/KioskHome';
 import './KioskView.css';
 import TopNavbar from '../components/TopNavbar';
@@ -11,18 +9,26 @@ import { CircularProgress, Typography } from '@mui/material';
 import AccessibilityButton from '../components/AccessibilityButton';
 import Footer from '../components/Footer';
 
+/**
+ * MenuView component displays the menu of drinks and allows users to select and view drink details.
+ * @author Amber Cheng
+ */
 const MenuView = () => {
   document.title = "Menu —— Sharetea - Best Bubble Tea Brand"
 
   const [selectedCategory, setSelectedCategory] = useState(null);
   const [selectedDrink, setSelectedDrink] = useState(null);
-  const [cart, setCart] = useState([]);
+  // const [cart, setCart] = useState([]);
   const [drinksData, setDrinksData] = useState({});
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [drinkInfoModalOpen, setDrinkInfoModalOpen] = useState(false);
 
   useEffect(() => {
+    /**
+     * Fetches data from the backend API and categorizes the drinks.
+     * @returns {Promise<void>} A promise that resolves when the data is fetched and categorized.
+     */
     const fetchData = async () => {
       setLoading(true);
       setError('');
@@ -48,8 +54,13 @@ const MenuView = () => {
     };
 
     fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * Categorizes the drinks based on their item ID prefix and updates the drinks data state.
+   * @param {Array} drinks - The array of drinks to be categorized.
+   */
   const categorizeDrinks = (drinks) => {
     const categorizedData = drinks.reduce((acc, drink) => {
       const prefix = drink.itemid.charAt(0);
@@ -70,6 +81,11 @@ const MenuView = () => {
     setDrinksData(categorizedData);
   };
 
+  /**
+   * Maps a prefix to a category.
+   * @param {string} prefix - The prefix to map.
+   * @returns {string} The corresponding category.
+   */
   const prefixToCategory = (prefix) => {
     const categories = {
       '0': 'Milk Tea',
@@ -84,27 +100,38 @@ const MenuView = () => {
   };
 
   // Function to calculate the subtotal of a drink based on the base price, quantity, and toppings
-  const calculateSubtotal = (basePrice, quantity, toppings) => {
-    const toppingPrice = 0.75; // The price for each topping
-    return (basePrice + toppings.length * toppingPrice) * quantity;
-  };
+  // const calculateSubtotal = (basePrice, quantity, toppings) => {
+  //   const toppingPrice = 0.75; // The price for each topping
+  //   return (basePrice + toppings.length * toppingPrice) * quantity;
+  // };
 
   // Function to add an item to the cart
-  const addToCart = (drink, quantity, toppings) => {
-    const newItem = {
-      drink,
-      quantity,
-      toppings,
-      subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
-    };
-    setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
-  };
+  // const addToCart = (drink, quantity, toppings) => {
+  //   const newItem = {
+  //     drink,
+  //     quantity,
+  //     toppings,
+  //     subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
+  //   };
+  //   setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+  // };
 
+  /**
+   * Handles the selection of a category.
+   * @param {string} category - The selected category.
+   * @returns {void}
+   */
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setSelectedDrink(null); // Reset drink selection when changing categories
   };
 
+  /**
+   * Handles the selection of a drink.
+   * 
+   * @param {Object} drink - The selected drink object.
+   * @returns {void}
+   */
   const handleSelectDrink = (drink) => {
     setSelectedDrink(drink);
     setDrinkInfoModalOpen(true); 

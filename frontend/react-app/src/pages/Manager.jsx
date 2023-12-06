@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import ButtonComponent from "../components/ButtonComponent";
 import SideMenu from "../components/SideMenu";
 import TopNavbar from "../components/TopNavbar"
@@ -7,13 +7,17 @@ import Sales from "../components/Sales";
 import Excess from "../components/Excess";
 import Inventory from '../components/Inventory';
 import Menu from '../components/Menu';
-import logo from '../logo.svg';
 import AccessibilityButton from '../components/AccessibilityButton';
 import Footer from '../components/Footer';
 import './Manger.css';
 import { useAuth0 } from '@auth0/auth0-react';
 
 
+/**
+ * Represents the Manager component.
+ * @author Thomas Zheng
+ * @component
+ */
 function Manager() {
 
     document.title = "Manager —— Sharetea - Best Bubble Tea Brand"
@@ -21,23 +25,33 @@ function Manager() {
     const [selectedCategory, setSelectedCategory] = useState('Inventory');
     const { isAuthenticated } = useAuth0();
 
+    /**
+     * Renders the component based on the selected category.
+     * @returns {JSX.Element} The rendered component.
+     */
     const renderComponent = () => {
         switch (selectedCategory) {
-        case 'Inventory':
-            return <Inventory />;
-        case 'Excess':
-            return <Excess />;
-         case 'Restock':
-             return <Restock />;
-        case 'Menu':
-            return <Menu />;
-        case 'Sales':
-            return <Sales />;
-        default:
-            return <Inventory />;
+            case 'Inventory':
+                return <Inventory />;
+            case 'Excess':
+                return <Excess />;
+            case 'Restock':
+                return <Restock />;
+            case 'Menu':
+                return <Menu />;
+            case 'Sales':
+                return <Sales />;
+            default:
+                return <Inventory />;
         }
     };
 
+    /**
+     * Handles the selection of a category.
+     * 
+     * @param {string} category - The selected category.
+     * @returns {void}
+     */
     const handleSelectCategory = (category) => {
         setSelectedCategory(category);
     };

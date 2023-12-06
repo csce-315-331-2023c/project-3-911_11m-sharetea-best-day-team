@@ -6,6 +6,15 @@ import Footer from '../components/Footer';
 import '../styles/home.css'
 
 
+/**
+ * Renders the Home page component.
+ * Sets the document title to "Sharetea - Best Bubble Tea Brand".
+ * Displays the Sharetea banner, welcoming text, section headers, section content, our story, and footer.
+ * Provides information about Sharetea's bubble tea, menu, franchise opportunity, and founder's story.
+ * Includes top navigation bar, accessibility button, and styling.
+ * @author Sean Caballa, Amber Cheng
+ * @returns {JSX.Element} The rendered Home page component.
+ */
 export function Home() {
   document.title = "Sharetea - Best Bubble Tea Brand"
   

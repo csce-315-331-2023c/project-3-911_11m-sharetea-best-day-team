@@ -1,3 +1,10 @@
+/**
+ * @file This is the entry point of the React application.
+ * It imports necessary dependencies, sets up the Auth0Provider,
+ * and renders the main App component.
+ * @module index
+ */
+
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
@@ -11,6 +18,12 @@ const domain = process.env.REACT_APP_AUTH0_DOMAIN;
 const clientID = process.env.REACT_APP_AUTH0_CLIENT_ID;
 
 root.render(
+  /**
+   * Renders the App component wrapped in the Auth0Provider.
+   * @author Sean Caballa
+   * @function
+   * @returns {JSX.Element} The rendered App component.
+   */
   <Auth0Provider
     domain="dev-6bkhlo4ytu4ftd6m.us.auth0.com"
     clientId="qqqKuU6ZzTlZVv6trgGThHvKYySEZru0"

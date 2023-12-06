@@ -10,6 +10,11 @@ import { CircularProgress, Typography } from '@mui/material';
 import AccessibilityButton from '../components/AccessibilityButton';
 import Footer from '../components/Footer';
 
+/**
+ * KioskView component represents the main view of the kiosk application.
+ * It displays the menu categories, drink list, and allows users to customize and add drinks to the cart.
+ * @author David Roh
+ */
 const KioskView = () => {
   document.title = "Kiosk —— Sharetea - Best Bubble Tea Brand"
 
@@ -20,6 +25,9 @@ const KioskView = () => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
+  /**
+   * Clears the cart by setting it to an empty array.
+   */
   const clearCart = () => {
     setCart([]);
   };
@@ -27,6 +35,10 @@ const KioskView = () => {
 
 
   useEffect(() => {
+    /**
+     * Fetches data from the backend server and categorizes the drinks.
+     * @returns {Promise<void>} A promise that resolves when the data is fetched and categorized.
+     */
     const fetchData = async () => {
       setLoading(true);
       setError('');
@@ -55,6 +67,11 @@ const KioskView = () => {
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  /**
+   * Categorizes the drinks based on their item ID prefix.
+   * 
+   * @param {Array} drinks - The array of drinks to be categorized.
+   */
   const categorizeDrinks = (drinks) => {
     const categorizedData = drinks.reduce((acc, drink) => {
       const prefix = drink.itemid.charAt(0);
@@ -74,6 +91,11 @@ const KioskView = () => {
     setDrinksData(categorizedData);
   };
 
+  /**
+   * Maps a prefix to a category.
+   * @param {string} prefix - The prefix to map.
+   * @returns {string} The corresponding category.
+   */
   const prefixToCategory = (prefix) => {
     const categories = {
       '0': 'Milk Tea',
@@ -88,12 +110,29 @@ const KioskView = () => {
   };
 
   // Function to calculate the subtotal of a drink based on the base price, quantity, and toppings
+  /**
+   * Calculates the subtotal for an item in the kiosk.
+   * @param {number} basePrice - The base price of the item.
+   * @param {number} quantity - The quantity of the item.
+   * @param {Array} toppings - The array of toppings selected for the item.
+   * @returns {number} - The subtotal for the item.
+   */
   const calculateSubtotal = (basePrice, quantity, toppings) => {
     const toppingPrice = 0.75; // The price for each topping
     return (basePrice + toppings.length * toppingPrice) * quantity;
   };
 
   // Function to add an item to the cart
+  /**
+   * Adds an item to the cart.
+   * 
+   * @param {object} drink - The drink object to be added.
+   * @param {number} quantity - The quantity of the drink.
+   * @param {array} toppings - The toppings for the drink.
+   * @param {string} ice - The ice level for the drink.
+   * @param {string} sweetness - The sweetness level for the drink.
+   * @returns {void}
+   */
   const addToCart = (drink, quantity, toppings, ice, sweetness) => {
     const newItem = {
       drink,
@@ -116,11 +155,22 @@ const KioskView = () => {
   //   'Ice Blended': [{ name: 'Oreo Ice Blended With Pearl', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022156-IR5MT89TNA8X6BZ7VQ4J/1.+IceBlended_OreoIceBlendedWithPearl.jpg?format=300w' }, { name: 'Taro Ice Blended With Pudding', imageUrl: 'https://images.squarespace-cdn.com/content/v1/61e8bb2a2cf8670534839093/1646827022155-XE9O1AHODSX9ONPKJTVM/2.+IceBlended_TaroIceBlendedWithPudding.jpg?format=300w' }]
   // };
 
+  /**
+   * Handles the selection of a category.
+   * @param {string} category - The selected category.
+   * @returns {void}
+   */
   const handleSelectCategory = (category) => {
     setSelectedCategory(category);
     setSelectedDrink(null); // Reset drink selection when changing categories
   };
 
+  /**
+   * Handles the selection of a drink.
+   * 
+   * @param {string} drink - The selected drink.
+   * @returns {void}
+   */
   const handleSelectDrink = (drink) => {
     setSelectedDrink(drink);
   };
