@@ -6,7 +6,7 @@ import '../styles/general.css'
  * AccessibilityButton component.
  * This component provides accessibility features such as font size adjustment, high contrast mode, and magnifier.
  *
- * @author David Roh, 
+ * @author David Roh, Amber Cheng, Sean Caballa
  * @returns {JSX.Element} The rendered AccessibilityButton component.
  * @component
  * @example

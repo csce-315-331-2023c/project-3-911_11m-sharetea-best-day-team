@@ -12,6 +12,16 @@ import Typography from '@mui/material/Typography';
 import AddShoppingCartIcon from '@mui/icons-material/AddShoppingCart';
 import CustomizationModal from './CustomizationModal';
 
+/**
+ * A styled component that represents a Bootstrap dialog.
+ *
+ * @author Sean Caballa
+ * @typedef {import('@mui/material').StyledComponentPropsWithRef<typeof Dialog>} BootstrapDialogProps
+ * @typedef {import('@mui/material').DialogProps} DialogProps
+ *
+ * @param {BootstrapDialogProps} props - The props for the BootstrapDialog component.
+ * @returns {JSX.Element} The rendered BootstrapDialog component.
+ */
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
     padding: theme.spacing(2),
@@ -21,6 +31,12 @@ const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   },
 }));
 
+/**
+ * A styled button component for the cart.
+ * @author Sean Caballa
+ * 
+ * @component
+ */
 const CartButton = styled(IconButton)({
   position: 'fixed',
   bottom: '20px',
@@ -28,6 +44,11 @@ const CartButton = styled(IconButton)({
   height: '100px',
   zIndex: 1000,
 });
+/**
+ * Represents a styled button component.
+ * @author Sean Caballa
+ * @component
+ */
 const StyledButton = styled(Button)(({ theme }) => ({
   // Increase the size of the button
   padding: theme.spacing(1.5),
@@ -46,7 +67,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 /**
  * Renders a cart component with the provided drinks.
- * @author David Roh
+ * @author Sean Caballa
  * @param {Object} props - The component props.
  * @param {Array} props.drinks - The array of drinks in the cart.
  * @param {Function} props.clearCart - The function to clear the cart.
@@ -75,10 +96,13 @@ export default function CartComponent(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
   /**
-   * Thomas Zheng
-   * @param {*} query the query to reload the page
-   * @returns Inventory as rows
+   * Fetches data from the server using a given query.
+   * @author Thomas Zheng
+   * @param {string} query - The query to be sent to the server.
+   * @returns {Promise<Object>} - A promise that resolves to the data returned by the server.
+   * @throws {Error} - If there is an error fetching the data.
    */
   const fetchDataFromQuery = async (query) => {
     try {
