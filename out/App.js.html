@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: App.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: App.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>// import logo from './logo.svg';
+import './App.css';
+import KioskView from './pages/KioskView'
+import MenuView from './pages/MenuView';
+
+import { createBrowserRouter, RouterProvider, Navigate } from "react-router-dom";
+import { RecoilRoot } from "recoil";
+
+import React from 'react';
+import {createGlobalStyle} from 'styled-components';
+import { useAuth0 } from '@auth0/auth0-react';
+
+
+// PUT PAGES HERE
+import { Home } from "./pages/Home"
+import Manager from "./pages/Manager"
+// import KioskView from './pages/KioskView';
+import Cashier from "./pages/Cashier"
+
+
+/**
+ * The main component of the application.
+ * @author Sean Caballa
+ * @returns {JSX.Element} The rendered App component.
+ */
+function App() {
+  // add new pages here
+  const GlobalStyle = createGlobalStyle`
+  /* Your global styles here */
+
+  /* Import Google Font */
+  @import url('https://fonts.googleapis.com/css2?family=Barlow:wght@300&amp;family=Jost&amp;family=Nova+Square&amp;display=swap');
+
+  /* Apply the font to the body or root element */
+  body {
+    font-family: 'Jost', sans-serif;
+  }
+`;
+
+  const { isAuthenticated, isLoading, user } = useAuth0();
+
+  
+
+  
+
+  if (isLoading) {
+    // You might want to show a loading spinner while Auth0 is checking authentication status
+    // return &lt;div>Loading...&lt;/div>;
+  }
+
+
+  let hasManagerRole = false;
+  if (isAuthenticated) {
+
+  const roles = user['https://myroles.com/roles'];
+  hasManagerRole = roles.includes('manager');
+  }
+
+  const router = createBrowserRouter([
+    {
+      path: "/",
+      element: &lt;Home />,
+    }
+    ,
+    {
+      // path: "/Manager",
+      // element: hasManagerRole ? &lt;Manager /> : &lt;Navigate to="/" />,
+      path: "/Manager",
+      element: hasManagerRole ? &lt;Manager /> : &lt;Navigate to="/" />,      
+    }
+    ,
+    {
+      path: "/Kiosk",
+      element: &lt;KioskView/>
+    }
+    ,
+    {
+      path: "/Menu",
+      element: &lt;MenuView/>
+    }
+    ,
+    {
+      path: "/Cashier",
+      element: &lt;Cashier/>
+    }
+  ])
+    
+  return (
+    &lt;RecoilRoot>
+      &lt;GlobalStyle/>
+      &lt;RouterProvider router={router} />
+    &lt;/RecoilRoot>
+  );
+}
+
+export default App;
+
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#BootstrapDialog">BootstrapDialog</a></li><li><a href="global.html#ButtonComponent">ButtonComponent</a></li><li><a href="global.html#CartButton">CartButton</a></li><li><a href="global.html#Cashier">Cashier</a></li><li><a href="global.html#CashierButton">CashierButton</a></li><li><a href="global.html#CurrentTime">CurrentTime</a></li><li><a href="global.html#CustomizationModal">CustomizationModal</a></li><li><a href="global.html#DatabaseTable">DatabaseTable</a></li><li><a href="global.html#DrinkInfoModal">DrinkInfoModal</a></li><li><a href="global.html#DrinkList">DrinkList</a></li><li><a href="global.html#DrinkListNoPic">DrinkListNoPic</a></li><li><a href="global.html#Excess">Excess</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Inventory">Inventory</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#KioskHome">KioskHome</a></li><li><a href="global.html#KioskView">KioskView</a></li><li><a href="global.html#LogButton">LogButton</a></li><li><a href="global.html#LoginButton">LoginButton</a></li><li><a href="global.html#LogoutButton">LogoutButton</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerButton">ManagerButton</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuTable">MenuTable</a></li><li><a href="global.html#MenuView">MenuView</a></li><li><a href="global.html#ProfileComponent">ProfileComponent</a></li><li><a href="global.html#Restock">Restock</a></li><li><a href="global.html#Sales">Sales</a></li><li><a href="global.html#SideMenu">SideMenu</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#TopNavbar">TopNavbar</a></li><li><a href="global.html#TranslateButton">TranslateButton</a></li><li><a href="global.html#WeatherCall">WeatherCall</a></li><li><a href="global.html#fetchDataFromQuery">fetchDataFromQuery</a></li><li><a href="global.html#fetchToppings">fetchToppings</a></li><li><a href="global.html#getIconUrl">getIconUrl</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#insertDataFromQuery">insertDataFromQuery</a></li><li><a href="global.html#weatherCodeToString">weatherCodeToString</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:49:03 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

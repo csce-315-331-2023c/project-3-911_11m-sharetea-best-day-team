@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/SideMenu.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/SideMenu.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState } from 'react';
+import List from '@mui/material/List';
+import ListItemButton from '@mui/material/ListItemButton';
+import ListItemText from '@mui/material/ListItemText';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+
+/**
+ * The theme object for customizing the appearance of components.
+ *
+ * @typedef {Object} Theme
+ * @property {Object} components - Custom styles for specific components.
+ * @property {Object} palette - Custom color palette for the theme.
+ *
+ * @property {Object} components.MuiListItemButton - Custom styles for MuiListItemButton component.
+ * @property {Object} components.MuiListItemButton.styleOverrides - Custom style overrides for MuiListItemButton component.
+ * @property {Object} components.MuiListItemButton.styleOverrides.root - Custom styles for the root element of MuiListItemButton component.
+ *
+ * @property {string} components.MuiListItemButton.styleOverrides.root.width - The width of the MuiListItemButton component.
+ * @property {string} components.MuiListItemButton.styleOverrides.root.borderRadius - The border radius of the MuiListItemButton component.
+ * @property {string} components.MuiListItemButton.styleOverrides.root.margin - The margin of the MuiListItemButton component.
+ * @property {Object} components.MuiListItemButton.styleOverrides.root.hover - Custom styles for the hover state of MuiListItemButton component.
+ *
+ * @property {string} components.MuiListItemButton.styleOverrides.root.hover.backgroundColor - The background color of MuiListItemButton component on hover.
+ * @property {string} components.MuiListItemButton.styleOverrides.root.hover.color - The text color of MuiListItemButton component on hover.
+ *
+ * @property {Object} palette - Custom color palette for the theme.
+ * @property {Object} palette.primary - Custom primary color for the theme.
+ * @property {string} palette.primary.main - The main color of the primary palette.
+ * @property {Object} palette.secondary - Custom secondary color for the theme.
+ * @property {string} palette.secondary.main - The main color of the secondary palette.
+ */
+const theme = createTheme({
+  components: {
+    MuiListItemButton: {
+      styleOverrides: {
+        root: {
+          // Rounded border
+          width:'100%',
+          borderRadius: '20px',
+          margin: '8px 0', // Adds some space between the buttons
+          '&amp;:hover': {
+            backgroundColor: '#8A0000', // Red color on hover
+            color: '#fff', // White text on hover
+          },
+        },
+      },
+    },
+  },
+  palette: {
+    primary: {
+      main: '#980000', // Red color
+    },
+    secondary: {
+      main: '#000000', // Black color
+    },
+  },
+});
+
+/**
+ * SideMenu component displays a side menu with a list of categories.
+ * @author David Roh, Amber Cheng
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.categories - The list of categories to display in the side menu.
+ * @param {Function} props.onSelectCategory - The function to call when a category is selected.
+ * @returns {JSX.Element} The SideMenu component.
+ */
+const SideMenu = ({ categories, onSelectCategory }) => {
+  const [selectedCategory, setSelectedCategory] = useState(null);
+
+  /**
+   * Handles the click event on a list item.
+   * 
+   * @param {string} category - The selected category.
+   * @returns {void}
+   */
+  const handleListItemClick = (category) => {
+    setSelectedCategory(category);
+    onSelectCategory(category);
+  };
+
+  return (
+    &lt;ThemeProvider theme={theme}>
+      &lt;List sx={{
+          maxWidth: 200,
+          bgcolor: 'background.paper',
+          // Responsive side menu size
+          width: { xs: '100%', sm: '100%' },
+          marginLeft: '16px',
+        }}
+      >
+        {categories.map((category) => (
+          &lt;ListItemButton
+            key={category}
+            onClick={() => handleListItemClick(category)}
+            selected={selectedCategory === category}
+            sx={{
+              '&amp;.Mui-selected': {
+                width:'100%',
+                backgroundColor: theme.palette.primary.main, // Red color for selected item
+                color: '#fff', // White text for selected item
+                '&amp;:hover': {
+                  backgroundColor: theme.palette.primary.main,
+                },
+              },
+            }}
+          >
+            &lt;ListItemText primary={category} style={{display: 'flex', alignItems: 'center', justifyContent: 'center',}}/>
+          &lt;/ListItemButton>
+        ))}
+      &lt;/List>
+    &lt;/ThemeProvider>
+  );
+};
+
+export default SideMenu;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#BootstrapDialog">BootstrapDialog</a></li><li><a href="global.html#ButtonComponent">ButtonComponent</a></li><li><a href="global.html#CartButton">CartButton</a></li><li><a href="global.html#Cashier">Cashier</a></li><li><a href="global.html#CashierButton">CashierButton</a></li><li><a href="global.html#CurrentTime">CurrentTime</a></li><li><a href="global.html#CustomizationModal">CustomizationModal</a></li><li><a href="global.html#DatabaseTable">DatabaseTable</a></li><li><a href="global.html#DrinkInfoModal">DrinkInfoModal</a></li><li><a href="global.html#DrinkList">DrinkList</a></li><li><a href="global.html#DrinkListNoPic">DrinkListNoPic</a></li><li><a href="global.html#Excess">Excess</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Inventory">Inventory</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#KioskHome">KioskHome</a></li><li><a href="global.html#KioskView">KioskView</a></li><li><a href="global.html#LogButton">LogButton</a></li><li><a href="global.html#LoginButton">LoginButton</a></li><li><a href="global.html#LogoutButton">LogoutButton</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerButton">ManagerButton</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuTable">MenuTable</a></li><li><a href="global.html#MenuView">MenuView</a></li><li><a href="global.html#ProfileComponent">ProfileComponent</a></li><li><a href="global.html#Restock">Restock</a></li><li><a href="global.html#Sales">Sales</a></li><li><a href="global.html#SideMenu">SideMenu</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#TopNavbar">TopNavbar</a></li><li><a href="global.html#TranslateButton">TranslateButton</a></li><li><a href="global.html#WeatherCall">WeatherCall</a></li><li><a href="global.html#fetchDataFromQuery">fetchDataFromQuery</a></li><li><a href="global.html#fetchToppings">fetchToppings</a></li><li><a href="global.html#getIconUrl">getIconUrl</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#insertDataFromQuery">insertDataFromQuery</a></li><li><a href="global.html#weatherCodeToString">weatherCodeToString</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:49:03 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: pages/Cashier.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: pages/Cashier.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
+import SideMenu from "../components/SideMenu";
+import AccessibilityButton from "../components/AccessibilityButton"
+import Footer from '../components/Footer';
+import CustomizationModal from '../components/CustomizationModal';
+import KioskHome from '../components/KioskHome';
+import './KioskView.css';
+import TopNavbar from '../components/TopNavbar';
+import CartComponent from '../components/CartComponent';
+import { CircularProgress, Typography } from '@mui/material';
+import DrinkListNoPic from '../components/DrinkListNoPic';
+
+/**
+ * Renders the Cashier page.
+ * @author Amber Cheng
+ * 
+ * @returns {JSX.Element} The Cashier component.
+ */
+function Cashier() {
+    document.title = "Cashier —— Sharetea - Best Bubble Tea Brand"
+
+    const [selectedCategory, setSelectedCategory] = useState(null);
+    const [selectedDrink, setSelectedDrink] = useState(null);
+    const [cart, setCart] = useState([]);
+    const [drinksData, setDrinksData] = useState({});
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState('');
+
+    /**
+     * Clears the cart by setting it to an empty array.
+     */
+    const clearCart = () => {
+        setCart([]);
+    };
+
+
+
+    useEffect(() => {
+        /**
+         * Fetches data from the backend API and categorizes the drinks.
+         * @returns {Promise&lt;void>} A promise that resolves when the data is fetched and categorized.
+         */
+        const fetchData = async () => {
+            setLoading(true);
+            setError('');
+            const query = 'SELECT * FROM pricelist;';
+            try {
+                const response = await fetch('https://backend-heli.onrender.com/query', {
+                    method: 'POST',
+                    body: JSON.stringify({ query }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                categorizeDrinks(data);
+            } catch (error) {
+                setError('Failed to load drinks: ' + error.message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchData();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    /**
+     * Categorizes the drinks based on their item ID prefix.
+     * 
+     * @param {Array} drinks - The array of drinks to be categorized.
+     */
+    const categorizeDrinks = (drinks) => {
+        const categorizedData = drinks.reduce((acc, drink) => {
+            const prefix = drink.itemid.charAt(0);
+            const category = prefixToCategory(prefix);
+            if (!acc[category]) {
+                acc[category] = [];
+            }
+            acc[category].push({
+                name: drink.itemname,
+                imageUrl: drink.images,
+                price: drink.itemprice,
+                id: drink.itemid
+            });
+            return acc;
+        }, {});
+
+        setDrinksData(categorizedData);
+    };
+
+    /**
+     * Maps a prefix to a corresponding category.
+     * @param {string} prefix - The prefix to be mapped.
+     * @returns {string} - The corresponding category.
+     */
+    const prefixToCategory = (prefix) => {
+        const categories = {
+            '0': 'Milk Tea',
+            '1': 'Brewed Tea',
+            '2': 'Fruit Tea',
+            '3': 'Fresh Milk',
+            '4': 'Ice Blended',
+            '5': 'Tea Mojito',
+            '6': 'Crema'
+        };
+        return categories[prefix] || 'Other';
+    };
+
+    // Function to calculate the subtotal of a drink based on the base price, quantity, and toppings
+    /**
+     * Calculates the subtotal for an item based on the base price, quantity, and toppings.
+     * @param {number} basePrice - The base price of the item.
+     * @param {number} quantity - The quantity of the item.
+     * @param {string[]} toppings - An array of toppings for the item.
+     * @returns {number} The subtotal for the item.
+     */
+    const calculateSubtotal = (basePrice, quantity, toppings) => {
+        const toppingPrice = 0.75; // The price for each topping
+        return (basePrice + toppings.length * toppingPrice) * quantity;
+    };
+
+    // Function to add an item to the cart
+    /**
+     * Adds an item to the cart.
+     * 
+     * @param {object} drink - The drink object to be added.
+     * @param {number} quantity - The quantity of the drink.
+     * @param {array} toppings - The toppings for the drink.
+     * @param {string} ice - The ice level for the drink.
+     * @param {string} sweetness - The sweetness level for the drink.
+     * @returns {void}
+     */
+    const addToCart = (drink, quantity, toppings, ice, sweetness) => {
+        const newItem = {
+            drink,
+            quantity,
+            toppings,
+            ice,
+            sweetness,
+            subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
+        };
+        setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+        console.log(drink.name, quantity, toppings, ice, sweetness);
+        console.log('Cart updated: ',cart);
+    };
+
+    /**
+     * Handles the selection of a category.
+     * @param {string} category - The selected category.
+     * @returns {void}
+     */
+    const handleSelectCategory = (category) => {
+        setSelectedCategory(category);
+        setSelectedDrink(null); // Reset drink selection when changing categories
+    };
+
+    /**
+     * Handles the selection of a drink.
+     * 
+     * @param {string} drink - The selected drink.
+     */
+    const handleSelectDrink = (drink) => {
+        setSelectedDrink(drink);
+    };
+
+    if (loading) {
+        return &lt;CircularProgress />;
+    }
+
+    if (error) {
+        return &lt;Typography color="error">{error}&lt;/Typography>;
+    }
+
+    return (
+        &lt;>
+        &lt;TopNavbar />
+        
+        &lt;div className="kiosk-view">
+            
+            &lt;SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
+            {selectedCategory === 'Home' || selectedCategory === null ? (
+            &lt;KioskHome />
+            ) : (
+            &lt;DrinkListNoPic drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
+            )}
+            {selectedDrink &amp;&amp; (
+            &lt;CustomizationModal drink={selectedDrink} onClose={() => setSelectedDrink(null)} isEdited={false} addToCart={addToCart} />
+            )}
+            
+        &lt;/div>
+
+        &lt;div className="section-break">&lt;/div>
+        &lt;Footer/>
+        &lt;AccessibilityButton/>
+        &lt;CartComponent drinks={cart} clearCart={clearCart} setCart={setCart} addToCart={addToCart} setSelectedDrink={setSelectedDrink}/>
+        &lt;/>
+    );
+}
+
+export default Cashier;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#BootstrapDialog">BootstrapDialog</a></li><li><a href="global.html#ButtonComponent">ButtonComponent</a></li><li><a href="global.html#CartButton">CartButton</a></li><li><a href="global.html#Cashier">Cashier</a></li><li><a href="global.html#CashierButton">CashierButton</a></li><li><a href="global.html#CurrentTime">CurrentTime</a></li><li><a href="global.html#CustomizationModal">CustomizationModal</a></li><li><a href="global.html#DatabaseTable">DatabaseTable</a></li><li><a href="global.html#DrinkInfoModal">DrinkInfoModal</a></li><li><a href="global.html#DrinkList">DrinkList</a></li><li><a href="global.html#DrinkListNoPic">DrinkListNoPic</a></li><li><a href="global.html#Excess">Excess</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Inventory">Inventory</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#KioskHome">KioskHome</a></li><li><a href="global.html#KioskView">KioskView</a></li><li><a href="global.html#LogButton">LogButton</a></li><li><a href="global.html#LoginButton">LoginButton</a></li><li><a href="global.html#LogoutButton">LogoutButton</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerButton">ManagerButton</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuTable">MenuTable</a></li><li><a href="global.html#MenuView">MenuView</a></li><li><a href="global.html#ProfileComponent">ProfileComponent</a></li><li><a href="global.html#Restock">Restock</a></li><li><a href="global.html#Sales">Sales</a></li><li><a href="global.html#SideMenu">SideMenu</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#TopNavbar">TopNavbar</a></li><li><a href="global.html#TranslateButton">TranslateButton</a></li><li><a href="global.html#WeatherCall">WeatherCall</a></li><li><a href="global.html#fetchDataFromQuery">fetchDataFromQuery</a></li><li><a href="global.html#fetchToppings">fetchToppings</a></li><li><a href="global.html#getIconUrl">getIconUrl</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#insertDataFromQuery">insertDataFromQuery</a></li><li><a href="global.html#weatherCodeToString">weatherCodeToString</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:49:03 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

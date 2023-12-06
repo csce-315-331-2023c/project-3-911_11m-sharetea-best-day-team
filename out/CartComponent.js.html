@@ -1,4 +1,32 @@
-import * as React from 'react';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: CartComponent.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: CartComponent.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import * as React from 'react';
 import Button from '@mui/material/Button';
 import { styled } from '@mui/material/styles';
 import Dialog from '@mui/material/Dialog';
@@ -22,10 +50,10 @@ import CustomizationModal from './CustomizationModal';
  * @returns {JSX.Element} The rendered BootstrapDialog component.
  */
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
-  '& .MuiDialogContent-root': {
+  '&amp; .MuiDialogContent-root': {
     padding: theme.spacing(2),
   },
-  '& .MuiDialogActions-root': {
+  '&amp; .MuiDialogActions-root': {
     padding: theme.spacing(1),
   },
 }));
@@ -53,13 +81,13 @@ const StyledButton = styled(Button)(({ theme }) => ({
   padding: theme.spacing(1.5),
   // Set the background color to the hex color provided
   backgroundColor: '#980000',
-  '&:hover': {
+  '&amp;:hover': {
     backgroundColor: '#870000', // Darken the button slightly when hovered
   },
   // Change the color of the text/icon to white for better contrast
   color: theme.palette.getContrastText('#980000'),
   // Increase the size of the icons inside the button
-  '& .MuiSvgIcon-root': {
+  '&amp; .MuiSvgIcon-root': {
     fontSize: '1.5rem',
   },
 }));
@@ -100,7 +128,7 @@ export default function CartComponent(props) {
    * Fetches data from the server using a given query.
    * @author Thomas Zheng
    * @param {string} query - The query to be sent to the server.
-   * @returns {Promise<Object>} - A promise that resolves to the data returned by the server.
+   * @returns {Promise&lt;Object>} - A promise that resolves to the data returned by the server.
    * @throws {Error} - If there is an error fetching the data.
    */
   const fetchDataFromQuery = async (query) => {
@@ -152,7 +180,7 @@ export default function CartComponent(props) {
       // Prepare and execute the insert operations for each drink in the cart
       for (const drink of cart) {
         //console.log("quantity: ",drink.quantity);
-        for (let i = 0; i < parseInt(drink.quantity); ++i) {
+        for (let i = 0; i &lt; parseInt(drink.quantity); ++i) {
 
           //console.log("i:",i);
           let sweetness = -1.0;
@@ -290,7 +318,7 @@ export default function CartComponent(props) {
   /**
    * Inserts data into the backend using the provided SQL query.
    * @param {string} query - The SQL query to be executed.
-   * @returns {Promise<any>} - A promise that resolves to the response data from the backend.
+   * @returns {Promise&lt;any>} - A promise that resolves to the response data from the backend.
    */
   const insertDataFromQuery = async (query) => {
     try {
@@ -356,17 +384,17 @@ export default function CartComponent(props) {
   
 
   return (
-    <React.Fragment>
-      <CartButton color="primary" aria-label="add to shopping cart" onClick={handleClickOpen}>
-        <StyledButton variant="contained" onClick={handleClickOpen}>
-          Cart <AddShoppingCartIcon />
-        </StyledButton>
-      </CartButton>
-      <BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
-        <DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
+    &lt;React.Fragment>
+      &lt;CartButton color="primary" aria-label="add to shopping cart" onClick={handleClickOpen}>
+        &lt;StyledButton variant="contained" onClick={handleClickOpen}>
+          Cart &lt;AddShoppingCartIcon />
+        &lt;/StyledButton>
+      &lt;/CartButton>
+      &lt;BootstrapDialog onClose={handleClose} aria-labelledby="customized-dialog-title" open={open}>
+        &lt;DialogTitle sx={{ m: 0, p: 2 }} id="customized-dialog-title">
           Current Cart
-        </DialogTitle>
-        <IconButton
+        &lt;/DialogTitle>
+        &lt;IconButton
           aria-label="close"
           onClick={handleClose}
           sx={{
@@ -376,51 +404,51 @@ export default function CartComponent(props) {
             color: (theme) => theme.palette.grey[500],
           }}
         >
-          <CloseIcon />
-        </IconButton>
-        <DialogContent dividers>
+          &lt;CloseIcon />
+        &lt;/IconButton>
+        &lt;DialogContent dividers>
           {cart.length > 0 ? (
             cart.map((drink, index) => (
-              <Typography gutterBottom key={drink.drink.name}>
-                <h3>{drink.drink.name}</h3> (Quantity: {drink.quantity})
-                <ul>
-                  <li>Ice: {drink.ice}</li>
-                  <li>Sweetness: {drink.sweetness}</li>
-                  <li>Toppings: {drink.toppings}</li>
-                  <li>{`Price: $${drink.subtotal.toFixed(2)}`}</li>
-                </ul>
-                <Button
+              &lt;Typography gutterBottom key={drink.drink.name}>
+                &lt;h3>{drink.drink.name}&lt;/h3> (Quantity: {drink.quantity})
+                &lt;ul>
+                  &lt;li>Ice: {drink.ice}&lt;/li>
+                  &lt;li>Sweetness: {drink.sweetness}&lt;/li>
+                  &lt;li>Toppings: {drink.toppings}&lt;/li>
+                  &lt;li>{`Price: $${drink.subtotal.toFixed(2)}`}&lt;/li>
+                &lt;/ul>
+                &lt;Button
                   variant="outlined"
                   color="secondary"
-                  startIcon={<DeleteIcon />}
+                  startIcon={&lt;DeleteIcon />}
                   onClick={() => handleDelete(index)}
                 >
                   Delete
-                </Button>
-                <Button
+                &lt;/Button>
+                &lt;Button
                   variant="outlined"
                   color="primary"
                   onClick={(event) => handleEdit(event, index, drink)}
                 >
                   Edit
-                </Button>
-              </Typography>
+                &lt;/Button>
+              &lt;/Typography>
             ))
           ) : (
-            <Typography variant="subtitle1" color="textSecondary">
+            &lt;Typography variant="subtitle1" color="textSecondary">
               Your cart is empty.
-            </Typography>
+            &lt;/Typography>
           )}
-        </DialogContent>
-        <DialogActions>
-          <Button autoFocus onClick={handleCheckout}>
+        &lt;/DialogContent>
+        &lt;DialogActions>
+          &lt;Button autoFocus onClick={handleCheckout}>
             Checkout
-          </Button>
-        </DialogActions>
-      </BootstrapDialog>
+          &lt;/Button>
+        &lt;/DialogActions>
+      &lt;/BootstrapDialog>
       {console.log("dex before custselected drink inomization: ", selectedDrinkIndex)}
-      {isCustomizationModalOpen && selectedDrinkIndex !== null && (
-        <CustomizationModal
+      {isCustomizationModalOpen &amp;&amp; selectedDrinkIndex !== null &amp;&amp; (
+        &lt;CustomizationModal
           drink={cart[selectedDrinkIndex].drink}
           onClose={() => {
             setCustomizationModalOpen(false);
@@ -431,6 +459,29 @@ export default function CartComponent(props) {
           index={selectedDrinkIndex}
         />
       )}
-    </React.Fragment>
+    &lt;/React.Fragment>
   );
 }
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#BootstrapDialog">BootstrapDialog</a></li><li><a href="global.html#CartButton">CartButton</a></li><li><a href="global.html#StyledButton">StyledButton</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:48:32 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

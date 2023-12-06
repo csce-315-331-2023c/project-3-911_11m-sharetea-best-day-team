@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: MenuView.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: MenuView.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useState, useEffect } from 'react';
+import SideMenu from '../components/SideMenu';
+import DrinkList from '../components/DrinkList';
+import KioskHome from '../components/KioskHome';
+import './KioskView.css';
+import TopNavbar from '../components/TopNavbar';
+import DrinkInfoModal from '../components/DrinkInfoModal'; 
+import { CircularProgress, Typography } from '@mui/material';
+import AccessibilityButton from '../components/AccessibilityButton';
+import Footer from '../components/Footer';
+
+/**
+ * MenuView component displays the menu of drinks and allows users to select and view drink details.
+ * @author Amber Cheng
+ */
+const MenuView = () => {
+  document.title = "Menu —— Sharetea - Best Bubble Tea Brand"
+
+  const [selectedCategory, setSelectedCategory] = useState(null);
+  const [selectedDrink, setSelectedDrink] = useState(null);
+  // const [cart, setCart] = useState([]);
+  const [drinksData, setDrinksData] = useState({});
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [drinkInfoModalOpen, setDrinkInfoModalOpen] = useState(false);
+
+  useEffect(() => {
+    /**
+     * Fetches data from the backend API and categorizes the drinks.
+     * @returns {Promise&lt;void>} A promise that resolves when the data is fetched and categorized.
+     */
+    const fetchData = async () => {
+      setLoading(true);
+      setError('');
+      const query = 'SELECT * FROM pricelist;';
+      try {
+        const response = await fetch('https://backend-heli.onrender.com/query', {
+          method: 'POST',
+          body: JSON.stringify({ query }),
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!response.ok) {
+          throw new Error('Network response was not ok');
+        }
+        const data = await response.json();
+        categorizeDrinks(data);
+      } catch (error) {
+        setError('Failed to load drinks: ' + error.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  /**
+   * Categorizes the drinks based on their item ID prefix and updates the drinks data state.
+   * @param {Array} drinks - The array of drinks to be categorized.
+   */
+  const categorizeDrinks = (drinks) => {
+    const categorizedData = drinks.reduce((acc, drink) => {
+      const prefix = drink.itemid.charAt(0);
+      const category = prefixToCategory(prefix);
+      if (!acc[category]) {
+        acc[category] = [];
+      }
+      acc[category].push({
+        name: drink.itemname,
+        imageUrl: drink.images,
+        price: drink.itemprice,
+        id: drink.itemid,
+        ingredients: drink.ingredients
+      });
+      return acc;
+    }, {});
+
+    setDrinksData(categorizedData);
+  };
+
+  /**
+   * Maps a prefix to a category.
+   * @param {string} prefix - The prefix to map.
+   * @returns {string} The corresponding category.
+   */
+  const prefixToCategory = (prefix) => {
+    const categories = {
+      '0': 'Milk Tea',
+      '1': 'Brewed Tea',
+      '2': 'Fruit Tea',
+      '3': 'Fresh Milk',
+      '4': 'Ice Blended',
+      '5': 'Tea Mojito',
+      '6': 'Crema'
+    };
+    return categories[prefix] || 'Other';
+  };
+
+  // Function to calculate the subtotal of a drink based on the base price, quantity, and toppings
+  // const calculateSubtotal = (basePrice, quantity, toppings) => {
+  //   const toppingPrice = 0.75; // The price for each topping
+  //   return (basePrice + toppings.length * toppingPrice) * quantity;
+  // };
+
+  // Function to add an item to the cart
+  // const addToCart = (drink, quantity, toppings) => {
+  //   const newItem = {
+  //     drink,
+  //     quantity,
+  //     toppings,
+  //     subtotal: calculateSubtotal(drink.price, quantity, toppings), // Calculate the subtotal for this item
+  //   };
+  //   setCart(currentCart => [...currentCart, newItem]); // Add the new item to the existing cart
+  // };
+
+  /**
+   * Handles the selection of a category.
+   * @param {string} category - The selected category.
+   * @returns {void}
+   */
+  const handleSelectCategory = (category) => {
+    setSelectedCategory(category);
+    setSelectedDrink(null); // Reset drink selection when changing categories
+  };
+
+  /**
+   * Handles the selection of a drink.
+   * 
+   * @param {Object} drink - The selected drink object.
+   * @returns {void}
+   */
+  const handleSelectDrink = (drink) => {
+    setSelectedDrink(drink);
+    setDrinkInfoModalOpen(true); 
+  };
+
+  if (loading) {
+    return &lt;CircularProgress />;
+  }
+
+  if (error) {
+    return &lt;Typography color="error">{error}&lt;/Typography>;
+  }
+
+  return (
+    &lt;>
+      &lt;TopNavbar />
+      &lt;div className="kiosk-view">
+        {/* &lt;CurrentTime /> */}
+        &lt;SideMenu categories={Object.keys(drinksData)} onSelectCategory={handleSelectCategory} />
+        {selectedCategory === 'Home' || selectedCategory === null ? (
+          &lt;KioskHome />
+        ) : (
+          &lt;DrinkList drinks={drinksData[selectedCategory]} onSelectDrink={handleSelectDrink} />
+        )}
+        &lt;DrinkInfoModal
+          isOpen={drinkInfoModalOpen}
+          onClose={() => {
+            setDrinkInfoModalOpen(false);
+            setSelectedDrink(null);
+          }}
+          drink={selectedDrink}
+        />
+      &lt;/div>
+      &lt;AccessibilityButton/>
+      &lt;Footer/>
+    &lt;/>
+  );
+};
+
+export default MenuView;
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#Cashier">Cashier</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#KioskView">KioskView</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#MenuView">MenuView</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:48:46 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

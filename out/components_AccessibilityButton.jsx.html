@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: components/AccessibilityButton.jsx</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: components/AccessibilityButton.jsx</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>import React, { useEffect, useState } from 'react';
+import Picture from '../images/accessibility-icon.png'
+import '../styles/general.css'
+
+/**
+ * AccessibilityButton component.
+ * This component provides accessibility features such as font size adjustment, high contrast mode, and magnifier.
+ *
+ * @author David Roh, Amber Cheng, Sean Caballa
+ * @returns {JSX.Element} The rendered AccessibilityButton component.
+ * @component
+ * @example
+ * return (
+ *   &lt;AccessibilityButton />
+ * )
+ */
+const AccessibilityButton = () => {
+    const [showPopup, setShowPopup] = useState(false);
+    const [isPaused, setIsPaused] = useState(false);
+    const [fontSize, setFontSize] = useState(100);
+    const [highContrast, setHighContrast] = useState(false);
+    const [magnifier, setMagnifier] = useState(null);
+    const [isInverted, setIsInverted] = useState(false);
+
+
+    const increaseFontSize = () => setFontSize((size) => size + 10);
+    const decreaseFontSize = () => setFontSize((size) => size > 100 ? size - 10 : 100);
+    const toggleHighContrast = () => setHighContrast((contrast) => !contrast);
+    const toggleInvertColors = () => setIsInverted((invert) => !invert);
+
+    useEffect(() => {
+      if (isInverted) {
+        document.body.classList.add('invert-colors');
+      } else {
+        document.body.classList.remove('invert-colors');
+      }
+    }, [isInverted]);
+
+    useEffect(() => {
+        const script = document.createElement('script');
+        script.src = '/html-magnifier.js'; // Update the path to where you've placed the html-magnifier.js
+        script.async = true;
+        script.onload = () => {
+          if (typeof window.HTMLMagnifier === 'function') {
+            setMagnifier(new window.HTMLMagnifier({
+              zoom: 2,
+              shape: 'circle',
+              width: 200,
+              height: 200
+            }));
+          } else {
+            console.error('HTMLMagnifier is not defined on the window object.');
+          }
+        };
+        document.body.appendChild(script);
+    
+        return () => {
+          document.body.removeChild(script);
+        };
+      }, []);
+    
+      /**
+       * Toggles the visibility of the magnifier.
+       */
+      const handleMagnifierToggle = () => {
+        if (magnifier) {
+          magnifier.isVisible() ? magnifier.hide() : magnifier.show();
+        }
+      };
+
+    useEffect(() => {
+        // Apply the font size to the root element
+        // document.documentElement.style.fontSize = `${fontSize}%`;
+        document.documentElement.style.setProperty('--global-font-size', `${fontSize}%`);
+
+        // Apply or remove high contrast mode
+        if (highContrast) {
+        document.body.classList.add('high-contrast');
+        } else {
+        document.body.classList.remove('high-contrast');
+        }
+    }, [fontSize, highContrast]);
+
+    /**
+     * Handles the button click event.
+     */
+    const handleButtonClick = () => {
+      setShowPopup(!showPopup);
+    }
+
+    /**
+     * Handles the click event for the "Read Page" button.
+     * Reads the entire text content of the page using the SpeechSynthesis API.
+     */
+    const handleReadPageClick = () => {
+      const textToRead = document.body.innerText;
+      const speech = new SpeechSynthesisUtterance(textToRead);
+      window.speechSynthesis.speak(speech);
+    }
+
+    /**
+     * Handles the click event for stopping the speech synthesis.
+     */
+    const handleStopReadingClick = () => {
+      window.speechSynthesis.cancel();
+    }
+
+    /**
+     * Handles the click event for pausing or continuing speech synthesis.
+     */
+    const handlePauseContinueClick = () => {
+      if (isPaused) {
+        window.speechSynthesis.resume();
+        setIsPaused(false);
+      } else {
+        window.speechSynthesis.pause();
+        setIsPaused(true);
+      }
+    }
+
+    return (
+        &lt;>
+        &lt;div className='accessibility-container'>
+            &lt;img src={Picture} className='accessibility-button' onClick={handleButtonClick} alt='accessibility button'/>
+            {showPopup &amp;&amp; 
+                &lt;div className='translation-popup'>
+                    {/* &lt;button onClick={() => console.log('Translate to Spanish')}>Translate to Spanish&lt;/button>
+                    &lt;button onClick={() => console.log('Translate to French')}>Translate to French&lt;/button>
+                    &lt;button onClick={() => console.log('Translate to German')}>Translate to German&lt;/button> */}
+                    &lt;button onClick={handleReadPageClick}>Read Page&lt;/button>
+                    &lt;button onClick={handleStopReadingClick}>Stop Reading&lt;/button>
+                    &lt;button onClick={handlePauseContinueClick}>{isPaused ? 'Continue Reading' : 'Pause Reading'}&lt;/button>
+                    &lt;div className="font-size-container">
+                        &lt;button onClick={increaseFontSize}>A+&lt;/button>
+                        &lt;button onClick={decreaseFontSize}>A-&lt;/button>
+                    &lt;/div>
+                    &lt;button onClick={toggleHighContrast}>High Contrast&lt;/button>
+                    &lt;button onClick={handleMagnifierToggle}>Magnifier&lt;/button>
+                    &lt;button onClick={toggleInvertColors}>Invert Colors&lt;/button>
+                &lt;/div>
+            }
+        &lt;/div>
+        
+        &lt;/>
+    )
+}
+
+export default AccessibilityButton;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-index.html">index</a></li></ul><h3>Global</h3><ul><li><a href="global.html#AccessibilityButton">AccessibilityButton</a></li><li><a href="global.html#App">App</a></li><li><a href="global.html#BootstrapDialog">BootstrapDialog</a></li><li><a href="global.html#ButtonComponent">ButtonComponent</a></li><li><a href="global.html#CartButton">CartButton</a></li><li><a href="global.html#Cashier">Cashier</a></li><li><a href="global.html#CashierButton">CashierButton</a></li><li><a href="global.html#CurrentTime">CurrentTime</a></li><li><a href="global.html#CustomizationModal">CustomizationModal</a></li><li><a href="global.html#DatabaseTable">DatabaseTable</a></li><li><a href="global.html#DrinkInfoModal">DrinkInfoModal</a></li><li><a href="global.html#DrinkList">DrinkList</a></li><li><a href="global.html#DrinkListNoPic">DrinkListNoPic</a></li><li><a href="global.html#Excess">Excess</a></li><li><a href="global.html#Footer">Footer</a></li><li><a href="global.html#Home">Home</a></li><li><a href="global.html#Inventory">Inventory</a></li><li><a href="global.html#InventoryTable">InventoryTable</a></li><li><a href="global.html#KioskHome">KioskHome</a></li><li><a href="global.html#KioskView">KioskView</a></li><li><a href="global.html#LogButton">LogButton</a></li><li><a href="global.html#LoginButton">LoginButton</a></li><li><a href="global.html#LogoutButton">LogoutButton</a></li><li><a href="global.html#Manager">Manager</a></li><li><a href="global.html#ManagerButton">ManagerButton</a></li><li><a href="global.html#Menu">Menu</a></li><li><a href="global.html#MenuTable">MenuTable</a></li><li><a href="global.html#MenuView">MenuView</a></li><li><a href="global.html#ProfileComponent">ProfileComponent</a></li><li><a href="global.html#Restock">Restock</a></li><li><a href="global.html#Sales">Sales</a></li><li><a href="global.html#SideMenu">SideMenu</a></li><li><a href="global.html#StyledButton">StyledButton</a></li><li><a href="global.html#TopNavbar">TopNavbar</a></li><li><a href="global.html#TranslateButton">TranslateButton</a></li><li><a href="global.html#WeatherCall">WeatherCall</a></li><li><a href="global.html#fetchDataFromQuery">fetchDataFromQuery</a></li><li><a href="global.html#fetchToppings">fetchToppings</a></li><li><a href="global.html#getIconUrl">getIconUrl</a></li><li><a href="global.html#getWeatherData">getWeatherData</a></li><li><a href="global.html#insertDataFromQuery">insertDataFromQuery</a></li><li><a href="global.html#weatherCodeToString">weatherCodeToString</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 4.0.2</a> on Tue Dec 05 2023 21:49:03 GMT-0600 (Central Standard Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>
