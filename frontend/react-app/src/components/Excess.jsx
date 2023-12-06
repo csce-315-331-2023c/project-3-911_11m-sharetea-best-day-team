@@ -13,10 +13,21 @@ const columns = [
   { field: 'count', headerName: 'Count', width: 150 },
 ];
 
+/**
+ * Renders the Excess component.
+ * This component displays a form to input a date and fetches excess inventory items based on the date input.
+ * It renders a table to display the fetched data.
+ * @author Thomas Zheng
+ */
 const Excess = () => {
   const [toDate, setToDate] = useState('');
   const [rows, setRows] = useState([]);
 
+  /**
+   * Handles the form submission.
+   * @param {Event} event - The form submission event.
+   * @returns {Promise<void>}
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
 
@@ -41,6 +52,10 @@ const Excess = () => {
     setRows(newRows);
   };
 
+  /**
+   * Handles the change event of the input field.
+   * @param {Object} event - The event object.
+   */
   const handleChange = (event) => {
     setToDate(event.target.value);
   };

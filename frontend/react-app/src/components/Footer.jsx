@@ -3,6 +3,13 @@ import React from 'react';
 import InstagramIcon from '../images/instagram_logo.png'; 
 import FacebookIcon from '../images/facebook_logo.png';
 
+/**
+ * Footer component.
+ * Renders the footer section of the website.
+ * @author Amber Cheng
+ *
+ * @returns {JSX.Element} The rendered Footer component.
+ */
 const Footer = () => {
   return (
     <div className="footer-container">

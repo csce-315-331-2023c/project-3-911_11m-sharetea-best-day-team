@@ -22,6 +22,12 @@ const style = {
   alignItems: 'center',
 };
 
+/**
+ * Fetches toppings from the backend server.\
+ * @author David Roh
+ * @returns {Promise<Object>} The response data containing the toppings.
+ * @throws {Error} If the data fetch fails.
+ */
 const fetchToppings = async () => {
   try {
     const response = await fetch('https://backend-heli.onrender.com/query', {
@@ -42,6 +48,20 @@ const fetchToppings = async () => {
   }
 };
 
+/**
+ * CustomizationModal component for customizing a drink.
+ *
+ * @author David Roh, Amber Cheng
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Object} props.drink - The drink object.
+ * @param {Function} props.onClose - The function to close the modal.
+ * @param {Function} props.addToCart - The function to add the drink to the cart.
+ * @param {boolean} props.isEdited - Indicates if the drink is being edited.
+ * @param {Function} props.handleDelete - The function to handle deleting a drink.
+ * @param {number} props.index - The index of the drink being edited.
+ * @returns {JSX.Element} The CustomizationModal component.
+ */
 const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete, index }) => {
   const [iceLevel, setIceLevel] = useState('Normal Ice');
   const [sweetnessLevel, setSweetnessLevel] = useState('100%');
@@ -51,16 +71,30 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete,
   const [error, setError] = useState(null);
   const [quantity, setQuantity] = useState(1);
   const toppingPrice = 0.75; // Assuming each topping has a fixed price for simplicity
-  const basePrice = 6.25; // Base price of the drink; replace with the actual price or fetch from props/database
 
   // Calculate the price for selected toppings
+  /**
+   * Calculates the total price of toppings based on the number of selected toppings and the price per topping.
+   * @returns {number} The total price of toppings.
+   */
   const calculateToppingsPrice = () => toppings.length * toppingPrice;
 
   // Calculate the subtotal price
   // const calculateSubtotal = () => (basePrice + calculateToppingsPrice()) * quantity;
+  /**
+   * Calculates the subtotal based on the price, quantity, and toppings.
+   * @param {number} price - The price of the item.
+   * @param {number} quantity - The quantity of the item.
+   * @param {Array} toppings - The toppings selected for the item.
+   * @returns {number} The calculated subtotal.
+   */
   const calculateSubtotal = (price, quantity, toppings) => (price + calculateToppingsPrice()) * quantity;
 
   // Handle quantity changes
+  /**
+   * Handles the change in quantity.
+   * @param {string} action - The action to perform ('add' or 'remove').
+   */
   const handleQuantityChange = (action) => {
     setQuantity((prevQuantity) => {
       if (action === 'add') {
@@ -78,6 +112,10 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete,
   
 
   useEffect(() => {
+    /**
+     * Loads the toppings data asynchronously.
+     * @returns {Promise<void>} A promise that resolves when the toppings data is loaded.
+     */
     const loadToppings = async () => {
       setLoading(true);
       setError(null);
@@ -94,16 +132,31 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete,
     loadToppings();
   }, []);
   // Function to handle ice level selection
+  /**
+   * Handles the change of ice level.
+   * @param {Event} event - The event object.
+   * @param {number} newIceLevel - The new ice level value.
+   */
   const handleIceLevel = (event, newIceLevel) => {
     setIceLevel(newIceLevel);
   };
 
   // Function to handle sweetness level selection
+  /**
+   * Handles the change in sweetness level.
+   * @param {Event} event - The event object.
+   * @param {number} newSweetnessLevel - The new sweetness level.
+   */
   const handleSweetnessLevel = (event, newSweetnessLevel) => {
     setSweetnessLevel(newSweetnessLevel);
   };
 
   // Function to handle toppings selection
+  /**
+   * Handles the toggling of a topping.
+   * @param {string} value - The value of the topping.
+   * @returns {Function} - The toggle function.
+   */
   const handleToppingToggle = (value) => () => {
     const currentIndex = toppings.indexOf(value);
     const newToppings = [...toppings];
@@ -116,6 +169,11 @@ const CustomizationModal = ({ drink, onClose, addToCart, isEdited, handleDelete,
 
     setToppings(newToppings);
   };
+  /**
+   * Returns the styles for the toggle button based on the isSelected flag.
+   * @param {boolean} isSelected - Indicates whether the toggle button is selected or not.
+   * @returns {object} - The styles object for the toggle button.
+   */
   const getToggleButtonStyles = (isSelected) => ({
     borderColor: 'red',
     color: isSelected ? '#fff' : 'black',

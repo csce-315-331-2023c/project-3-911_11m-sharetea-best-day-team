@@ -2,6 +2,15 @@ import React from 'react';
 import { Card, CardActionArea, CardContent, Typography, Box, ThemeProvider } from '@mui/material';
 import theme from './theme'; // Make sure the path to the theme file is correct
 
+/**
+ * Renders a list of drinks without pictures.
+ * @author Amber Cheng
+ * @component
+ * @param {Object} props - The component props.
+ * @param {Array} props.drinks - The array of drinks to display.
+ * @param {Function} props.onSelectDrink - The function to call when a drink is selected.
+ * @returns {JSX.Element} The rendered component.
+ */
 const DrinkListNoPic = ({ drinks, onSelectDrink }) => {
   return (
     <ThemeProvider theme={theme}>

@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
 import { Box } from '@mui/system';
 
 /**
  * Renders the current time in a formatted way.
  * 
- * @author David Roh
+ * @author David Roh, Amber Cheng
  * 
  * @returns {JSX.Element} The CurrentTime component.
  */

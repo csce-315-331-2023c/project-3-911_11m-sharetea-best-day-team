@@ -19,16 +19,35 @@ const style = {
   alignItems: 'center',
 };
 
+/**
+ * Renders a modal component displaying information about a drink.
+ * @author Amber Cheng
+ *
+ * @component
+ * @param {Object} props - The component props.
+ * @param {boolean} props.isOpen - Indicates whether the modal is open or not.
+ * @param {Function} props.onClose - The function to close the modal.
+ * @param {Object} props.drink - The drink object containing information about the drink.
+ * @returns {JSX.Element|null} The DrinkInfoModal component.
+ */
 const DrinkInfoModal = ({ isOpen, onClose, drink }) => {
   if (!drink) {
     return null;
   }
 
   // Filter out specific ingredients
+  /**
+   * Filtered ingredients of the drink.
+   * @type {Array<string>}
+   */
   const filteredIngredients = drink.ingredients.filter(
     ingredient => !["cups", "straws", "lids", "napkins", "ice"].includes(ingredient)
   );
 
+  /**
+   * The formatted ingredients of the drink.
+   * @type {string}
+   */
   const formattedIngredients = filteredIngredients.join(', ');
 
   return (

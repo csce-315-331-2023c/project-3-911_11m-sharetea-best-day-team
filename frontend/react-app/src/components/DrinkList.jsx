@@ -2,6 +2,15 @@ import React from 'react';
 import { Card, CardActionArea, CardMedia, CardContent, Typography, Box, ThemeProvider } from '@mui/material';
 import theme from './theme'; // Make sure the path to the theme file is correct
 
+/**
+ * Renders a list of drinks.
+ * @author David Roh
+ * 
+ * @component
+ * @param {Object[]} drinks - The array of drinks to display.
+ * @param {Function} onSelectDrink - The function to call when a drink is selected.
+ * @returns {JSX.Element} The rendered DrinkList component.
+ */
 const DrinkList = ({ drinks, onSelectDrink }) => {
   return (
     <ThemeProvider theme={theme}>
