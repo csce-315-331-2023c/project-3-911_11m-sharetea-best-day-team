@@ -1,22 +1,82 @@
-import React, { useState, useEffect } from 'react';
-import Typography from '@mui/material/Typography';
-import { Box } from '@mui/system';
-import IconButton from '@mui/material/IconButton';
-import shareteaLogo from '../images/sharetea_logo_2.png';
+import React, { useEffect, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
-import { useAuth0 } from '@auth0/auth0-react';
+import {
+  AppBar,
+  Toolbar,
+  Button,
+  IconButton,
+  Box,
+  useTheme,
+  useMediaQuery,
+  styled,
+} from '@mui/material';
+import CurrentTime from './CurrentTime';
+import WeatherWidget from './WeatherCall';
+import shareteaLogo from '../images/sharetea_logo_2.png';
 import LoginButton from './LoginButton';
 import LogoutButton from './LogoutButton';
 import ManagerButton from './ManagerButton';
 import ProfileComponent from './ProfileComponent';
-import CurrentTime from './CurrentTime';
-import WeatherWidget from './WeatherCall';
-import AppBar from '@mui/material/AppBar';
-import Toolbar from '@mui/material/Toolbar';
-import './TopNavbar.css';
+import { useAuth0 } from '@auth0/auth0-react';
+import '../styles/home.css';
+import CashierButton from './CashierButton';
+
+const TranslateButton = styled(Button)(({ theme }) => ({
+  position: 'relative',
+  backgroundColor: '#F5F5F5',
+  color: 'black',
+  fontWeight: 'bold',
+  fontSize: '18px',
+  padding: '5px 20px',
+  '&:hover': {
+    backgroundColor: '#F5F5F5',
+    '&::after': {
+      content: '""',
+      position: 'absolute',
+      left: '10%',
+      right: '10%',
+      bottom: 0,
+      height: '2px',
+      backgroundColor: '#980000', // Red color
+      width: '80%',
+    },
+  },
+}));
 
 const TopNavbar = () => {
-  const { isAuthenticated } = useAuth0();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
+  const { isLoading, error } = useAuth0();
+
+  useEffect(() => {
+    const googleTranslateScriptId = 'google-translate-script';
+    // Check if the script has already been added to the document
+    if (!document.getElementById(googleTranslateScriptId)) {
+      const script = document.createElement('script');
+      script.src = 'https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit';
+      script.async = true;
+      script.id = googleTranslateScriptId; // Set a unique ID for the script
+      document.head.appendChild(script);
+
+      script.addEventListener('load', () => {
+        // This function is called by the Google Translate API when the script is loaded
+        window.googleTranslateElementInit = function () {
+          if (!window.google || !window.google.translate || !window.google.translate.TranslateElement) {
+            console.error('Google Translate script loaded but library not available.');
+            return;
+          }
+          new window.google.translate.TranslateElement({ pageLanguage: 'en' }, 'google_translate_element');
+        };
+      });
+
+      return () => {
+        // Remove the event listener on cleanup
+        script.removeEventListener('load', window.googleTranslateElementInit);
+        // Remove the script from the document
+        document.head.removeChild(script);
+      };
+    }
+  }, []);
 
   return (
     <AppBar position="static" color="default" elevation={0} className="navbar">
@@ -34,21 +94,35 @@ const TopNavbar = () => {
           </Box>
           
           <Box className="navbar-buttons">
-            {/* Your other buttons go here */}
-            <Typography variant="h6" component="div">
-              <RouterLink to="/menu" className="navbar-button">MENU</RouterLink>
-              <RouterLink to="/kiosk" className="navbar-button">ORDER HERE</RouterLink>
-            </Typography>
+            <TranslateButton component={RouterLink} to="/">
+              HOME
+            </TranslateButton>
+            <TranslateButton component={RouterLink} to="/menu">
+              MENU
+            </TranslateButton>
+            <TranslateButton component={RouterLink} to="/kiosk">
+              ORDER HERE
+            </TranslateButton>
           </Box>
         </Box>
 
         <Box className="navbar-right">
-          {isAuthenticated && <ProfileComponent />}
-          <ManagerButton />
-          {!isAuthenticated && <LoginButton />}
-          {isAuthenticated && <LogoutButton />}
+          {error && <p>Authentication Error</p>}
+          {!error && isLoading && <p>Loading...</p>}
+          {!error && !isLoading && (
+            <>
+              <ProfileComponent />
+              <ManagerButton />
+              <br></br>
+              <CashierButton />
+              <br></br>
+              <LoginButton />
+              <LogoutButton />
+            </>
+          )}
         </Box>
       </Toolbar>
+      <div id="google_translate_element" style={{ display: isMobile ? 'none' : 'block' }}></div>
     </AppBar>
   );
 };
