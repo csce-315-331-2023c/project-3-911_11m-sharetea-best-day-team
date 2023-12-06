@@ -129,9 +129,9 @@ const TopNavbar = () => {
             <>
               <ProfileComponent />
               <ManagerButton />
-              <br></br>
+              {/* <br></br> */}
               <CashierButton />
-              <br></br>
+              {/* <br></br> */}
               <LoginButton />
               <LogoutButton />
             </>
