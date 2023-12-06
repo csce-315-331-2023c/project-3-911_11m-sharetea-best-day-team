@@ -1,6 +1,13 @@
 import DatabaseTable from '../components/DatabaseTable';
 import Typography from '@mui/material/Typography';
 
+/**
+ * Renders the Inventory component.
+ * This component displays a table of inventory items and their counts.
+ * @author Thomas Zheng
+ * 
+ * @returns {JSX.Element} The rendered Inventory component.
+ */
 function Inventory() {
     return (
         <>

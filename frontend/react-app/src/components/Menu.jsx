@@ -1,6 +1,11 @@
 import MenuTable from '../components/MenuTable';
 import Typography from '@mui/material/Typography';
 
+/**
+ * Renders the Menu component.
+ * @author Amber Cheng
+ * @returns {JSX.Element} The rendered Menu component.
+ */
 function Menu() {
     return (
         <>

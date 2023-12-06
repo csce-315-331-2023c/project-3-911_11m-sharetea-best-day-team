@@ -18,10 +18,12 @@ import {
   randomId,
 } from '@mui/x-data-grid-generator';
 
+
 /**
- * Thomas Zheng
- * @param {*} query the query to reload the page
- * @returns Inventory as rows
+ * Fetches data from the API using the provided query.
+ * @author Thomas Zheng
+ * @param {string} query - The query to be sent to the API.
+ * @returns {Promise<Object>} - A promise that resolves to the fetched data.
  */
 const fetchDataFromQuery = async (query) => {
   try {
@@ -41,8 +43,10 @@ const fetchDataFromQuery = async (query) => {
 };
 
 /**
- * Insert, Update, and Delete API call
- * @param {*} query 
+ * Inserts data from a query into the backend server.\
+ * @author Thomas Zheng
+ * @param {string} query - The query to be inserted.
+ * @returns {Promise<void>} - A promise that resolves when the data is successfully inserted.
  */
 const insertDataFromQuery = async (query) => {
   try {
@@ -60,9 +64,12 @@ const insertDataFromQuery = async (query) => {
 }
 
 /**
- * Database Component for Inventory
- * @param {*} param0 query to run database component 
- * @returns table
+ * InventoryTable component displays a table of inventory data.
+ * It allows adding, editing, and deleting rows of inventory items.
+ *
+ * @component
+ * @param {Object} query - The SELECT query used to fetch the inventory data.
+ * @returns {JSX.Element} - The rendered InventoryTable component.
  */
 const InventoryTable = ({ query }) => {
   
@@ -76,19 +83,24 @@ const InventoryTable = ({ query }) => {
    * Used to Reload the page with the SELECT query
    */
   useEffect(() => {
+    /**
+     * Reloads the data by fetching it from the query and updating the rows.
+     * Each row that is created needs an ID, ingredient, count, min, and isNew set to false as they were already in the database.
+     * @returns {Promise<void>} A promise that resolves once the data is reloaded.
+     */
     const reloadData = async () => {
       try {
         const result = await fetchDataFromQuery(query);
-        const newRows = result.map(row => { //Each row that is created needs an ID, ingredient, count, min, and isNew to false as they were already in the database
+        const newRows = result.map(row => {
           return {
-            id:randomId(),
+            id: randomId(),
             ingredient: row.ingredient,
             count: row.count,
             min: row.min,
             isNew: false,
           };
         });
-        setRows(newRows); // set the new Rows
+        setRows(newRows);
       } catch (err) {
         console.error('Error fetching data', err);
       }
@@ -101,6 +113,14 @@ const InventoryTable = ({ query }) => {
    * Used to either update or insert when a row is updated, Determined by whether the row isNew or not. New means insert, not New means update
   */
   useEffect(() => {
+    /**
+     * Updates the row in the database based on the pendingSaveRow.
+     * If the pendingSaveRow is new, it adds a new ingredient to the database.
+     * Otherwise, it updates the existing ingredient in the database.
+     * After updating the database, it may fetch new data or update the state with the new row data.
+     * @returns {Promise<void>} A promise that resolves when the row is successfully updated in the database.
+     * @throws {Error} If there is an error updating the row in the database.
+     */
     const updateRowInDatabase = async () => {
       if (pendingSaveRow) {
         try {
@@ -121,37 +141,56 @@ const InventoryTable = ({ query }) => {
   }, [pendingSaveRow]);
 
   /**
-   * Update the Ingredient in the database
-   * @param {*} ingredients the new ingredient to update
+   * Updates the ingredient in the inventory table.
+   * @param {Object} ingredients - The object containing the ingredient details.
+   * @param {string} ingredients.ingredient - The name of the ingredient.
+   * @param {number} ingredients.count - The count of the ingredient.
+   * @param {number} ingredients.min - The minimum required count of the ingredient.
+   * @returns {Promise<void>} - A promise that resolves when the update is complete.
    */
   const updateIngredient = async (ingredients) => {
     await insertDataFromQuery(`UPDATE inventory SET ingredient='${ingredients.ingredient}', count=${ingredients.count}, min=${ingredients.min} WHERE ingredient='${ingredients.ingredient}';`);
   };
 
+
   /**
-   * Add a new Ingredient to the database
-   * @param {*} ingredients the new ingredient to insert
+   * Adds a new ingredient to the inventory.
+   * @param {Object} ingredients - The ingredient object containing the ingredient name, count, and minimum count.
+   * @returns {Promise<void>} - A promise that resolves when the data is successfully inserted into the inventory table.
    */
   const addNewIngredient = async (ingredients) => {
     await insertDataFromQuery(`INSERT INTO inventory (ingredient, count, min) VALUES ('${ingredients.ingredient}', ${ingredients.count}, ${ingredients.min});`);
   };
 
   /**
-   * Delete an ingredient from the database
-   * @param {*} ingredients the ingredient to be deleted
+   * Deletes an ingredient from the inventory.
+   * @param {Object} ingredients - The ingredient to be deleted.
+   * @returns {Promise<void>} - A promise that resolves when the ingredient is deleted.
    */
   const deleteIngredient = async (ingredients) => {
     await insertDataFromQuery(`DELETE FROM inventory WHERE ingredient='${ingredients.ingredient}';`);
   };
 
   /**
-   * 
-   * @param {*} props Used to change and configure whenever a new recod is added 
-   * @returns 
+   * EditToolbar component for managing inventory table.
+   * @param {Object} props - The component props.
+   * @param {Function} props.setRows - Function to set the rows of the table.
+   * @param {Function} props.setRowModesModel - Function to set the row modes model of the table.
+   * @returns {JSX.Element} - The rendered EditToolbar component.
    */
   function EditToolbar(props) {
-    const { setRows, setRowModesModel} = props;
+    /**
+     * @typedef {Object} Props
+     * @property {Function} setRows - A function to set the rows.
+     * @property {Function} setRowModesModel - A function to set the row modes model.
+     */
+
+    const { setRows, setRowModesModel } = props;
   
+    /**
+     * Handles the click event when a button is clicked.
+     * Adds a new row to the table with a new ID and sets the row mode to Edit.
+     */
     const handleClick = () => {
       const new_id = randomId(); //With a new row, there is a new ID
       const newIngredient = { id: new_id, ingredient: '', count: '', min: '', isNew: true }; // Define row as New
@@ -172,6 +211,11 @@ const InventoryTable = ({ query }) => {
     );
   }
 
+  /**
+   * Handles the event when row editing is stopped.
+   * @param {object} params - The parameters for the event.
+   * @param {object} event - The event object.
+   */
   const handleRowEditStop = (params, event) => {
     if (params.reason === GridRowEditStopReasons.rowFocusOut) {
       event.defaultMuiPrevented = true;
@@ -179,24 +223,41 @@ const InventoryTable = ({ query }) => {
   };
 
   //Change row to editable
+  /**
+   * Handles the click event for editing a row in the inventory table.
+   * @param {string} id - The ID of the row to be edited.
+   */
   const handleEditClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.Edit } });
   };
 
   //Return Row to Visible
+  /**
+   * Handles the click event for saving changes in the inventory table.
+   * @param {string} id - The ID of the row being saved.
+   */
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
   };
 
   //Delete Row
+  /**
+   * Handles the click event for deleting a row.
+   * @param {number} id - The ID of the row to be deleted.
+   * @returns {Promise<void>}
+   */
   const handleDeleteClick = (id) => async () => {
     const deletingRow = rows.find((row) => row.id == id);
     await deleteIngredient(deletingRow);
     setRows(rows.filter((row) => row.id !== id));
-
   };
 
   //Cancel deleting Row
+  /**
+   * Handles the cancel click event for a specific row.
+   * @param {string} id - The ID of the row.
+   * @returns {Function} - The event handler function.
+   */
   const handleCancelClick = (id) => () => {
     setRowModesModel({
       ...rowModesModel,
@@ -210,6 +271,11 @@ const InventoryTable = ({ query }) => {
   };
 
   //If the processed Row is new, then return isNew, otherwise, update
+  /**
+   * Processes the row update and handles pending save row.
+   * @param {Object} newRow - The new row to be processed.
+   * @returns {Object} - The updated row.
+   */
   const processRowUpdate = (newRow) => {
     if(newRow.isNew === true) {
       setPendingSaveRow(newRow);
@@ -223,6 +289,10 @@ const InventoryTable = ({ query }) => {
   };
 
   //Handle the row model change
+  /**
+   * Handles the change of the row modes model.
+   * @param {any} newRowModesModel - The new row modes model.
+   */
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };

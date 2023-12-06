@@ -3,6 +3,12 @@ import React from "react";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 
+/**
+ * A styled button component for logging in.
+ * @author Sean Caballa
+ *
+ * @component
+ */
 const LogButton = styled(Button)(({ theme }) => ({
   position: 'relative',
   backgroundColor: '#F5F5F5',
@@ -25,6 +31,11 @@ const LogButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+/**
+ * Renders a login button component.
+ * @author Sean Caballa
+ * @returns {JSX.Element} The login button component.
+ */
 const LoginButton = () => {
   const { loginWithRedirect, isAuthenticated } = useAuth0();
   

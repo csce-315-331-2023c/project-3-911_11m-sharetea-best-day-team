@@ -1,8 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import CurrentTime from './CurrentTime'; 
 import './KioskHome.css';
 
 
+/**
+ * Represents the KioskHome component.
+ * This component displays a welcome message and the current time.
+ * @author David Roh, Amber Cheng
+ * @param {Object} props - The component props.
+ * @param {Function} props.onSelectCategory - The function to handle category selection.
+ * @returns {JSX.Element} The rendered KioskHome component.
+ */
 const KioskHome = ({ onSelectCategory }) => {
   const getGreeting = () => {
     const currentHour = currentTime.getHours();

@@ -22,9 +22,10 @@ import {
 import { Dialog, DialogActions, DialogContent, DialogTitle, Checkbox, FormControlLabel } from '@mui/material';
 
 /**
- * Thomas Zheng
- * @param {*} query the query to reload the page
- * @returns Inventory as rows
+ * Fetches data from the API using the provided query.
+ * @author Thomas Zheng
+ * @param {string} query - The query to be sent to the API.
+ * @returns {Promise} - A promise that resolves to the fetched data.
  */
 const fetchDataFromQuery = async (query) => {
   try {
@@ -44,8 +45,10 @@ const fetchDataFromQuery = async (query) => {
 };
 
 /**
- * Insert, Update, and Delete API call
- * @param {*} query 
+ * Inserts data from a query into the backend.
+ * @author Thomas Zheng
+ * @param {string} query - The query to be inserted.
+ * @returns {Promise<void>} - A promise that resolves when the data is successfully inserted.
  */
 const insertDataFromQuery = async (query) => {
   try {
@@ -63,9 +66,12 @@ const insertDataFromQuery = async (query) => {
 }
 
 /**
- * Database Component for Inventory
- * @param {*} param0 query to run database component 
- * @returns table
+ * Represents a menu table component.
+ * @author Thomas Zheng
+ * @component
+ * @param {Object} props - The component props.
+ * @param {string} props.query - The SELECT query used to fetch data.
+ * @returns {JSX.Element} - The rendered component.
  */
 const MenuTable = ({ query }) => {
   
@@ -81,10 +87,15 @@ const MenuTable = ({ query }) => {
    * Used to Reload the page with the SELECT query
    */
   useEffect(() => {
+    /**
+     * Reloads data by fetching it from the query and updating the rows state.
+     * Each row that is created needs an ID, ingredient, count, min, and isNew set to false as they were already in the database.
+     * @returns {Promise<void>} A promise that resolves when the data is successfully reloaded.
+     */
     const reloadData = async () => {
       try {
         const result = await fetchDataFromQuery(query);
-        const newRows = result.map(row => { //Each row that is created needs an ID, ingredient, count, min, and isNew to false as they were already in the database
+        const newRows = result.map(row => {
           return {
             id: randomId(),
             itemid: row.itemid,
@@ -95,7 +106,7 @@ const MenuTable = ({ query }) => {
             isNew: false,
           };
         });
-        setRows(newRows); // set the new Rows
+        setRows(newRows);
       } catch (err) {
         console.error('Error fetching data', err);
       }
@@ -108,6 +119,13 @@ const MenuTable = ({ query }) => {
    * Used to either update or insert when a row is updated, Determined by whether the row isNew or not. New means insert, not New means update
   */
   useEffect(() => {
+    /**
+     * Updates the row in the database based on the pendingSaveRow.
+     * If the pendingSaveRow is new, it adds a new ingredient to the database.
+     * Otherwise, it updates the existing ingredient in the database.
+     * After updating the row, it may fetch new data or update the state with the new row data.
+     * @returns {Promise<void>} A promise that resolves when the row is successfully updated in the database.
+     */
     const updateRowInDatabase = async () => {
       console.log(pendingSaveRow);
       if (pendingSaveRow) {
@@ -129,8 +147,14 @@ const MenuTable = ({ query }) => {
   }, [pendingSaveRow]);
 
   /**
-   * Update the Ingredient in the database
-   * @param {*} ingredients the new ingredient to update
+   * Updates the ingredient of a menu item in the pricelist table.
+   * @param {Object} ingredients - The ingredients object containing the updated ingredient details.
+   * @param {string} ingredients.itemid - The ID of the menu item.
+   * @param {string} ingredients.itemname - The name of the menu item.
+   * @param {number} ingredients.itemprice - The price of the menu item.
+   * @param {string[]} ingredients.ingredients - The array of ingredients for the menu item.
+   * @param {string} ingredients.images - The images of the menu item.
+   * @returns {Promise<void>} - A promise that resolves when the ingredient is updated successfully.
    */
   const updateIngredient = async (ingredients) => {
     const ingredientsArray = ingredients.ingredients.toString().split(',');
@@ -140,9 +164,11 @@ const MenuTable = ({ query }) => {
     await insertDataFromQuery(query);
   };
 
+
   /**
-   * Add a new Ingredient to the database
-   * @param {*} ingredients the new ingredient to insert
+   * Adds a new ingredient to the pricelist table.
+   * @param {Object} ingredients - The ingredient object containing itemid, itemname, itemprice, ingredients, and images.
+   * @returns {Promise<void>} - A promise that resolves when the data is successfully inserted.
    */
   const addNewIngredient = async (ingredients) => {
     const ingredientsArray = ingredients.ingredients.split(',');
@@ -156,17 +182,33 @@ const MenuTable = ({ query }) => {
   };
 
   /**
-   * Delete an ingredient from the database
-   * @param {*} ingredients the ingredient to be deleted
+   * Deletes an ingredient from the pricelist table.
+   * @param {Object} ingredients - The ingredient to be deleted.
+   * @returns {Promise<void>} - A promise that resolves when the deletion is complete.
    */
   const deleteIngredient = async (ingredients) => {
     await insertDataFromQuery(`DELETE FROM pricelist WHERE itemname='${ingredients.itemname}';`);
   };
 
   /**
-   * 
-   * @param {*} props Used to change and configure whenever a new recod is added 
-   * @returns 
+   * EditToolbar component for managing menu items.
+   *
+   * @component
+   * @param {Object} props - The component props.
+   * @param {Function} props.setRows - Function to set the rows of the menu table.
+   * @param {Function} props.setRowModesModel - Function to set the row modes model of the menu table.
+   * @param {boolean} props.openDialog - Flag indicating whether the dialog is open or not.
+   * @param {Function} props.handleOpenDialog - Function to handle opening the dialog.
+   * @param {Function} props.handleCloseDialog - Function to handle closing the dialog.
+   * @param {Array} props.ingredients - Array of available ingredients.
+   * @param {Array} props.selectedIngredients - Array of selected ingredients.
+   * @param {Function} props.handleIngredientChange - Function to handle ingredient selection.
+   * @param {Function} props.processRowUpdate - Function to process row update.
+   * @param {string} props.dialogMode - The mode of the dialog ('add' or 'edit').
+   * @param {string} props.currentEditingId - The ID of the currently editing item.
+   * @param {Function} props.setPendingSaveRow - Function to set the pending save row.
+   * @param {boolean} props.setChanged - Function to set the changed flag.
+   * @returns {JSX.Element} The EditToolbar component.
    */
   function EditToolbar(props) {
     const { 
@@ -186,6 +228,9 @@ const MenuTable = ({ query }) => {
     } = props;
     
   
+    /**
+     * Handles the click event for the button.
+     */
     const handleClick = () => {
       console.log(dialogMode);
       if (dialogMode === 'add') {
@@ -276,6 +321,10 @@ const MenuTable = ({ query }) => {
 
   useEffect(() => {
     // Fetch ingredients from inventory
+    /**
+     * Fetches ingredients from the inventory table and updates the state with the retrieved data.
+     * @returns {Promise<void>} A promise that resolves when the data is fetched and the state is updated.
+     */
     const fetchIngredients = async () => {
       const query = 'SELECT * FROM inventory ORDER BY ingredient'; // Replace with your actual query
       const result = await fetchDataFromQuery(query);
@@ -298,16 +347,34 @@ const MenuTable = ({ query }) => {
   const [dialogMode, setDialogMode] = useState('add'); // 'add' or 'edit'
   const [currentEditingId, setCurrentEditingId] = useState(null);
 
+  /**
+   * Handles opening the dialog.
+   * 
+   * @param {string} mode - The mode of the dialog.
+   * @param {number|null} id - The ID of the item being edited, or null if adding a new item.
+   * @returns {void}
+   */
   const handleOpenDialog = (mode, id = null) => {
     setDialogMode('add');
     setCurrentEditingId(id);
     setOpenDialog(true);
   };
 
+  /**
+   * Closes the dialog.
+   */
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
 
+  /**
+   * Handles the change event when an ingredient checkbox is clicked.
+   * If the checkbox is checked, the ingredient is added to the selectedIngredients array.
+   * If the checkbox is unchecked, the ingredient is removed from the selectedIngredients array.
+   * @param {Object} event - The event object generated by the checkbox click event.
+   * @param {string} ingredient - The ingredient to be added or removed.
+   * @returns {void}
+   */
   const handleIngredientChange = (event, ingredient) => {
     if (event.target.checked) {
       // Add the ingredient if it's not already in the selectedIngredients array
@@ -325,6 +392,11 @@ const MenuTable = ({ query }) => {
     }
   };
 
+  /**
+   * Handles the click event for editing a menu item.
+   * @param {string} id - The ID of the menu item.
+   * @param {string} field - The field to be edited.
+   */
   const handleEditClick = (id, field) => () => {
     if (field === 'ingredients') {
       const row = rows.find(r => r.id === id);
@@ -340,20 +412,33 @@ const MenuTable = ({ query }) => {
   };
 
   //Return Row to Visible
+  /**
+   * Handles the click event for saving changes in the menu table.
+   * @param {string} id - The ID of the row being saved.
+   */
   const handleSaveClick = (id) => () => {
     setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
     setChanged(!changed);
   };
 
   //Delete Row
+  /**
+   * Handles the click event for deleting a row.
+   * @param {number} id - The ID of the row to be deleted.
+   * @returns {Promise<void>}
+   */
   const handleDeleteClick = (id) => async () => {
     const deletingRow = rows.find((row) => row.id === id);
     await deleteIngredient(deletingRow);
     setRows(rows.filter((row) => row.id !== id));
-
   };
 
   //Cancel deleting Row
+  /**
+   * Handles the cancel click event for a specific row.
+   * @param {string} id - The ID of the row.
+   * @returns {Function} - The event handler function.
+   */
   const handleCancelClick = (id) => () => {
     setRowModesModel({
       ...rowModesModel,
@@ -366,16 +451,30 @@ const MenuTable = ({ query }) => {
     }
   };
 
+  /**
+   * Handles the opening of an image.
+   * 
+   * @param {string} imgSrc - The source of the image to be opened.
+   * @returns {void}
+   */
   const handleOpen = (imgSrc) => {
     setSelectedImg(imgSrc);
     setOpen(true);
   };
 
+  /**
+   * Closes the menu.
+   */
   const handleClose = () => {
     setOpen(false);
   };
 
   //If the processed Row is new, then return isNew, otherwise, update
+  /**
+   * Processes the row update and handles pending save row.
+   * @param {Object} newRow - The new row to be processed.
+   * @returns {Object} - The updated row.
+   */
   const processRowUpdate = (newRow) => {
     if(newRow.isNew === true) {
       setPendingSaveRow(newRow);
@@ -390,6 +489,10 @@ const MenuTable = ({ query }) => {
   };
 
   //Handle the row model change
+  /**
+   * Handles the change of the row modes model.
+   * @param {any} newRowModesModel - The new row modes model.
+   */
   const handleRowModesModelChange = (newRowModesModel) => {
     setRowModesModel(newRowModesModel);
   };

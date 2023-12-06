@@ -3,6 +3,11 @@ import React from "react";
 import Button from '@mui/material/Button';
 import { styled } from '@mui/system';
 
+/**
+ * Represents a styled logout button component.
+ * @author Sean Caballa
+ * @component
+ */
 const LogButton = styled(Button)(({ theme }) => ({
     position: 'relative',
     backgroundColor: '#F5F5F5',
@@ -25,6 +30,12 @@ const LogButton = styled(Button)(({ theme }) => ({
     },
 }));
 
+/**
+ * LogoutButton component.
+ * Renders a button that allows the user to sign out if they are authenticated.
+ * @author Sean Caballa
+ * @returns {JSX.Element|null} The rendered LogoutButton component.
+ */
 const LogoutButton = () => {
     const { logout, isAuthenticated } = useAuth0();
     return (  
