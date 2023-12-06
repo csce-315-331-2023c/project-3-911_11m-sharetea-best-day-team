@@ -6,6 +6,12 @@ import Typography from '@mui/material/Typography';
 import './WeatherCall.css';
 
 
+/**
+ * Retrieves weather data for a given zipcode.
+ * @author David Roh
+ * @param {string} zipcode - The zipcode for the location.
+ * @returns {Promise<{ temperature: number, weatherCode: number }>} - The temperature and weather code for the location.
+ */
 const getWeatherData = async (zipcode) => {
     // get from .env file
     // const apiKey = process.env.TOMORROW_API_KEY; // add TOMORROW_API_KEY = "a8SsXaAesUPGnWdCWK1IvTwtmJLvNXRY" to .env file for testing
@@ -16,6 +22,12 @@ const getWeatherData = async (zipcode) => {
     return { temperature, weatherCode };
 };
 
+/**
+ * Converts a weather code to its corresponding string representation.
+ * @author David Roh
+ * @param {number} code - The weather code.
+ * @returns {string} The string representation of the weather code.
+ */
 const weatherCodeToString = (code) => {
     switch (code) {
         case 0: return 'Unknown';
@@ -49,6 +61,12 @@ const weatherCodeToString = (code) => {
     }
 };
 
+/**
+ * Returns the URL of the weather icon based on the provided code.
+ * @author David Roh
+ * @param {number} code - The code representing the weather condition.
+ * @returns {string} The URL of the weather icon.
+ */
 const getIconUrl = (code) => {
     const iconMap = {
         1000: '01d.png',
@@ -83,6 +101,11 @@ const getIconUrl = (code) => {
     return iconName ? iconPath : `${iconPrefix}default.png`; // default icon if none is matched
   };  
 
+/**
+ * Renders a weather widget component.
+ * @author David Roh
+ * @returns {JSX.Element} The weather widget component.
+ */
 const WeatherCall = () => {
   const [weatherData, setWeatherData] = useState(null);
   const zipcode = '77840 US';

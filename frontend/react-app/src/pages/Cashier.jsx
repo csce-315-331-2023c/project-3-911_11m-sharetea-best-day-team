@@ -10,6 +10,12 @@ import CartComponent from '../components/CartComponent';
 import { CircularProgress, Typography } from '@mui/material';
 import DrinkListNoPic from '../components/DrinkListNoPic';
 
+/**
+ * Renders the Cashier page.
+ * @author Amber Cheng
+ * 
+ * @returns {JSX.Element} The Cashier component.
+ */
 function Cashier() {
     document.title = "Cashier —— Sharetea - Best Bubble Tea Brand"
 
@@ -20,6 +26,9 @@ function Cashier() {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
 
+    /**
+     * Clears the cart by setting it to an empty array.
+     */
     const clearCart = () => {
         setCart([]);
     };
@@ -27,28 +36,32 @@ function Cashier() {
 
 
     useEffect(() => {
+        /**
+         * Fetches data from the backend API and categorizes the drinks.
+         * @returns {Promise<void>} A promise that resolves when the data is fetched and categorized.
+         */
         const fetchData = async () => {
-        setLoading(true);
-        setError('');
-        const query = 'SELECT * FROM pricelist;';
-        try {
-            const response = await fetch('https://backend-heli.onrender.com/query', {
-            method: 'POST',
-            body: JSON.stringify({ query }),
-            headers: {
-                'Content-Type': 'application/json'
+            setLoading(true);
+            setError('');
+            const query = 'SELECT * FROM pricelist;';
+            try {
+                const response = await fetch('https://backend-heli.onrender.com/query', {
+                    method: 'POST',
+                    body: JSON.stringify({ query }),
+                    headers: {
+                        'Content-Type': 'application/json'
+                    }
+                });
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                const data = await response.json();
+                categorizeDrinks(data);
+            } catch (error) {
+                setError('Failed to load drinks: ' + error.message);
+            } finally {
+                setLoading(false);
             }
-            });
-            if (!response.ok) {
-            throw new Error('Network response was not ok');
-            }
-            const data = await response.json();
-            categorizeDrinks(data);
-        } catch (error) {
-            setError('Failed to load drinks: ' + error.message);
-        } finally {
-            setLoading(false);
-        }
         };
 
         fetchData();

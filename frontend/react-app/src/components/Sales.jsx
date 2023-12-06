@@ -26,6 +26,12 @@ const columns = [
   { field: 'week', headerName: 'Week', type: 'number', width: 120 },
 ];
 
+/**
+ * Fetches data from the API using the provided query.
+ * @author Thomas Zheng
+ * @param {string} query - The query to be sent to the API.
+ * @returns {Promise<Array>} - A promise that resolves to an array of data fetched from the API.
+ */
 const fetchDataFromQuery = async (query) => {
   try {
     // Make API call
@@ -44,6 +50,11 @@ const fetchDataFromQuery = async (query) => {
   }
 };
 
+/**
+ * Renders a component for managing sales data.
+ * @author Thomas Zheng
+ * @returns {JSX.Element} The Sales component.
+ */
 const Sales = () => {
   const [formData, setFormData] = useState({
     drinkId: '',
@@ -55,11 +66,25 @@ const Sales = () => {
 
   const [resultData, setResultData] = useState([]);
 
+  /**
+   * Handles the change event of an input element.
+   * @param {Object} event - The event object.
+   */
   const handleChange = (event) => {
     const { name, value } = event.target;
     setFormData({ ...formData, [name]: value });
   };
 
+  /**
+   * Handles the form submission.
+   * Fetches sales data from the API based on the form data.
+   * Updates the state with the fetched data.
+   * If the form data is invalid, the state is updated with an empty array.
+   * If the form data is valid, the state is updated with the fetched data.
+   * 
+   * @param {Event} event - The form submission event.
+   * @returns {Promise<void>} - A promise that resolves when the form submission is handled.
+   */
   const handleSubmit = async (event) => {
     event.preventDefault();
     const { drinkId, fromDate, fromTime, toDate, toTime } = formData;
@@ -100,7 +125,7 @@ const Sales = () => {
     console.log(formattedToTime);
 
 
-    if (formattedDate > formattedToDate || (formattedDate === formattedDate && formattedTime > formattedToTime)){
+    if (formattedDate > formattedToDate || (formattedDate === formattedToDate && formattedTime > formattedToTime)){
       setResultData([]);
     }
     else {
@@ -153,6 +178,10 @@ const Sales = () => {
     }
   };
 
+  /**
+   * Handles the change event for the fromDate input field.
+   * @param {Date} date - The selected date.
+   */
   const handleFromDateChange = (date) => {
     setFormData({
       ...formData,
@@ -160,6 +189,10 @@ const Sales = () => {
     });
   };
 
+  /**
+   * Handles the change event for the fromTime input field.
+   * @param {string} time - The selected time value.
+   */
   const handleFromTimeChange = (time) => {
     setFormData({
       ...formData,
@@ -167,6 +200,12 @@ const Sales = () => {
     });
   };
 
+  /**
+   * Handles the change event for the "toDate" date input.
+   * Updates the formData state with the new toDate value.
+   * 
+   * @param {Date} date - The selected date.
+   */
   const handleToDateChange = (date) => {
     setFormData({
       ...formData,
@@ -174,6 +213,10 @@ const Sales = () => {
     });
   };
 
+  /**
+   * Handles the change of the "toTime" value.
+   * @param {string} time - The new value for "toTime".
+   */
   const handleToTimeChange = (time) => {
     setFormData({
       ...formData,

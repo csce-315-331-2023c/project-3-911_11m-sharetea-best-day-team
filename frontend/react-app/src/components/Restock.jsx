@@ -6,10 +6,19 @@ import {
   } from '@mui/x-data-grid-generator';
 import Typography from '@mui/material/Typography';
 
+/**
+ * Renders a component that displays ingredients that are below the minimum required count.
+ * @author Thomas Zheng
+ * @returns {JSX.Element} The rendered Restock component.
+ */
 const Restock = () => {
   const [ingredients, setIngredients] = useState([]);
 
   useEffect(() => {
+    /**
+     * Fetches data from the backend API and updates the state with the fetched data.
+     * @returns {Promise<void>} A promise that resolves when the data is fetched and the state is updated.
+     */
     const fetchData = async () => {
       try {
         // Make API call

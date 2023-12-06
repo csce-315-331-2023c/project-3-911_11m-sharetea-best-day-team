@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
@@ -21,6 +21,17 @@ import { useAuth0 } from '@auth0/auth0-react';
 import '../styles/home.css';
 import CashierButton from './CashierButton';
 
+/**
+ * TranslateButton component.
+ * @author Amber Cheng
+ * @component
+ * @example
+ * return (
+ *   <TranslateButton onClick={handleTranslate}>
+ *     Translate
+ *   </TranslateButton>
+ * )
+ */
 const TranslateButton = styled(Button)(({ theme }) => ({
   position: 'relative',
   backgroundColor: '#F5F5F5',
@@ -43,6 +54,11 @@ const TranslateButton = styled(Button)(({ theme }) => ({
   },
 }));
 
+/**
+ * Represents the top navigation bar component.
+ * @author Amber Cheng, Sean Caballa, David Roh
+ * @component
+ */
 const TopNavbar = () => {
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
