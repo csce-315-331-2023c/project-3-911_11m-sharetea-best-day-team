@@ -1,6 +1,35 @@
 import { useAuth0 } from '@auth0/auth0-react';
 import React from "react";
-import { Link } from 'react-router-dom';
+import Button from '@mui/material/Button';
+import { Link as RouterLink } from 'react-router-dom';
+import { styled } from '@mui/system';
+
+/**
+ * Represents a styled logout button component.
+ * @author Sean Caballa
+ * @component
+ */
+const ManaButton = styled(Button)(({ theme }) => ({
+    position: 'relative',
+    backgroundColor: '#F5F5F5',
+    color: 'black',
+    fontWeight: 'bold',
+    fontSize: '15px',
+    padding: '0px 20px',
+    '&:hover': {
+      backgroundColor: '#F5F5F5',
+      '&::after': {
+        content: '""',
+        position: 'absolute',
+        left: '10%',
+        right: '10%',
+        bottom: 0,
+        height: '2px',
+        backgroundColor: '#980000', // Red color
+        width: '80%',
+      },
+    },
+}));
 
 /**
  * Renders a button component for managers.
@@ -17,7 +46,7 @@ const ManagerButton = () => {
     }
     return (  
         hasManagerRole && (
-            <Link to="/manager">Manager</Link>
+            <ManaButton component={RouterLink} to="/manager">MANAGER</ManaButton>
         )
             // <p><Link to="/manager">Manager</Link></p>
         
