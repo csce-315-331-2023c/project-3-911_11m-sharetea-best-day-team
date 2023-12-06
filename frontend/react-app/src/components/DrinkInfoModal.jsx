@@ -7,16 +7,17 @@ const style = {
   top: '50%',
   left: '50%',
   transform: 'translate(-50%, -50%)',
-  width: '80vw', // 80% of viewport width
-  height: '80vh', // 80% of viewport height
+  width: '40vw', // 80% of viewport width
+  height: '40vh', // 80% of viewport height
   maxWidth: '400px', // maximum width
   maxHeight: '600px', // maximum height
   boxShadow: 24,
   p: 4,
-  overflowY: 'auto',
+  // overflowY: 'auto',
   display: 'flex',
   flexDirection: 'column',
   alignItems: 'center',
+  backgroundColor: 'transparent',
 };
 
 /**
@@ -51,29 +52,37 @@ const DrinkInfoModal = ({ isOpen, onClose, drink }) => {
   const formattedIngredients = filteredIngredients.join(', ');
 
   return (
-    <Dialog open={isOpen} onClose={onClose} style={{style, maxWidth: '400px', alignItems: 'center'}}>
+    // <Dialog open={isOpen} onClose={onClose} style={style}>
+    <Dialog
+  open={isOpen}
+  onClose={onClose}
+  style={style}
+  PaperProps={{
+    style: {
+      backgroundColor: 'transparent !important', // Set the background color here
+      boxShadow: 'none !important', // Remove the shadow
+      width: '40vw', // 80% of viewport width
+      height: '40vh', // 80% of viewport height
+      maxWidth: '400px', // maximum width
+      maxHeight: '600px', // maximum height
+      // width: '100%',
+      // height: '100%',
+      
+    },
+  }}
+>
       <DialogTitle>{drink.name}</DialogTitle>
-      {/* <DialogContent>
-        <p align="center">Price: ${drink.price}</p>
-      </DialogContent>
-      <DialogContent>
-        <p align="center">Item ID: {drink.id}</p>
-      </DialogContent> */}
       <Grid container spacing={2}>
         <Grid item xs={6}>
-          <p align="center">Price: ${drink.price}</p>
+          <p align="center">{`Price: $${drink.price.toFixed(2)}`}</p>
         </Grid>
         <Grid item xs={6}>
           <p align="center">Item ID: {drink.id}</p>
         </Grid>
       </Grid>
+      {/* <DialogContent style={{ maxHeight: 'none' }}> */}
       <DialogContent>
         <p>Ingredients: {formattedIngredients}</p>
-        {/* <ul>
-          {filteredIngredients.map((ingredient, index) => (
-            <li key={index}>{ingredient}</li>
-          ))}
-        </ul> */}
       </DialogContent>
       <DialogActions>
         <Button onClick={onClose}>Close</Button>
