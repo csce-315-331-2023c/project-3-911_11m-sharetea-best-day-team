@@ -18,6 +18,11 @@ import Manager from "./pages/Manager"
 import Cashier from "./pages/Cashier"
 
 
+/**
+ * The main component of the application.
+ * @author Sean Caballa
+ * @returns {JSX.Element} The rendered App component.
+ */
 function App() {
   // add new pages here
   const GlobalStyle = createGlobalStyle`

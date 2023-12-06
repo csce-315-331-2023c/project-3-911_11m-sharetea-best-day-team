@@ -4,6 +4,11 @@ var router = express.Router();
 
 
 // Create pool
+/**
+ * Database connection pool.
+ * @author Thomas Zheng
+ * @type {Pool}
+ */
 const pool = new Pool({
     host: 'csce-315-db.engr.tamu.edu',
     user: 'csce315_911_tommyztx',
