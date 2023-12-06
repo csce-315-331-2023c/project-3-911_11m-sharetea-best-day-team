@@ -107,31 +107,31 @@ const getIconUrl = (code) => {
  * @returns {JSX.Element} The weather widget component.
  */
 const WeatherCall = () => {
-  const [weatherData, setWeatherData] = useState(null);
-  const zipcode = '77840 US';
-
-  useEffect(() => {
-      getWeatherData(zipcode).then(data => setWeatherData(data));
-  }, []);
-
-  return (
-    weatherData && 
-    <Card className="weatherWidget">
+    // Hardcoded weather data for 68 degrees and cloudy
+    const hardcodedWeatherData = {
+      temperature: 68,
+      weatherCode: 1001 // Code for cloudy
+    };
+  
+    const [weatherData, setWeatherData] = useState(hardcodedWeatherData);
+  
+    return (
+      <Card className="weatherWidget">
         <CardContent>
-            <img 
-                className="icon"
-                src={getIconUrl(weatherData.weatherCode)} 
-                alt="weather icon" 
-            />
-            <Typography variant="h5" component="p" className="temperature">
-                {Math.round(weatherData.temperature)}°F
-            </Typography>
-            <Typography color="textSecondary" className="condition">
-                {weatherCodeToString(weatherData.weatherCode)}
-            </Typography>
+          <img 
+            className="icon"
+            src={getIconUrl(weatherData.weatherCode)} 
+            alt="weather icon" 
+          />
+          <Typography variant="h5" component="p" className="temperature">
+            {Math.round(weatherData.temperature)}°F
+          </Typography>
+          <Typography color="textSecondary" className="condition">
+            {weatherCodeToString(weatherData.weatherCode)}
+          </Typography>
         </CardContent>
-    </Card>
-);
-};
-
-export default WeatherCall;
+      </Card>
+    );
+  };
+  
+  export default WeatherCall;
